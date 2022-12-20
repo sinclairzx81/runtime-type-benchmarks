@@ -47,7 +47,7 @@ $ npm run clean                               # Remove the target build director
 
 ### Results
 
-The following shows the comparative performance results for the `correct` dataset. Results show as estimated operations per second.
+The following shows the comparative performance results for the `correct` dataset. Results show as estimated operations per second. You can visit the benchmark results [here](https://sinclairzx81.github.io/runtime-type-benchmarks/).
 
 ![](screenshot.png)
 
