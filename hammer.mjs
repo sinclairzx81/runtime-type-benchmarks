@@ -50,7 +50,7 @@ export async function benchmark(iteration = 10_000_000) {
 // Reporting
 // -----------------------------------------------------------------------------
 export async function reporting() {
-  const serve = shell('hammer serve reporting/index.html --dist website --minify')
+  const serve = shell('hammer serve reporting/index.html --dist docs --minify')
   const drift = shell('drift url http://localhost:5000 size 1920 5500 wait 1000 save screenshot.png')
   await Promise.all([serve, drift])
 }
