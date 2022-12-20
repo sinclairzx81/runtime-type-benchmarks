@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "strict": true, 
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "plugins": [
+      {
+        "transform": "typia/lib/transform"
+      },
+      { 
+        "transform": "ts-runtime-checks" 
+      }
+    ]
+  },
+  "reflection": true
+}
