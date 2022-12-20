@@ -4,7 +4,7 @@ High Performance Validation Benchmarks for JavaScript
 
 ### Overview
 
-This project tests a variety of runtime validation libraries to try and appropriately access their "actual" comparative performance. Additionally, this project also attempts to compare JIT to AOT compilation strategies with a goal to shed some light on V8 optimizations that may or may not occur when evaluating JIT routines at runtime.
+This project tests a variety of high performance runtime validation libraries to try and appropriately assess their comparative performance metrics. Additionally, this project attempts to compare JIT to AOT compilation strategies with a goal to shed some light on V8 optimizations that may or may not occur when evaluating JIT routines at runtime.
 
 ### Benchmarks
 
