@@ -37,6 +37,9 @@ export const Primitive_String = Type.String({ $id: 'Primitive_String', default: 
 export type Primitive_Boolean = Static<typeof Primitive_Boolean>
 export const Primitive_Boolean = Type.Boolean({ $id: 'Primitive_Boolean', default: true })
 
+export type Primitive_Integer = Static<typeof Primitive_Integer>
+export const Primitive_Integer = Type.Integer({ $id: 'Primitive_Integer', default: 1 })
+
 export type Primitive_Null = Static<typeof Primitive_Null>
 export const Primitive_Null = Type.Null({ $id: 'Primitive_Null', default: null })
 

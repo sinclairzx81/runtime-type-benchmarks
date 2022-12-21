@@ -7,7 +7,7 @@ import * as Path from 'node:path'
 
 export namespace TypiaGenerator {
   function Include(schema: unknown): schema is TSchema {
-    return TypeGuard.TSchema(schema) && !['Primitive_RegEx'].includes(schema.$id!)
+    return TypeGuard.TSchema(schema) && !['Primitive_RegEx', 'Primitive_Integer'].includes(schema.$id!)
   }
 
   function* GenerateBenchmark(dataset: string) {
@@ -19,7 +19,11 @@ export namespace TypiaGenerator {
     yield `const results = new Map<string, number>()`
     for (const schema of Object.values(Cases)) {
       if (Include(schema)) {
-        yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Typia.is<Cases.${schema.$id}>(value))`
+        if (['Object_Strict', 'Array_Object_Strict'].includes(schema.$id!)) {
+          yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Typia.equals<Cases.${schema.$id}>(value))`
+        } else {
+          yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Typia.is<Cases.${schema.$id}>(value))`
+        }
       }
     }
     yield `return results`

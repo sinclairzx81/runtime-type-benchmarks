@@ -46,12 +46,18 @@ export async function measure(packageName = 'typebox_aot', compiler = 'tsc', dat
   await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iteration} ${report_file}`)
 }
 export async function typebox_aot(iteration = 10_000_000) {
-  TypeBoxAotGenerator.Build('benchmark/validators/typebox_aot', 'json-schema')
+  TypeBoxAotGenerator.Build('benchmark/validators/typebox_aot', {
+    allowArrayObjects: true,
+    allowNaN: true,
+  })
   await measure('typebox_aot', 'tsc', 'correct', iteration)
   await measure('typebox_aot', 'tsc', 'incorrect', iteration)
 }
 export async function typebox_jit(iteration = 10_000_000) {
-  TypeBoxJitGenerator.Build('benchmark/validators/typebox_jit', 'json-schema')
+  TypeBoxJitGenerator.Build('benchmark/validators/typebox_jit', {
+    allowArrayObjects: true,
+    allowNaN: true,
+  })
   await measure('typebox_jit', 'tsc', 'correct', iteration)
   await measure('typebox_jit', 'tsc', 'incorrect', iteration)
 }

@@ -133,7 +133,7 @@ export function TypeGroup(props: TypeGroupProperties) {
       <div className="body">
         {props.results
           .filter((result) => {
-            return result.typename.toLowerCase().includes(props.filter)
+            return result.typename.toLowerCase().includes(props.filter.toLocaleLowerCase())
           })
           .map((result, index) => (
             <TypeResult key={index} result={result} />
@@ -187,7 +187,7 @@ export function App() {
       <div className="results">
         {[...groups.entries()].filter(entry => {
           const [_, results] = entry
-          return results.some(result => result.typename.toLowerCase().includes(filter))
+          return results.some(result => result.typename.toLowerCase().includes(filter.toLocaleLowerCase()))
         }).map((entry) => {
           const [group, results] = entry
           return <TypeGroup filter={filter} key={group} group={group} results={results} />

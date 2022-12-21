@@ -2,7 +2,8 @@ import { TypeCompiler } from '@sinclair/typebox/compiler'
 import { TypeSystem } from '@sinclair/typebox/system'
 import { Command } from '../../command/index'
 import * as Cases from '../../schematics/correct'
-TypeSystem.Kind = 'json-schema'
+TypeSystem.AllowArrayObjects = true
+TypeSystem.AllowNaN = true
 
 export function Compile(schema: any) {
   const check = TypeCompiler.Compile(schema)
@@ -47,6 +48,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Object_Simple, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Strict, iterations, results, Compile)
   Cases.Benchmark(Cases.Primitive_Boolean, iterations, results, Compile)
+  Cases.Benchmark(Cases.Primitive_Integer, iterations, results, Compile)
   Cases.Benchmark(Cases.Primitive_Null, iterations, results, Compile)
   Cases.Benchmark(Cases.Primitive_Number, iterations, results, Compile)
   Cases.Benchmark(Cases.Primitive_RegEx, iterations, results, Compile)

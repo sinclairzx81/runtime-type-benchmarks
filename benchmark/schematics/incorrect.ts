@@ -39,6 +39,10 @@ export type Primitive_Boolean = Correct.Primitive_Boolean
 export const Primitive_Boolean = Value.Clone(Correct.Primitive_Boolean)
 Primitive_Boolean.default = 1
 
+export type Primitive_Integer = Correct.Primitive_Integer
+export const Primitive_Integer = Value.Clone(Correct.Primitive_Integer)
+Primitive_Integer.default = 3.14
+
 export type Primitive_Null = Correct.Primitive_Null
 export const Primitive_Null = Value.Clone(Correct.Primitive_Null)
 Primitive_Null.default = 1
