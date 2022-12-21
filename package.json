@@ -16,6 +16,7 @@
   ],
   "author": "sinclairzx81",
   "devDependencies": {
+    "@sinclair/drift": "^0.8.50",
     "@sinclair/hammer": "^0.17.2",
     "@sinclair/typebox": "^0.25.15",
     "@types/node": "^18.11.17",
