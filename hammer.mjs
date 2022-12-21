@@ -96,6 +96,6 @@ export async function benchmark(iteration = measurement_iteration) {
 // -----------------------------------------------------------------------------
 export async function reporting() {
   const serve = shell('hammer serve reporting/index.html --dist docs --minify --sourcemap')
-  const drift = shell('drift url http://localhost:5000 size 1920 7200 wait 2000 save screenshot.png')
+  const drift = shell('drift url http://localhost:5000 size 1920 7070 wait 2000 save screenshot.png')
   await Promise.all([serve, drift])
 }
