@@ -12,7 +12,7 @@ export async function clean() {
 // Format
 // -----------------------------------------------------------------------------
 export async function format() {
-  await shell('prettier --no-semi --single-quote --print-width 240 --trailing-comma all --write build benchmark reporting hammer.mjs')
+  await shell('prettier --no-semi --single-quote --print-width 240 --trailing-comma all --write benchmark reporting hammer.mjs')
 }
 
 // -----------------------------------------------------------------------------
@@ -20,13 +20,12 @@ export async function format() {
 // -----------------------------------------------------------------------------
 export async function measure(packageName = 'typebox', compiler = 'tsc', dataset = 'correct', iteration = 1) {
   console.log(`${'\x1b[32m'}package: '${packageName}' dataset: '${dataset}' iteration: ${iteration}${`\x1b[0m`}`)
-  const result_file = `reporting/results/${packageName}/${dataset}.json`
+  const report_file = `reporting/results/${packageName}/${dataset}.json`
   await shell(`npx ${compiler} benchmark/validators/${packageName}/${dataset}.ts --outDir target/benchmark/${packageName}/${dataset}`)
-  await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iteration} ${result_file}`)
+  await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iteration} ${report_file}`)
 }
 export async function typebox_aot(iteration = 1) {
-  TypeBoxCompiler.Build('incorrect', `benchmark/validators/typebox_aot/incorrect.ts`)
-  TypeBoxCompiler.Build('correct', `benchmark/validators/typebox_aot/correct.ts`)
+  TypeBoxCompiler.Build(`benchmark/validators/typebox_aot`)
   await measure('typebox_aot', 'tsc', 'correct', iteration)
   await measure('typebox_aot', 'tsc', 'incorrect', iteration)
 }
@@ -35,8 +34,7 @@ export async function typebox_jit(iteration = 1) {
   await measure('typebox_jit', 'tsc', 'incorrect', iteration)
 }
 export async function ajv_aot(iteration = 1) {
-  AjvCompiler.Build('incorrect', `benchmark/validators/ajv_aot/incorrect.ts`)
-  AjvCompiler.Build('correct', `benchmark/validators/ajv_aot/correct.ts`)
+  AjvCompiler.Build('incorrect', `benchmark/validators/ajv_aot`)
   await measure('ajv_aot', 'tsc', 'correct', iteration)
   await measure('ajv_aot', 'tsc', 'incorrect', iteration)
 }

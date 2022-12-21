@@ -1,114 +1,42 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import ReactDOM from 'react-dom/client'
 import React from 'react'
+import { Reports } from './utility/reports'
+import { Formats } from './utility/formats'
 
 // ---------------------------------------------------------------------------
-// Benchmarks
+// Benchmarks (Add as nessasary)
 // ---------------------------------------------------------------------------
 export type Benchmarks = typeof Benchmarks
 export const Benchmarks = {
-  'ajv_aot': '#AAA',
-  'ajv_jit': '#AAC',
-  'typebox_aot': '#6A2',
-  'typebox_jit': '#6A5',
-  'typia': '#26A',
-  'tsrc': '#A33',
- } as const
+  ajv_aot: '#AAA',
+  ajv_jit: '#AAC',
+  typebox_aot: '#6A2',
+  typebox_jit: '#6A5',
+  typia: '#26A',
+  tsrc: '#A33',
+} as const
 
-// ---------------------------------------------------------------------------
-// Loader
-// ---------------------------------------------------------------------------
-namespace Reporting {
-  export interface DatasetResult {
-    iterations: number
-    results: Record<string, number>
-  }
-  export type ReportingResult = {
-    typename: string
-    persecond: number
-  } & {
-    -readonly [K in keyof Benchmarks]: number
-  }
-  export function OperationsPerSecond(iterations: number, elapsed: number | undefined) {
-    if (elapsed === undefined) return 0
-    if (elapsed === 0) return iterations
-    return Math.floor((iterations / elapsed) * 1000)
-  }
-  export async function LoadDatasetResult(packageName: string, dataset: string): Promise<DatasetResult> {
-    return await fetch(`results/${packageName}/${dataset}.json`).then((res) => res.json())
-  }
-  export async function LoadReportingResults(dataset: string): Promise<ReportingResult[]> {
-    // Read all benchmarks for the given dataset
-    const benchmark_results = await Promise.all(Object.keys(Benchmarks).map(async (benchmark) => {
-      return [benchmark, await LoadDatasetResult(benchmark, dataset)]
-    })) as [string, DatasetResult][]
-    // Remap to reporting reports
-    const reporting_results: ReportingResult[] = []
-    for (const typename of Object.keys(benchmark_results[0][1].results)) {
-      const reporting_result: Omit<ReportingResult, 'persecond' | 'typename'> = {} as any
-      for(const [lib, result] of benchmark_results) {
-        reporting_result[lib as keyof Benchmarks] = OperationsPerSecond(result.iterations, result.results[typename])
-      }
-      const persecond = Object.values(reporting_result).sort((a, b) => b - a)[0]
-      reporting_results.push({ typename, persecond, ...reporting_result })
-    }
-    return reporting_results
-  }
-  export function GroupReportingResults(results: ReportingResult[]): Map<string, ReportingResult[]> {
-    const map = new Map<string, ReportingResult[]>()
-    for (const result of results) {
-      const group = result.typename.split('_')[0]
-      if (!map.has(group)) map.set(group, [])
-      const array = map.get(group)!
-      array.push(result)
-    }
-    return map
-  }
-}
 // ---------------------------------------------------------------------------
 // TypeResult
 // ---------------------------------------------------------------------------
 export interface TypeResultProperties {
-  result: Reporting.ReportingResult
+  result: Reports.ReportingResult
 }
 export function TypeResult(props: TypeResultProperties) {
   const fontColor = '#BBB'
+  // prettier-ignore
   return (
     <div className="type-result">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={[props.result]}
-          barGap={20}
-          margin={{
-            top: 0,
-            right: 0,
-            left: 0,
-            bottom: 0,
-          }}
-        >
+        <BarChart data={[props.result]} barGap={20} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
           <XAxis dataKey="typename" tick={{ fill: fontColor }} />
           <YAxis
             dataKey="persecond"
             tick={{ fill: fontColor }}
-            tickFormatter={(value) => {
-              if (value > 1000000000) {
-                return (value / 1000000000).toString() + 'B'
-              } else if (value > 1000000) {
-                return (value / 1000000).toString() + 'M'
-              } else if (value > 1000) {
-                return (value / 1000).toString() + 'K'
-              } else {
-                return value.toString()
-              }
-            }}
+            tickFormatter={Formats.formatLargeNumber}
           />
-          <Legend
-            verticalAlign="bottom"
-            align="right"
-            formatter={(value) => {
-              return <span style={{ color: fontColor }}>{value}</span>
-            }}
-          />
+          <Legend verticalAlign="bottom" align="right" formatter={(value) => { return <span style={{ color: fontColor }}>{value}</span> }}/>
           <Tooltip
             contentStyle={{ background: '#111', padding: 32 }}
             cursor={{ fill: '#111' }}
@@ -122,7 +50,7 @@ export function TypeResult(props: TypeResultProperties) {
             }}
           />
           <CartesianGrid strokeDasharray="2 2" />
-          {Object.entries(Benchmarks).map(entry => {
+          {Object.entries(Benchmarks).map((entry) => {
             const [key, color] = entry
             return <Bar key={key} dataKey={key} fill={color} />
           })}
@@ -136,7 +64,7 @@ export function TypeResult(props: TypeResultProperties) {
 // ---------------------------------------------------------------------------
 export interface TypeGroupProperties {
   group: string
-  results: Reporting.ReportingResult[]
+  results: Reports.ReportingResult[]
 }
 export function TypeGroup(props: TypeGroupProperties) {
   const descriptions = new Map<string, string>()
@@ -168,19 +96,19 @@ export function TypeGroup(props: TypeGroupProperties) {
 // ---------------------------------------------------------------------------
 
 export function App() {
-  const [groups, setGroups] = React.useState<Map<string, Reporting.ReportingResult[]>>(new Map())
+  const [groups, setGroups] = React.useState<Map<string, Reports.ReportingResult[]>>(new Map())
   const [dataset, setDataset] = React.useState('correct')
   React.useEffect(() => {
     load()
   }, [])
   async function load() {
-    const results = await Reporting.LoadReportingResults(dataset)
-    const groups = Reporting.GroupReportingResults(results)
+    const results = await Reports.LoadReportingResults(dataset)
+    const groups = Reports.GroupReportingResults(results)
     setGroups(groups)
   }
   async function onChange(dataset: string) {
-    const results = await Reporting.LoadReportingResults(dataset)
-    const groups = Reporting.GroupReportingResults(results)
+    const results = await Reports.LoadReportingResults(dataset)
+    const groups = Reports.GroupReportingResults(results)
     setDataset(dataset)
     setGroups(groups)
   }

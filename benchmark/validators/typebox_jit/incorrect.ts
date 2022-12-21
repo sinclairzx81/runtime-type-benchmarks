@@ -1,8 +1,6 @@
 import { TypeCompiler } from '@sinclair/typebox/compiler'
-import { TypeSystem } from '@sinclair/typebox/system'
 import { Command } from '../../command/index'
 import * as Cases from '../../schematics/incorrect'
-TypeSystem.Kind = 'structural'
 
 export function Compile(schema: any) {
   const check = TypeCompiler.Compile(schema)
