@@ -3,16 +3,12 @@
 export const Composite_Union_Literal = validate10
 const schema11 = {
   $id: 'Composite_Union_Literal',
-  default: 'H',
+  default: 'D',
   anyOf: [
     { const: 'A', type: 'string' },
     { const: 'B', type: 'string' },
     { const: 'C', type: 'string' },
     { const: 'D', type: 'string' },
-    { const: 'E', type: 'string' },
-    { const: 'F', type: 'string' },
-    { const: 'G', type: 'string' },
-    { const: 'H', type: 'string' },
   ],
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
@@ -107,107 +103,15 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
         }
         var _valid0 = _errs7 === errors
         valid0 = valid0 || _valid0
-        if (!valid0) {
-          const _errs9 = errors
-          if (typeof data !== 'string') {
-            const err8 = { instancePath, schemaPath: '#/anyOf/4/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-            if (vErrors === null) {
-              vErrors = [err8]
-            } else {
-              vErrors.push(err8)
-            }
-            errors++
-          }
-          if ('E' !== data) {
-            const err9 = { instancePath, schemaPath: '#/anyOf/4/const', keyword: 'const', params: { allowedValue: 'E' }, message: 'must be equal to constant' }
-            if (vErrors === null) {
-              vErrors = [err9]
-            } else {
-              vErrors.push(err9)
-            }
-            errors++
-          }
-          var _valid0 = _errs9 === errors
-          valid0 = valid0 || _valid0
-          if (!valid0) {
-            const _errs11 = errors
-            if (typeof data !== 'string') {
-              const err10 = { instancePath, schemaPath: '#/anyOf/5/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-              if (vErrors === null) {
-                vErrors = [err10]
-              } else {
-                vErrors.push(err10)
-              }
-              errors++
-            }
-            if ('F' !== data) {
-              const err11 = { instancePath, schemaPath: '#/anyOf/5/const', keyword: 'const', params: { allowedValue: 'F' }, message: 'must be equal to constant' }
-              if (vErrors === null) {
-                vErrors = [err11]
-              } else {
-                vErrors.push(err11)
-              }
-              errors++
-            }
-            var _valid0 = _errs11 === errors
-            valid0 = valid0 || _valid0
-            if (!valid0) {
-              const _errs13 = errors
-              if (typeof data !== 'string') {
-                const err12 = { instancePath, schemaPath: '#/anyOf/6/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-                if (vErrors === null) {
-                  vErrors = [err12]
-                } else {
-                  vErrors.push(err12)
-                }
-                errors++
-              }
-              if ('G' !== data) {
-                const err13 = { instancePath, schemaPath: '#/anyOf/6/const', keyword: 'const', params: { allowedValue: 'G' }, message: 'must be equal to constant' }
-                if (vErrors === null) {
-                  vErrors = [err13]
-                } else {
-                  vErrors.push(err13)
-                }
-                errors++
-              }
-              var _valid0 = _errs13 === errors
-              valid0 = valid0 || _valid0
-              if (!valid0) {
-                const _errs15 = errors
-                if (typeof data !== 'string') {
-                  const err14 = { instancePath, schemaPath: '#/anyOf/7/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-                  if (vErrors === null) {
-                    vErrors = [err14]
-                  } else {
-                    vErrors.push(err14)
-                  }
-                  errors++
-                }
-                if ('H' !== data) {
-                  const err15 = { instancePath, schemaPath: '#/anyOf/7/const', keyword: 'const', params: { allowedValue: 'H' }, message: 'must be equal to constant' }
-                  if (vErrors === null) {
-                    vErrors = [err15]
-                  } else {
-                    vErrors.push(err15)
-                  }
-                  errors++
-                }
-                var _valid0 = _errs15 === errors
-                valid0 = valid0 || _valid0
-              }
-            }
-          }
-        }
       }
     }
   }
   if (!valid0) {
-    const err16 = { instancePath, schemaPath: '#/anyOf', keyword: 'anyOf', params: {}, message: 'must match a schema in anyOf' }
+    const err8 = { instancePath, schemaPath: '#/anyOf', keyword: 'anyOf', params: {}, message: 'must match a schema in anyOf' }
     if (vErrors === null) {
-      vErrors = [err16]
+      vErrors = [err8]
     } else {
-      vErrors.push(err16)
+      vErrors.push(err8)
     }
     errors++
     validate10.errors = vErrors

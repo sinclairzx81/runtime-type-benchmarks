@@ -7,16 +7,12 @@ const schema11 = {
   type: 'array',
   items: {
     $id: 'Composite_Union_Literal',
-    default: 'H',
+    default: 'D',
     anyOf: [
       { const: 'A', type: 'string' },
       { const: 'B', type: 'string' },
       { const: 'C', type: 'string' },
       { const: 'D', type: 'string' },
-      { const: 'E', type: 'string' },
-      { const: 'F', type: 'string' },
-      { const: 'G', type: 'string' },
-      { const: 'H', type: 'string' },
     ],
   },
 }
@@ -123,107 +119,15 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                 }
                 var _valid0 = _errs9 === errors
                 valid1 = valid1 || _valid0
-                if (!valid1) {
-                  const _errs11 = errors
-                  if (typeof data0 !== 'string') {
-                    const err8 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/4/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-                    if (vErrors === null) {
-                      vErrors = [err8]
-                    } else {
-                      vErrors.push(err8)
-                    }
-                    errors++
-                  }
-                  if ('E' !== data0) {
-                    const err9 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/4/const', keyword: 'const', params: { allowedValue: 'E' }, message: 'must be equal to constant' }
-                    if (vErrors === null) {
-                      vErrors = [err9]
-                    } else {
-                      vErrors.push(err9)
-                    }
-                    errors++
-                  }
-                  var _valid0 = _errs11 === errors
-                  valid1 = valid1 || _valid0
-                  if (!valid1) {
-                    const _errs13 = errors
-                    if (typeof data0 !== 'string') {
-                      const err10 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/5/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-                      if (vErrors === null) {
-                        vErrors = [err10]
-                      } else {
-                        vErrors.push(err10)
-                      }
-                      errors++
-                    }
-                    if ('F' !== data0) {
-                      const err11 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/5/const', keyword: 'const', params: { allowedValue: 'F' }, message: 'must be equal to constant' }
-                      if (vErrors === null) {
-                        vErrors = [err11]
-                      } else {
-                        vErrors.push(err11)
-                      }
-                      errors++
-                    }
-                    var _valid0 = _errs13 === errors
-                    valid1 = valid1 || _valid0
-                    if (!valid1) {
-                      const _errs15 = errors
-                      if (typeof data0 !== 'string') {
-                        const err12 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/6/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-                        if (vErrors === null) {
-                          vErrors = [err12]
-                        } else {
-                          vErrors.push(err12)
-                        }
-                        errors++
-                      }
-                      if ('G' !== data0) {
-                        const err13 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/6/const', keyword: 'const', params: { allowedValue: 'G' }, message: 'must be equal to constant' }
-                        if (vErrors === null) {
-                          vErrors = [err13]
-                        } else {
-                          vErrors.push(err13)
-                        }
-                        errors++
-                      }
-                      var _valid0 = _errs15 === errors
-                      valid1 = valid1 || _valid0
-                      if (!valid1) {
-                        const _errs17 = errors
-                        if (typeof data0 !== 'string') {
-                          const err14 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/7/type', keyword: 'type', params: { type: 'string' }, message: 'must be string' }
-                          if (vErrors === null) {
-                            vErrors = [err14]
-                          } else {
-                            vErrors.push(err14)
-                          }
-                          errors++
-                        }
-                        if ('H' !== data0) {
-                          const err15 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf/7/const', keyword: 'const', params: { allowedValue: 'H' }, message: 'must be equal to constant' }
-                          if (vErrors === null) {
-                            vErrors = [err15]
-                          } else {
-                            vErrors.push(err15)
-                          }
-                          errors++
-                        }
-                        var _valid0 = _errs17 === errors
-                        valid1 = valid1 || _valid0
-                      }
-                    }
-                  }
-                }
               }
             }
           }
           if (!valid1) {
-            const err16 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf', keyword: 'anyOf', params: {}, message: 'must match a schema in anyOf' }
+            const err8 = { instancePath: instancePath + '/' + i0, schemaPath: '#/items/anyOf', keyword: 'anyOf', params: {}, message: 'must match a schema in anyOf' }
             if (vErrors === null) {
-              vErrors = [err16]
+              vErrors = [err8]
             } else {
-              vErrors.push(err16)
+              vErrors.push(err8)
             }
             errors++
             validate10.errors = vErrors

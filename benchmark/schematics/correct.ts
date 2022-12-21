@@ -274,7 +274,13 @@ export const Tuple_Union_Literal = Type.Tuple([Type.Union([Type.Literal('A'), Ty
 // ---------------------------------------------------------------
 
 export type Composite_Union_Literal = Static<typeof Composite_Union_Literal>
-export const Composite_Union_Literal = Type.Union([Type.Literal('A'), Type.Literal('B'), Type.Literal('C'), Type.Literal('D')], {
+// prettier-ignore
+export const Composite_Union_Literal = Type.Union([
+  Type.Literal('A'), 
+  Type.Literal('B'), 
+  Type.Literal('C'), 
+  Type.Literal('D')
+], {
   $id: 'Composite_Union_Literal',
   default: 'D',
 })
@@ -486,3 +492,6 @@ export const Array_Math_Matrix4 = Type.Array(Math_Matrix4, { $id: 'Array_Math_Ma
 
 export type Array_Math_Box3D = Static<typeof Array_Math_Box3D>
 export const Array_Math_Box3D = Type.Array(Math_Box3D, { $id: 'Array_Math_Box3D', minItems: 8 })
+
+export type Array_Math_Mesh = Static<typeof Array_Math_Mesh>
+export const Array_Math_Mesh = Type.Array(Math_Mesh, { $id: 'Array_Math_Mesh', minItems: 8 })

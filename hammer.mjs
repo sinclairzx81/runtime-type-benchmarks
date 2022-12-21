@@ -5,6 +5,12 @@ import { AjvCompiler } from './benchmark/validators/ajv_aot/build'
 // Clean
 // -----------------------------------------------------------------------------
 export async function clean() {
+  await folder('benchmark/validators/ajv_aot/compiled').delete()
+  await file('benchmark/validators/ajv_aot/incorrect.ts').delete()
+  await file('benchmark/validators/ajv_aot/correct.ts').delete()
+  await file('benchmark/validators/typebox_aot/incorrect.ts').delete()
+  await file('benchmark/validators/typebox_aot/incorrect.ts').delete()
+  await folder('reporting/results').delete()
   await folder('target').delete()
 }
 
@@ -25,7 +31,7 @@ export async function measure(packageName = 'typebox', compiler = 'tsc', dataset
   await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iteration} ${report_file}`)
 }
 export async function typebox_aot(iteration = 1) {
-  TypeBoxCompiler.Build(`benchmark/validators/typebox_aot`)
+  TypeBoxCompiler.Build('benchmark/validators/typebox_aot')
   await measure('typebox_aot', 'tsc', 'correct', iteration)
   await measure('typebox_aot', 'tsc', 'incorrect', iteration)
 }
@@ -34,7 +40,7 @@ export async function typebox_jit(iteration = 1) {
   await measure('typebox_jit', 'tsc', 'incorrect', iteration)
 }
 export async function ajv_aot(iteration = 1) {
-  AjvCompiler.Build('incorrect', `benchmark/validators/ajv_aot`)
+  AjvCompiler.Build('benchmark/validators/ajv_aot')
   await measure('ajv_aot', 'tsc', 'correct', iteration)
   await measure('ajv_aot', 'tsc', 'incorrect', iteration)
 }

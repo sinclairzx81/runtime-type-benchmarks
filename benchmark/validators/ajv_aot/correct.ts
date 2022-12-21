@@ -10,6 +10,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Composite_Union_Non_Discriminated, iterations, results, () => Validators.Array_Composite_Union_Non_Discriminated)
   Cases.Benchmark(Cases.Array_Math_Box3D, iterations, results, () => Validators.Array_Math_Box3D)
   Cases.Benchmark(Cases.Array_Math_Matrix4, iterations, results, () => Validators.Array_Math_Matrix4)
+  Cases.Benchmark(Cases.Array_Math_Mesh, iterations, results, () => Validators.Array_Math_Mesh)
   Cases.Benchmark(Cases.Array_Math_Vector3, iterations, results, () => Validators.Array_Math_Vector3)
   Cases.Benchmark(Cases.Array_Object_Loose, iterations, results, () => Validators.Array_Object_Loose)
   Cases.Benchmark(Cases.Array_Object_Partial, iterations, results, () => Validators.Array_Object_Partial)

@@ -40,12 +40,22 @@ export namespace Reports {
   }
   export function GroupReportingResults(results: ReportingResult[]): Map<string, ReportingResult[]> {
     const map = new Map<string, ReportingResult[]>()
+    // Can order result sets by ensuring groups are defined in order
+    map.set('Primitive', [])
+    map.set('Literal', [])
+    map.set('Object', [])
+    map.set('Composite', [])
+    map.set('Tuple', [])
+    map.set('Recursive', [])
+    map.set('Math', [])
+    map.set('Array', [])
     for (const result of results) {
       const group = result.typename.split('_')[0]
       if (!map.has(group)) map.set(group, [])
       const array = map.get(group)!
       array.push(result)
     }
+    console.log(map)
     return map
   }
 }

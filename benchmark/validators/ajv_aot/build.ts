@@ -1,7 +1,6 @@
 import Ajv from 'ajv'
 import standaloneCode from 'ajv/dist/standalone'
 import { TypeGuard } from '@sinclair/typebox/guard'
-import { TSchema } from '@sinclair/typebox'
 import * as Cases from '../../schematics/correct'
 import * as Path from 'node:path'
 import * as Fs from 'node:fs'
@@ -29,7 +28,10 @@ export namespace AjvCompiler {
     Fs.mkdirSync(`benchmark/validators/ajv_aot/compiled`, { recursive: true })
     Fs.writeFileSync(`benchmark/validators/ajv_aot/compiled/index.ts`, imports.join('\n'), 'utf-8')
   }
-
+  function WriteCompiled() {
+    WriteCompiledValidators()
+    WriteCompiledValidatorsIndex()
+  }
   // -------------------------------------------------------------------
   // Benchmark
   // -------------------------------------------------------------------
@@ -66,14 +68,14 @@ export namespace AjvCompiler {
     }
     return output.join('\n')
   }
-
   function BuildDataset(directory: string, dataset: string) {
-    const output = Format([Benchmarks(dataset)].join('\n'))
-    const filename = Path.dirname(Path.join(directory, dataset, '.ts'))
+    const output = Format([...Benchmarks(dataset)].join('\n'))
+    const filename = Path.join(directory, dataset) + '.ts'
     Fs.writeFileSync(filename, output, 'utf-8')
   }
   export function Build(directory: string) {
     Fs.mkdirSync(directory, { recursive: true })
+    WriteCompiled()
     BuildDataset(directory, 'correct')
     BuildDataset(directory, 'incorrect')
   }

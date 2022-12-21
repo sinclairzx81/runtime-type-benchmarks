@@ -11,12 +11,12 @@ import { Render } from './utility/render'
 // ---------------------------------------------------------------------------
 export type Benchmarks = typeof Benchmarks
 export const Benchmarks = {
-  ajv_aot: '#AAA',
-  ajv_jit: '#AAC',
+  ajv_aot: '#C70',
+  ajv_jit: '#B60',
   typebox_aot: '#6A2',
-  typebox_jit: '#6A5',
-  typia: '#26A',
-  tsrc: '#A33',
+  typebox_jit: '#5B4',
+  typia: '#47A',
+  tsrc: '#C33',
 } as const
 
 // ---------------------------------------------------------------------------
@@ -88,7 +88,7 @@ export function TypeResult(props: TypeResultProperties) {
             tick={{ fill: fontColor }}
             tickFormatter={Formats.formatLargeNumber}
           />
-          <Legend verticalAlign="bottom" align="right" formatter={(value) => { return <span style={{ color: fontColor }}>{value}</span> }}/>
+          <Legend verticalAlign="bottom" align="right" formatter={(value) => { return <span style={{ color: fontColor }}>{value}</span> }} />
           <Tooltip
             wrapperStyle={{ background: "#000", zIndex: 1000000 }}
             contentStyle={{ background: '#000', padding: 32 }}
@@ -121,7 +121,7 @@ export function TypeGroup(props: TypeGroupProperties) {
   descriptions.set('Tuple', 'This benchmark measures arrays of a fixed length where bounds checking on the array is required')
   descriptions.set('Composite', 'This benchmark measures composite types for union and intersection')
   descriptions.set('Recursive', 'This benchmark measures recursive data structures')
-  descriptions.set('Array', 'This benchmark measures prior benchmarks types expressed as arrays of length 8')
+  descriptions.set('Array', 'This benchmark measures a variety of array types')
   return (
     <div className="type-group">
       <div className="header">
@@ -160,28 +160,24 @@ export function App() {
   }
   const correctClassName = dataset === 'correct' ? 'button selected' : 'button'
   const incorrectClassName = dataset === 'incorrect' ? 'button selected' : 'button'
+  // prettier-ignore
   return (
     <div className="app">
-      <div className="benchmarks">
-        <div className="header">
-          <h2>Runtime Validation Benchmarks</h2>
+      <div className="header">
+        <div className='title'>
+          <h2>Runtime Type Benchmarks</h2>
+          <p>High Performance Validation Benchmarks for JavaScript</p>
         </div>
-        <div className="body">
-          <div className={correctClassName} onClick={() => onChange('correct')}>
-            Correct Data
-          </div>
-          <div className={incorrectClassName} onClick={() => onChange('incorrect')}>
-            Incorrect Data
-          </div>
+        <div className='controls'>
+          <div className={correctClassName} onClick={() => onChange('correct')}>Correct Data</div>
+          <div className={incorrectClassName} onClick={() => onChange('incorrect')}>Incorrect Data</div>
         </div>
       </div>
       <div className="results">
-        <div className="scroll">
-          {[...groups.entries()].map((entry) => {
-            const [group, results] = entry
-            return <TypeGroup key={group} group={group} results={results} />
-          })}
-        </div>
+        {[...groups.entries()].map((entry) => {
+          const [group, results] = entry
+          return <TypeGroup key={group} group={group} results={results} />
+        })}
       </div>
     </div>
   )

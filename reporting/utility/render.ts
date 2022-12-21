@@ -192,6 +192,7 @@ export namespace Render {
       result.push(`type ${reference.$id} = ${Format([...Visit(reference)].join(''))}`)
     }
     result.push(`type ${schema.$id || 'T'} = ${Format([...Visit(schema)].join(''))}`)
+    const color = '#0AF'
     return result
       .join('\n\n')
       .replaceAll(new RegExp(schema.$id!.replace('Array_', ''), 'g'), 'T')
@@ -199,9 +200,9 @@ export namespace Render {
       .replaceAll(new RegExp(schema.$id!, 'g'), 'T')
       .replace(/>/g, `&gt;`)
       .replace(/</g, `&lt;`)
-      .replace(/type/g, `<span style='font-weight: bold; color: #88F'>type</span>`)
-      .replace(/boolean/g, `<span style='font-weight: bold; color: #88F'>boolean</span>`)
-      .replace(/number/g, `<span style='font-weight: bold; color: #88F'>number</span>`)
-      .replace(/string/g, `<span style='font-weight: bold; color: #88F'>string</span>`)
+      .replace(/type/g, `<span style='font-weight: bold; color: ${color}'>type</span>`)
+      .replace(/boolean/g, `<span style='font-weight: bold; color:${color}'>boolean</span>`)
+      .replace(/number/g, `<span style='font-weight: bold; color: ${color}'>number</span>`)
+      .replace(/string/g, `<span style='font-weight: bold; color: ${color}'>string</span>`)
   }
 }

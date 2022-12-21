@@ -54,6 +54,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Math_Vector3, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Math_Matrix4, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Math_Box3D, iterations, results, Compile)
+  Cases.Benchmark(Cases.Array_Math_Mesh, iterations, results, Compile)
   return results
 }
 

@@ -39,8 +39,8 @@ export namespace TypeBoxCompiler {
     return output.join('\n')
   }
   function BuildDataset(directory: string, dataset: string) {
-    const output = Format([Benchmarks(dataset)].join('\n'))
-    const filename = Path.dirname(Path.join(directory, dataset, '.ts'))
+    const output = Format([...Benchmarks(dataset)].join('\n'))
+    const filename = Path.join(directory, dataset) + '.ts'
     Fs.writeFileSync(filename, output, 'utf-8')
   }
   export function Build(directory: string) {

@@ -5,7 +5,7 @@ export function Execute(iterations: number) {
   const results = new Map<string, number>()
   Cases.Benchmark(Cases.Array_Composite_Intersect, iterations, results, () => {
     function check_Composite_Intersect(value) {
-      return typeof value === 'object' && value !== null && value.A === 'A' && value.B === 'B' && value.C === 'C' && value.D === 'D' && value.E === 'E' && value.F === 'F' && value.G === 'G' && value.H === 'H'
+      return typeof value === 'object' && value !== null && !Array.isArray(value) && value.A === 'A' && value.B === 'B' && value.C === 'C' && value.D === 'D' && value.E === 'E' && value.F === 'F' && value.G === 'G' && value.H === 'H'
     }
     function check_Array_Composite_Intersect(value) {
       return Array.isArray(value) && value.every((value) => check_Composite_Intersect(value)) && value.length >= 8
@@ -17,14 +17,10 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Composite_Union_Discriminated, iterations, results, () => {
     function check_Composite_Union_Discriminated(value) {
       return (
-        (typeof value === 'object' && value !== null && value.type === 'A' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'B' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'C' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'D' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'E' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'F' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'G' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'H' && typeof value.value === 'number' && !isNaN(value.value))
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'A' && typeof value.value === 'number' && !isNaN(value.value)) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'B' && typeof value.value === 'number' && !isNaN(value.value)) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'C' && typeof value.value === 'number' && !isNaN(value.value)) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'D' && typeof value.value === 'number' && !isNaN(value.value))
       )
     }
     function check_Array_Composite_Union_Discriminated(value) {
@@ -36,7 +32,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Array_Composite_Union_Literal, iterations, results, () => {
     function check_Composite_Union_Literal(value) {
-      return value === 'A' || value === 'B' || value === 'C' || value === 'D' || value === 'E' || value === 'F' || value === 'G' || value === 'H'
+      return value === 'A' || value === 'B' || value === 'C' || value === 'D'
     }
     function check_Array_Composite_Union_Literal(value) {
       return Array.isArray(value) && value.every((value) => check_Composite_Union_Literal(value)) && value.length >= 8
@@ -47,7 +43,10 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Array_Composite_Union_Non_Discriminated, iterations, results, () => {
     function check_Composite_Union_Non_Discriminated(value) {
-      return (typeof value === 'object' && value !== null && typeof value.A === 'string' && typeof value.B === 'string') || (typeof value === 'object' && value !== null && typeof value.C === 'string' && typeof value.D === 'string')
+      return (
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.A === 'string' && typeof value.B === 'string') ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.C === 'string' && typeof value.D === 'string')
+      )
     }
     function check_Array_Composite_Union_Non_Discriminated(value) {
       return Array.isArray(value) && value.every((value) => check_Composite_Union_Non_Discriminated(value)) && value.length >= 8
@@ -61,8 +60,10 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         typeof value.scale === 'object' &&
         value.scale !== null &&
+        !Array.isArray(value.scale) &&
         typeof value.scale.x === 'number' &&
         !isNaN(value.scale.x) &&
         typeof value.scale.y === 'number' &&
@@ -71,6 +72,7 @@ export function Execute(iterations: number) {
         !isNaN(value.scale.z) &&
         typeof value.position === 'object' &&
         value.position !== null &&
+        !Array.isArray(value.position) &&
         typeof value.position.x === 'number' &&
         !isNaN(value.position.x) &&
         typeof value.position.y === 'number' &&
@@ -79,6 +81,7 @@ export function Execute(iterations: number) {
         !isNaN(value.position.z) &&
         typeof value.rotate === 'object' &&
         value.rotate !== null &&
+        !Array.isArray(value.rotate) &&
         typeof value.rotate.x === 'number' &&
         !isNaN(value.rotate.x) &&
         typeof value.rotate.y === 'number' &&
@@ -87,6 +90,7 @@ export function Execute(iterations: number) {
         !isNaN(value.rotate.z) &&
         typeof value.pivot === 'object' &&
         value.pivot !== null &&
+        !Array.isArray(value.pivot) &&
         typeof value.pivot.x === 'number' &&
         !isNaN(value.pivot.x) &&
         typeof value.pivot.y === 'number' &&
@@ -113,9 +117,32 @@ export function Execute(iterations: number) {
       return check_Array_Math_Matrix4(value)
     }
   })
+  Cases.Benchmark(Cases.Array_Math_Mesh, iterations, results, () => {
+    function check_Math_Mesh(value) {
+      return (
+        typeof value === 'object' &&
+        value !== null &&
+        !Array.isArray(value) &&
+        Array.isArray(value.vertices) &&
+        value.vertices.every((value) => typeof value === 'number' && !isNaN(value)) &&
+        Array.isArray(value.normals) &&
+        value.normals.every((value) => typeof value === 'number' && !isNaN(value)) &&
+        Array.isArray(value.texoords) &&
+        value.texoords.every((value) => typeof value === 'number' && !isNaN(value)) &&
+        Array.isArray(value.indices) &&
+        value.indices.every((value) => typeof value === 'number' && Number.isInteger(value))
+      )
+    }
+    function check_Array_Math_Mesh(value) {
+      return Array.isArray(value) && value.every((value) => check_Math_Mesh(value)) && value.length >= 8
+    }
+    return function check(value) {
+      return check_Array_Math_Mesh(value)
+    }
+  })
   Cases.Benchmark(Cases.Array_Math_Vector3, iterations, results, () => {
     function check_Math_Vector3(value) {
-      return typeof value === 'object' && value !== null && typeof value.x === 'number' && !isNaN(value.x) && typeof value.y === 'number' && !isNaN(value.y) && typeof value.z === 'number' && !isNaN(value.z)
+      return typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.x === 'number' && !isNaN(value.x) && typeof value.y === 'number' && !isNaN(value.y) && typeof value.z === 'number' && !isNaN(value.z)
     }
     function check_Array_Math_Vector3(value) {
       return Array.isArray(value) && value.every((value) => check_Math_Vector3(value)) && value.length >= 8
@@ -129,6 +156,7 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         typeof value.A === 'number' &&
         !isNaN(value.A) &&
         typeof value.B === 'number' &&
@@ -140,6 +168,7 @@ export function Execute(iterations: number) {
         typeof value.F === 'boolean' &&
         typeof value.G === 'object' &&
         value.G !== null &&
+        !Array.isArray(value.G) &&
         typeof value.G.H === 'string' &&
         typeof value.G.I === 'number' &&
         !isNaN(value.G.I) &&
@@ -158,10 +187,12 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         (value.position === undefined
           ? true
           : typeof value.position === 'object' &&
             value.position !== null &&
+            !Array.isArray(value.position) &&
             typeof value.position.x === 'number' &&
             !isNaN(value.position.x) &&
             typeof value.position.y === 'number' &&
@@ -172,6 +203,7 @@ export function Execute(iterations: number) {
           ? true
           : typeof value.rotation === 'object' &&
             value.rotation !== null &&
+            !Array.isArray(value.rotation) &&
             typeof value.rotation.x === 'number' &&
             !isNaN(value.rotation.x) &&
             typeof value.rotation.y === 'number' &&
@@ -182,6 +214,7 @@ export function Execute(iterations: number) {
           ? true
           : typeof value.scale === 'object' &&
             value.scale !== null &&
+            !Array.isArray(value.scale) &&
             typeof value.scale.x === 'number' &&
             !isNaN(value.scale.x) &&
             typeof value.scale.y === 'number' &&
@@ -202,8 +235,10 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         typeof value.position === 'object' &&
         value.position !== null &&
+        !Array.isArray(value.position) &&
         typeof value.position.x === 'number' &&
         !isNaN(value.position.x) &&
         typeof value.position.y === 'number' &&
@@ -212,6 +247,7 @@ export function Execute(iterations: number) {
         !isNaN(value.position.z) &&
         typeof value.rotation === 'object' &&
         value.rotation !== null &&
+        !Array.isArray(value.rotation) &&
         typeof value.rotation.x === 'number' &&
         !isNaN(value.rotation.x) &&
         typeof value.rotation.y === 'number' &&
@@ -220,6 +256,7 @@ export function Execute(iterations: number) {
         !isNaN(value.rotation.z) &&
         typeof value.scale === 'object' &&
         value.scale !== null &&
+        !Array.isArray(value.scale) &&
         typeof value.scale.x === 'number' &&
         !isNaN(value.scale.x) &&
         typeof value.scale.y === 'number' &&
@@ -240,6 +277,7 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         Object.getOwnPropertyNames(value).length === 7 &&
         typeof value.A === 'number' &&
         !isNaN(value.A) &&
@@ -252,6 +290,7 @@ export function Execute(iterations: number) {
         typeof value.F === 'boolean' &&
         typeof value.G === 'object' &&
         value.G !== null &&
+        !Array.isArray(value.G) &&
         Object.getOwnPropertyNames(value.G).length === 3 &&
         typeof value.G.H === 'string' &&
         typeof value.G.I === 'number' &&
@@ -292,7 +331,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Array_Recursive_Object, iterations, results, () => {
     function check_Recursive_Object(value) {
-      return typeof value === 'object' && value !== null && typeof value.id === 'string' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Object(value))
+      return typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.id === 'string' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Object(value))
     }
     function check_Array_Recursive_Object(value) {
       return Array.isArray(value) && value.every((value) => check_Recursive_Object(value)) && value.length >= 8
@@ -304,8 +343,8 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Recursive_Union, iterations, results, () => {
     function check_Recursive_Union(value) {
       return (
-        (typeof value === 'object' && value !== null && value.type === 'Node' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Union(value))) ||
-        (typeof value === 'object' && value !== null && value.type === 'Leaf' && typeof value.value === 'string')
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'Node' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Union(value))) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'Leaf' && typeof value.value === 'string')
       )
     }
     function check_Array_Recursive_Union(value) {
@@ -333,6 +372,7 @@ export function Execute(iterations: number) {
         value.length === 3 &&
         typeof value[0] === 'object' &&
         value[0] !== null &&
+        !Array.isArray(value[0]) &&
         typeof value[0].x === 'number' &&
         !isNaN(value[0].x) &&
         typeof value[0].y === 'number' &&
@@ -341,6 +381,7 @@ export function Execute(iterations: number) {
         !isNaN(value[0].z) &&
         typeof value[1] === 'object' &&
         value[1] !== null &&
+        !Array.isArray(value[1]) &&
         typeof value[1].x === 'number' &&
         !isNaN(value[1].x) &&
         typeof value[1].y === 'number' &&
@@ -349,6 +390,7 @@ export function Execute(iterations: number) {
         !isNaN(value[1].z) &&
         typeof value[2] === 'object' &&
         value[2] !== null &&
+        !Array.isArray(value[2]) &&
         typeof value[2].x === 'number' &&
         !isNaN(value[2].x) &&
         typeof value[2].y === 'number' &&
@@ -377,7 +419,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Composite_Intersect, iterations, results, () => {
     function check_Composite_Intersect(value) {
-      return typeof value === 'object' && value !== null && value.A === 'A' && value.B === 'B' && value.C === 'C' && value.D === 'D' && value.E === 'E' && value.F === 'F' && value.G === 'G' && value.H === 'H'
+      return typeof value === 'object' && value !== null && !Array.isArray(value) && value.A === 'A' && value.B === 'B' && value.C === 'C' && value.D === 'D' && value.E === 'E' && value.F === 'F' && value.G === 'G' && value.H === 'H'
     }
     return function check(value) {
       return check_Composite_Intersect(value)
@@ -386,14 +428,10 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Composite_Union_Discriminated, iterations, results, () => {
     function check_Composite_Union_Discriminated(value) {
       return (
-        (typeof value === 'object' && value !== null && value.type === 'A' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'B' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'C' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'D' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'E' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'F' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'G' && typeof value.value === 'number' && !isNaN(value.value)) ||
-        (typeof value === 'object' && value !== null && value.type === 'H' && typeof value.value === 'number' && !isNaN(value.value))
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'A' && typeof value.value === 'number' && !isNaN(value.value)) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'B' && typeof value.value === 'number' && !isNaN(value.value)) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'C' && typeof value.value === 'number' && !isNaN(value.value)) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'D' && typeof value.value === 'number' && !isNaN(value.value))
       )
     }
     return function check(value) {
@@ -402,7 +440,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Composite_Union_Literal, iterations, results, () => {
     function check_Composite_Union_Literal(value) {
-      return value === 'A' || value === 'B' || value === 'C' || value === 'D' || value === 'E' || value === 'F' || value === 'G' || value === 'H'
+      return value === 'A' || value === 'B' || value === 'C' || value === 'D'
     }
     return function check(value) {
       return check_Composite_Union_Literal(value)
@@ -410,7 +448,10 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Composite_Union_Non_Discriminated, iterations, results, () => {
     function check_Composite_Union_Non_Discriminated(value) {
-      return (typeof value === 'object' && value !== null && typeof value.A === 'string' && typeof value.B === 'string') || (typeof value === 'object' && value !== null && typeof value.C === 'string' && typeof value.D === 'string')
+      return (
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.A === 'string' && typeof value.B === 'string') ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.C === 'string' && typeof value.D === 'string')
+      )
     }
     return function check(value) {
       return check_Composite_Union_Non_Discriminated(value)
@@ -445,8 +486,10 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         typeof value.scale === 'object' &&
         value.scale !== null &&
+        !Array.isArray(value.scale) &&
         typeof value.scale.x === 'number' &&
         !isNaN(value.scale.x) &&
         typeof value.scale.y === 'number' &&
@@ -455,6 +498,7 @@ export function Execute(iterations: number) {
         !isNaN(value.scale.z) &&
         typeof value.position === 'object' &&
         value.position !== null &&
+        !Array.isArray(value.position) &&
         typeof value.position.x === 'number' &&
         !isNaN(value.position.x) &&
         typeof value.position.y === 'number' &&
@@ -463,6 +507,7 @@ export function Execute(iterations: number) {
         !isNaN(value.position.z) &&
         typeof value.rotate === 'object' &&
         value.rotate !== null &&
+        !Array.isArray(value.rotate) &&
         typeof value.rotate.x === 'number' &&
         !isNaN(value.rotate.x) &&
         typeof value.rotate.y === 'number' &&
@@ -471,6 +516,7 @@ export function Execute(iterations: number) {
         !isNaN(value.rotate.z) &&
         typeof value.pivot === 'object' &&
         value.pivot !== null &&
+        !Array.isArray(value.pivot) &&
         typeof value.pivot.x === 'number' &&
         !isNaN(value.pivot.x) &&
         typeof value.pivot.y === 'number' &&
@@ -496,6 +542,7 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         Array.isArray(value.vertices) &&
         value.vertices.every((value) => typeof value === 'number' && !isNaN(value)) &&
         Array.isArray(value.normals) &&
@@ -512,7 +559,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Math_Vector3, iterations, results, () => {
     function check_Math_Vector3(value) {
-      return typeof value === 'object' && value !== null && typeof value.x === 'number' && !isNaN(value.x) && typeof value.y === 'number' && !isNaN(value.y) && typeof value.z === 'number' && !isNaN(value.z)
+      return typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.x === 'number' && !isNaN(value.x) && typeof value.y === 'number' && !isNaN(value.y) && typeof value.z === 'number' && !isNaN(value.z)
     }
     return function check(value) {
       return check_Math_Vector3(value)
@@ -523,6 +570,7 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         typeof value.A === 'number' &&
         !isNaN(value.A) &&
         typeof value.B === 'number' &&
@@ -534,6 +582,7 @@ export function Execute(iterations: number) {
         typeof value.F === 'boolean' &&
         typeof value.G === 'object' &&
         value.G !== null &&
+        !Array.isArray(value.G) &&
         typeof value.G.H === 'string' &&
         typeof value.G.I === 'number' &&
         !isNaN(value.G.I) &&
@@ -549,10 +598,12 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         (value.position === undefined
           ? true
           : typeof value.position === 'object' &&
             value.position !== null &&
+            !Array.isArray(value.position) &&
             typeof value.position.x === 'number' &&
             !isNaN(value.position.x) &&
             typeof value.position.y === 'number' &&
@@ -563,6 +614,7 @@ export function Execute(iterations: number) {
           ? true
           : typeof value.rotation === 'object' &&
             value.rotation !== null &&
+            !Array.isArray(value.rotation) &&
             typeof value.rotation.x === 'number' &&
             !isNaN(value.rotation.x) &&
             typeof value.rotation.y === 'number' &&
@@ -573,6 +625,7 @@ export function Execute(iterations: number) {
           ? true
           : typeof value.scale === 'object' &&
             value.scale !== null &&
+            !Array.isArray(value.scale) &&
             typeof value.scale.x === 'number' &&
             !isNaN(value.scale.x) &&
             typeof value.scale.y === 'number' &&
@@ -590,8 +643,10 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         typeof value.position === 'object' &&
         value.position !== null &&
+        !Array.isArray(value.position) &&
         typeof value.position.x === 'number' &&
         !isNaN(value.position.x) &&
         typeof value.position.y === 'number' &&
@@ -600,6 +655,7 @@ export function Execute(iterations: number) {
         !isNaN(value.position.z) &&
         typeof value.rotation === 'object' &&
         value.rotation !== null &&
+        !Array.isArray(value.rotation) &&
         typeof value.rotation.x === 'number' &&
         !isNaN(value.rotation.x) &&
         typeof value.rotation.y === 'number' &&
@@ -608,6 +664,7 @@ export function Execute(iterations: number) {
         !isNaN(value.rotation.z) &&
         typeof value.scale === 'object' &&
         value.scale !== null &&
+        !Array.isArray(value.scale) &&
         typeof value.scale.x === 'number' &&
         !isNaN(value.scale.x) &&
         typeof value.scale.y === 'number' &&
@@ -625,6 +682,7 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
+        !Array.isArray(value) &&
         Object.getOwnPropertyNames(value).length === 7 &&
         typeof value.A === 'number' &&
         !isNaN(value.A) &&
@@ -637,6 +695,7 @@ export function Execute(iterations: number) {
         typeof value.F === 'boolean' &&
         typeof value.G === 'object' &&
         value.G !== null &&
+        !Array.isArray(value.G) &&
         Object.getOwnPropertyNames(value.G).length === 3 &&
         typeof value.G.H === 'string' &&
         typeof value.G.I === 'number' &&
@@ -699,7 +758,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Recursive_Object, iterations, results, () => {
     function check_Recursive_Object(value) {
-      return typeof value === 'object' && value !== null && typeof value.id === 'string' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Object(value))
+      return typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.id === 'string' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Object(value))
     }
     return function check(value) {
       return check_Recursive_Object(value)
@@ -708,8 +767,8 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Recursive_Union, iterations, results, () => {
     function check_Recursive_Union(value) {
       return (
-        (typeof value === 'object' && value !== null && value.type === 'Node' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Union(value))) ||
-        (typeof value === 'object' && value !== null && value.type === 'Leaf' && typeof value.value === 'string')
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'Node' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Union(value))) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'Leaf' && typeof value.value === 'string')
       )
     }
     return function check(value) {
@@ -731,6 +790,7 @@ export function Execute(iterations: number) {
         value.length === 3 &&
         typeof value[0] === 'object' &&
         value[0] !== null &&
+        !Array.isArray(value[0]) &&
         typeof value[0].x === 'number' &&
         !isNaN(value[0].x) &&
         typeof value[0].y === 'number' &&
@@ -739,6 +799,7 @@ export function Execute(iterations: number) {
         !isNaN(value[0].z) &&
         typeof value[1] === 'object' &&
         value[1] !== null &&
+        !Array.isArray(value[1]) &&
         typeof value[1].x === 'number' &&
         !isNaN(value[1].x) &&
         typeof value[1].y === 'number' &&
@@ -747,6 +808,7 @@ export function Execute(iterations: number) {
         !isNaN(value[1].z) &&
         typeof value[2] === 'object' &&
         value[2] !== null &&
+        !Array.isArray(value[2]) &&
         typeof value[2].x === 'number' &&
         !isNaN(value[2].x) &&
         typeof value[2].y === 'number' &&
