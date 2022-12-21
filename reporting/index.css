@@ -129,10 +129,6 @@ body {
   margin: 0;
   text-align: left;
 }
-
-.type-tooltip > .body > .result td {
-}
 .type-tooltip > .body > .type {
   padding: 0px 16px 16px 16px;
-  /* */
 }
