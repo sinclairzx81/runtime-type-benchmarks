@@ -116,7 +116,7 @@ export interface TypeGroupProperties {
 }
 export function TypeGroup(props: TypeGroupProperties) {
   const descriptions = new Map<string, string>()
-  descriptions.set('Primitive', 'Operations per second the typeof operator and regular expressions')
+  descriptions.set('Primitive', 'Operations per second measuring the typeof operator, integers and regular expressions')
   descriptions.set('Literal', 'Operations per second comparing two JavaScript values')
   descriptions.set('Math', 'Operations per second for types commonly used for linear algebra and graphics')
   descriptions.set('Object', 'Operations per second for objects object types with constraints. A loose object means the validator allows additional properties. A strict object means additional properties are constrained')
