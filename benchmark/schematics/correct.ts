@@ -12,17 +12,16 @@ export function Benchmark(schema: TSchema, iterations: number, results: Map<stri
   if (schema.$id === undefined) throw Error('Schema must have a specify a unique type $id')
   if (typenames.has(schema.$id)) throw Error(`Duplicate schema $id ${schema.$id}`)
   typenames.add(schema.$id)
-  console.log(schema.$id)
+  process.stdout.write(`\x1b[36m${schema.$id}\x1b[0m`)
   const check = setup(schema)
   const value = Value.Create(schema)
   const start = Date.now()
   for (let i = 0; i < iterations; i++) {
-    if (!check(value)) {
-      console.log('ERROR', value, schema)
-      throw Error('Expected Ok')
-    }
+    if (!check(value)) throw Error('Expected Ok')
   }
-  results.set(schema.$id, Date.now() - start)
+  const elapsed = Date.now() - start
+  process.stdout.write(` ${elapsed} ms\n`)
+  results.set(schema.$id, elapsed)
 }
 
 // ---------------------------------------------------------------
@@ -208,23 +207,6 @@ export const Object_Strict = Type.Object(
   },
 )
 
-export type Object_Required = Static<typeof Object_Required>
-export const Object_Required = Type.Object(
-  {
-    position: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
-    rotation: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
-    scale: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
-  },
-  {
-    $id: 'Object_Required',
-    default: {
-      position: { x: 1, y: 2, z: 3 },
-      rotation: { x: 1, y: 2, z: 3 },
-      scale: { x: 1, y: 2, z: 3 },
-    },
-  },
-)
-
 export type Object_Partial = Static<typeof Object_Partial>
 export const Object_Partial = Type.Partial(
   Type.Object(
@@ -241,6 +223,23 @@ export const Object_Partial = Type.Partial(
       },
     },
   ),
+)
+
+export type Object_Simple = Static<typeof Object_Simple>
+export const Object_Simple = Type.Object(
+  {
+    position: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
+    rotation: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
+    scale: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
+  },
+  {
+    $id: 'Object_Simple',
+    default: {
+      position: { x: 1, y: 2, z: 3 },
+      rotation: { x: 1, y: 2, z: 3 },
+      scale: { x: 1, y: 2, z: 3 },
+    },
+  },
 )
 
 // ---------------------------------------------------------------
@@ -454,11 +453,11 @@ export const Array_Object_Loose = Type.Array(Object_Loose, { $id: 'Array_Object_
 export type Array_Object_Strict = Static<typeof Array_Object_Strict>
 export const Array_Object_Strict = Type.Array(Object_Strict, { $id: 'Array_Object_Strict', minItems: 8 })
 
-export type Array_Object_Required = Static<typeof Array_Object_Required>
-export const Array_Object_Required = Type.Array(Object_Required, { $id: 'Array_Object_Required', minItems: 8 })
-
 export type Array_Object_Partial = Static<typeof Array_Object_Partial>
 export const Array_Object_Partial = Type.Array(Object_Partial, { $id: 'Array_Object_Partial', minItems: 8 })
+
+export type Array_Object_Simple = Static<typeof Array_Object_Simple>
+export const Array_Object_Simple = Type.Array(Object_Simple, { $id: 'Array_Object_Simple', minItems: 8 })
 
 export type Array_Tuple_Number = Static<typeof Array_Tuple_Number>
 export const Array_Tuple_Number = Type.Array(Tuple_Number, { $id: 'Array_Tuple_Number', minItems: 8 })

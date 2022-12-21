@@ -1,3 +1,10 @@
+input {
+  border: none;
+}
+input:focus {
+  outline: none;
+}
+
 html,
 body {
   margin: 0px;
@@ -60,7 +67,7 @@ body {
   height: 64px;
 }
 .app > .header > .controls .button {
-  width: 128px;
+  width: 140px;
   height: 24px;
   line-height: 24px;
   text-align: center;
@@ -69,9 +76,25 @@ body {
   margin: 8px;
   background: #080808;
   border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 .app > .header > .controls .button.selected {
-  background-color: rgb(71, 118, 73);
+  color: #000;
+  background-color: rgb(236, 159, 15);
+}
+.app > .header > .controls .filter {
+  width: 500px;
+  height: 24px;
+  line-height: 24px;
+  cursor: pointer;
+  padding: 16px;
+  margin: 8px;
+  background: #222;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-family: monospace;
 }
 /* ---------------------------------------------------
  Results
@@ -81,7 +104,8 @@ body {
   height: calc(100% - 96px);
 }
 .type-group {
-  background-image: linear-gradient(#040404, #080808);
+  /* background-image: linear-gradient(#040404, #080808); */
+  background: #080808;
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -108,14 +132,14 @@ body {
 
 /** Tooltip */
 .type-tooltip {
-  border: 1px solid #888;
-  background: #111 !important;
-  min-width: 100px;
-  min-height: 100px;
-}
+  border: 1px solid #333;
 
+  /* background-image: linear-gradient(#040404, #333); */
+  background: #040404;
+  min-width: 100px;
+  min-height: 220px;
+}
 .type-tooltip > .header {
-  background: #111;
   min-width: 100px;
   height: 24px;
   line-height: 24px;
@@ -126,7 +150,7 @@ body {
   flex-direction: row;
 }
 .type-tooltip > .body > .result {
-  padding: 10px 16px 16px 16px;
+  padding: 10px 0px -10px 0px;
 }
 .type-tooltip > .body > .result tr {
   padding: 0;

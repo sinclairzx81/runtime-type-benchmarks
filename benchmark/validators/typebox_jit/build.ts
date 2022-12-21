@@ -9,10 +9,12 @@ export namespace TypeBoxJitGenerator {
   function Include(schema: unknown): schema is TSchema {
     return TypeGuard.TSchema(schema)
   }
-  function* GenerateBenchmark(dataset: string) {
+  function* GenerateBenchmark(dataset: string, typesystem: 'json-schema' | 'structural') {
     yield `import { TypeCompiler } from '@sinclair/typebox/compiler'`
+    yield `import { TypeSystem } from '@sinclair/typebox/system'`
     yield `import { Command } from '../../command/index'`
     yield `import * as Cases from '../../schematics/${dataset}'`
+    yield `TypeSystem.Kind = '${typesystem}'`
     yield ``
     yield `export function Compile(schema: any) {`
     yield `  const check = TypeCompiler.Compile(schema)`
@@ -34,14 +36,14 @@ export namespace TypeBoxJitGenerator {
     yield `Command.WriteResults(results)`
   }
 
-  function Generate(directory: string, dataset: string) {
-    const output = Formatter.Format([...GenerateBenchmark(dataset)].join('\n'))
+  function Generate(directory: string, dataset: string, typesystem: 'json-schema' | 'structural') {
+    const output = Formatter.Format([...GenerateBenchmark(dataset, typesystem)].join('\n'))
     const filename = Path.join(directory, dataset) + '.ts'
     Fs.writeFileSync(filename, output, 'utf-8')
   }
-  export function Build(directory: string) {
+  export function Build(directory: string, typesystem: 'json-schema' | 'structural') {
     Fs.mkdirSync(directory, { recursive: true })
-    Generate(directory, 'correct')
-    Generate(directory, 'incorrect')
+    Generate(directory, 'correct', typesystem)
+    Generate(directory, 'incorrect', typesystem)
   }
 }

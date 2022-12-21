@@ -1,6 +1,7 @@
 import { Formatter } from '../../formatter/index'
 import { TypeGuard } from '@sinclair/typebox/guard'
 import { TypeCompiler } from '@sinclair/typebox/compiler'
+import { TypeSystem } from '@sinclair/typebox/system'
 import { TSchema } from '@sinclair/typebox'
 import * as Cases from '../../schematics/correct'
 import * as Fs from 'node:fs'
@@ -37,7 +38,8 @@ export namespace TypeBoxAotGenerator {
     const filename = Path.join(directory, dataset) + '.ts'
     Fs.writeFileSync(filename, output, 'utf-8')
   }
-  export function Build(directory: string) {
+  export function Build(directory: string, typesystem: 'json-schema' | 'structural') {
+    TypeSystem.Kind = typesystem
     Fs.mkdirSync(directory, { recursive: true })
     Generate(directory, 'correct')
     Generate(directory, 'incorrect')

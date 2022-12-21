@@ -1,6 +1,8 @@
 import { TypeCompiler } from '@sinclair/typebox/compiler'
+import { TypeSystem } from '@sinclair/typebox/system'
 import { Command } from '../../command/index'
 import * as Cases from '../../schematics/incorrect'
+TypeSystem.Kind = 'json-schema'
 
 export function Compile(schema: any) {
   const check = TypeCompiler.Compile(schema)
@@ -19,7 +21,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Math_Vector3, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Object_Loose, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Object_Partial, iterations, results, Compile)
-  Cases.Benchmark(Cases.Array_Object_Required, iterations, results, Compile)
+  Cases.Benchmark(Cases.Array_Object_Simple, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Object_Strict, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Primitive_Boolean, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Primitive_Number, iterations, results, Compile)
@@ -42,7 +44,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Math_Vector3, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Loose, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Partial, iterations, results, Compile)
-  Cases.Benchmark(Cases.Object_Required, iterations, results, Compile)
+  Cases.Benchmark(Cases.Object_Simple, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Strict, iterations, results, Compile)
   Cases.Benchmark(Cases.Primitive_Boolean, iterations, results, Compile)
   Cases.Benchmark(Cases.Primitive_Null, iterations, results, Compile)

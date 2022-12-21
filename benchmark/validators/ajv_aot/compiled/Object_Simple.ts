@@ -1,8 +1,8 @@
 // @ts-nocheck
 'use strict'
-export const Object_Required = validate10
+export const Object_Simple = validate10
 const schema11 = {
-  $id: 'Object_Required',
+  $id: 'Object_Simple',
   default: { position: { x: 1, y: 2, z: 3 }, rotation: { x: 1, y: 2, z: 3 }, scale: { x: 1, y: 2, z: 3 } },
   type: 'object',
   properties: {
@@ -13,7 +13,7 @@ const schema11 = {
   required: ['position', 'rotation', 'scale'],
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="Object_Required" */ let vErrors = null
+  /*# sourceURL="Object_Simple" */ let vErrors = null
   let errors = 0
   if (errors === 0) {
     if (data && typeof data == 'object' && !Array.isArray(data)) {
