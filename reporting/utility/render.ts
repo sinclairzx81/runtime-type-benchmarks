@@ -58,9 +58,7 @@ export namespace Render {
   function Object(schema: Types.TObject) {
     const properties: string = globalThis.Object.entries(schema.properties)
       .map(([key, value]) => {
-        return ['Optional', 'ReadonlyOptional'].includes(value[Types.Modifier] as string) 
-            ? `${key}?: ${Visit(value)}`
-            : `${key}: ${Visit(value)}`
+        return ['Optional', 'ReadonlyOptional'].includes(value[Types.Modifier] as string) ? `${key}?: ${Visit(value)}` : `${key}: ${Visit(value)}`
       })
       .join(',\n')
     return `{\n${properties}\n}`
@@ -196,13 +194,14 @@ export namespace Render {
     result.push(`type ${schema.$id || 'T'} = ${Format([...Visit(schema)].join(''))}`)
     return result
       .join('\n\n')
-      .replace(schema.$id!, 'T')
+      .replaceAll(new RegExp(schema.$id!.replace('Array_', ''), 'g'), 'T')
+      .replaceAll(new RegExp('Array_T', 'g'), 'T')
+      .replaceAll(new RegExp(schema.$id!, 'g'), 'T')
       .replace(/>/g, `&gt;`)
       .replace(/</g, `&lt;`)
       .replace(/type/g, `<span style='font-weight: bold; color: #88F'>type</span>`)
       .replace(/boolean/g, `<span style='font-weight: bold; color: #88F'>boolean</span>`)
       .replace(/number/g, `<span style='font-weight: bold; color: #88F'>number</span>`)
       .replace(/string/g, `<span style='font-weight: bold; color: #88F'>string</span>`)
-
   }
 }
