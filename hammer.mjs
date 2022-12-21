@@ -1,5 +1,9 @@
-import { TypeBoxCompiler } from './benchmark/validators/typebox_aot/build'
-import { AjvCompiler } from './benchmark/validators/ajv_aot/build'
+import { TypeBoxAotGenerator } from './benchmark/validators/typebox_aot/build'
+import { TypeBoxJitGenerator } from './benchmark/validators/typebox_jit/build'
+import { AjvAotGenerator } from './benchmark/validators/ajv_aot/build'
+import { AjvJitGenerator } from './benchmark/validators/ajv_jit/build'
+import { TypiaGenerator } from './benchmark/validators/typia/build'
+import { TsrcGenerator } from './benchmark/validators/tsrc/build'
 
 // -----------------------------------------------------------------------------
 // Clean
@@ -8,8 +12,16 @@ export async function clean() {
   await folder('benchmark/validators/ajv_aot/compiled').delete()
   await file('benchmark/validators/ajv_aot/incorrect.ts').delete()
   await file('benchmark/validators/ajv_aot/correct.ts').delete()
+  await file('benchmark/validators/ajv_jit/incorrect.ts').delete()
+  await file('benchmark/validators/ajv_jit/correct.ts').delete()
   await file('benchmark/validators/typebox_aot/incorrect.ts').delete()
-  await file('benchmark/validators/typebox_aot/incorrect.ts').delete()
+  await file('benchmark/validators/typebox_aot/correct.ts').delete()
+  await file('benchmark/validators/typebox_jit/incorrect.ts').delete()
+  await file('benchmark/validators/typebox_jit/correct.ts').delete()
+  await file('benchmark/validators/typia/incorrect.ts').delete()
+  await file('benchmark/validators/typia/correct.ts').delete()
+  await file('benchmark/validators/tsrc/incorrect.ts').delete()
+  await file('benchmark/validators/tsrc/correct.ts').delete()
   await folder('reporting/results').delete()
   await folder('target').delete()
 }
@@ -31,28 +43,32 @@ export async function measure(packageName = 'typebox', compiler = 'tsc', dataset
   await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iteration} ${report_file}`)
 }
 export async function typebox_aot(iteration = 1) {
-  TypeBoxCompiler.Build('benchmark/validators/typebox_aot')
+  TypeBoxAotGenerator.Build('benchmark/validators/typebox_aot')
   await measure('typebox_aot', 'tsc', 'correct', iteration)
   await measure('typebox_aot', 'tsc', 'incorrect', iteration)
 }
 export async function typebox_jit(iteration = 1) {
+  TypeBoxJitGenerator.Build('benchmark/validators/typebox_jit')
   await measure('typebox_jit', 'tsc', 'correct', iteration)
   await measure('typebox_jit', 'tsc', 'incorrect', iteration)
 }
 export async function ajv_aot(iteration = 1) {
-  AjvCompiler.Build('benchmark/validators/ajv_aot')
+  AjvAotGenerator.Build('benchmark/validators/ajv_aot')
   await measure('ajv_aot', 'tsc', 'correct', iteration)
   await measure('ajv_aot', 'tsc', 'incorrect', iteration)
 }
 export async function ajv_jit(iteration = 1) {
+  AjvJitGenerator.Build('benchmark/validators/ajv_jit')
   await measure('ajv_jit', 'tsc', 'correct', iteration)
   await measure('ajv_jit', 'tsc', 'incorrect', iteration)
 }
 export async function tsrc(iteration = 1) {
+  TsrcGenerator.Build('benchmark/validators/tsrc')
   await measure('tsrc', 'ttsc', 'correct', iteration)
   await measure('tsrc', 'ttsc', 'incorrect', iteration)
 }
 export async function typia(iteration = 1) {
+  TypiaGenerator.Build('benchmark/validators/typia')
   await measure('typia', 'ttsc', 'correct', iteration)
   await measure('typia', 'ttsc', 'incorrect', iteration)
 }

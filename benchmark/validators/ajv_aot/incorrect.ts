@@ -2,6 +2,7 @@
 import { Command } from '../../command/index'
 import * as Cases from '../../schematics/incorrect'
 import * as Validators from './compiled/index'
+
 export function Execute(iterations: number) {
   const results = new Map<string, number>()
   Cases.Benchmark(Cases.Array_Composite_Intersect, iterations, results, () => Validators.Array_Composite_Intersect)
@@ -51,6 +52,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, () => Validators.Tuple_Union_Literal)
   return results
 }
+
 const parameter = Command.Parameter()
 const results = Execute(parameter.iterations)
 Command.WriteResults(results)
