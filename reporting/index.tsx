@@ -1,8 +1,10 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import ReactDOM from 'react-dom/client'
 import React from 'react'
+import * as Cases from '../benchmark/schematics/correct'
 import { Reports } from './utility/reports'
 import { Formats } from './utility/formats'
+import { Render } from './utility/render'
 
 // ---------------------------------------------------------------------------
 // Benchmarks (Add as nessasary)
@@ -17,6 +19,56 @@ export const Benchmarks = {
   tsrc: '#A33',
 } as const
 
+// ---------------------------------------------------------------------------
+// TypeToolTip
+// ---------------------------------------------------------------------------
+export interface TypeResultToolTipProperties {
+  result: Reports.ReportingResult
+}
+export function TypeResultToolTip(props: TypeResultToolTipProperties) {
+  const type = Render.Type((Cases as any)[props.result.typename] as any)
+  const results = Object.entries(props.result)
+    .filter((entry) => {
+      return !(entry[0] === 'typename' || entry[0] === 'persecond')
+    })
+    .sort((a, b) => (b[1] as number) - (a[1] as number))
+    .map((entry) => {
+      const [lib, value] = entry as [keyof Benchmarks, number]
+      const color = Benchmarks[lib]
+      const ops = `${Formats.formatLargeNumber(Math.floor(value as number))}`
+      return { lib, color, ops }
+    })
+  return (
+    <div className="type-tooltip">
+      <div className="header">
+        <h3>{props.result.typename}</h3>
+      </div>
+      <div className="body">
+        <div className="type">
+          <pre dangerouslySetInnerHTML={{ __html: type }}></pre>
+        </div>
+        <div className="result">
+          <table>
+            <tr>
+              <th>rank</th>
+              <th>validator</th>
+              <th>ops</th>
+            </tr>
+            {results.map((entry, index) => {
+              return (
+                <tr>
+                  <td>{Formats.ranking(index)}</td>
+                  <td style={{ color: entry.color }}>{entry.lib}</td>
+                  <td>{entry.ops}</td>
+                </tr>
+              )
+            })}
+          </table>
+        </div>
+      </div>
+    </div>
+  )
+}
 // ---------------------------------------------------------------------------
 // TypeResult
 // ---------------------------------------------------------------------------
@@ -38,16 +90,10 @@ export function TypeResult(props: TypeResultProperties) {
           />
           <Legend verticalAlign="bottom" align="right" formatter={(value) => { return <span style={{ color: fontColor }}>{value}</span> }}/>
           <Tooltip
-            contentStyle={{ background: '#111', padding: 32 }}
-            cursor={{ fill: '#111' }}
-            labelFormatter={(value) => {
-              return (
-                <div style={{ marginTop: -13 }}>
-                  <h3>{value}</h3>
-                  <p>Operations Per Second</p>
-                </div>
-              )
-            }}
+            wrapperStyle={{ background: "#000", zIndex: 1000000 }}
+            contentStyle={{ background: '#000', padding: 32 }}
+            cursor={{ fill: '#000' }}
+            content={<TypeResultToolTip result={props.result} />}
           />
           <CartesianGrid strokeDasharray="2 2" />
           {Object.entries(Benchmarks).map((entry) => {

@@ -88,7 +88,51 @@ body {
   height: 240px;
   padding: 16px;
 }
-.chart tspan {
-  color: white;
-  border: 10px solid red;
+
+/** Tooltip */
+.type-tooltip {
+  border: 1px solid white;
+  background: #111 !important;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+.type-tooltip > .header {
+  background: #111;
+  min-width: 100px;
+  height: 24px;
+  line-height: 24px;
+  margin-left: 16px;
+}
+.type-tooltip > .body {
+  display: flex;
+  flex-direction: row;
+}
+.type-tooltip > .body > .result {
+  padding: 10px 16px 16px 16px;
+}
+.type-tooltip > .body > .result tr {
+  padding: 0;
+  margin: 0;
+}
+.type-tooltip > .body > .result td:nth-child(1) {
+  width: 40px;
+}
+.type-tooltip > .body > .result td:nth-child(2) {
+  width: 90px;
+}
+.type-tooltip > .body > .result td:nth-child(3) {
+  width: 40px;
+}
+.type-tooltip > .body > .result th {
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.type-tooltip > .body > .result td {
+}
+.type-tooltip > .body > .type {
+  padding: 0px 16px 16px 16px;
+  /* */
 }

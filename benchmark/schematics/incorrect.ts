@@ -274,9 +274,9 @@ export const Tuple_Union_Literal = Type.Tuple([Type.Union([Type.Literal('A'), Ty
 // ---------------------------------------------------------------
 
 export type Composite_Union_Literal = Static<typeof Composite_Union_Literal>
-export const Composite_Union_Literal = Type.Union([Type.Literal('A'), Type.Literal('B'), Type.Literal('C'), Type.Literal('D'), Type.Literal('E'), Type.Literal('F'), Type.Literal('G'), Type.Literal('H')], {
+export const Composite_Union_Literal = Type.Union([Type.Literal('A'), Type.Literal('B'), Type.Literal('C'), Type.Literal('D')], {
   $id: 'Composite_Union_Literal',
-  default: 'I',
+  default: 'E',
 })
 
 export type Composite_Union_Discriminated = Static<typeof Composite_Union_Discriminated>
@@ -286,14 +286,10 @@ export const Composite_Union_Discriminated = Type.Union(
     Type.Object({ type: Type.Literal('B'), value: Type.Number() }),
     Type.Object({ type: Type.Literal('C'), value: Type.Number() }),
     Type.Object({ type: Type.Literal('D'), value: Type.Number() }),
-    Type.Object({ type: Type.Literal('E'), value: Type.Number() }),
-    Type.Object({ type: Type.Literal('F'), value: Type.Number() }),
-    Type.Object({ type: Type.Literal('G'), value: Type.Number() }),
-    Type.Object({ type: Type.Literal('H'), value: Type.Number() }),
   ],
   {
     $id: 'Composite_Union_Discriminated',
-    default: { type: 'H', value: true }, // error
+    default: { type: 'E', value: true }, // error
   },
 )
 
