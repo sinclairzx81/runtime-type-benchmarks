@@ -467,7 +467,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Literal_Number, iterations, results, () => {
     function check_Literal_Number(value) {
-      return value === 1
+      return value === 42
     }
     return function check(value) {
       return check_Literal_Number(value)
@@ -475,7 +475,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Literal_String, iterations, results, () => {
     function check_Literal_String(value) {
-      return value === 'foo'
+      return value === 'hello'
     }
     return function check(value) {
       return check_Literal_String(value)
@@ -732,7 +732,7 @@ export function Execute(iterations: number) {
     }
   })
   Cases.Benchmark(Cases.Primitive_RegEx, iterations, results, () => {
-    const local_0 = new RegExp(/foo/)
+    const local_0 = new RegExp(/hello/)
     function check_Primitive_RegEx(value) {
       return typeof value === 'string' && local_0.test(value)
     }

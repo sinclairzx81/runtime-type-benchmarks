@@ -17,7 +17,10 @@ export function Benchmark(schema: TSchema, iterations: number, results: Map<stri
   const value = Value.Create(schema)
   const start = Date.now()
   for (let i = 0; i < iterations; i++) {
-    if (!check(value)) throw Error('Expected Ok')
+    if (!check(value)) {
+      console.log('ERROR', value, schema)
+      throw Error('Expected Ok')
+    }
   }
   results.set(schema.$id, Date.now() - start)
 }
@@ -42,17 +45,17 @@ export type Primitive_Undefined = Static<typeof Primitive_Undefined>
 export const Primitive_Undefined = Type.Undefined({ $id: 'Primitive_Undefined', default: undefined })
 
 export type Primitive_RegEx = Static<typeof Primitive_RegEx>
-export const Primitive_RegEx = Type.RegEx(/foo/, { $id: 'Primitive_RegEx', default: 'foo' })
+export const Primitive_RegEx = Type.RegEx(/hello/, { $id: 'Primitive_RegEx', default: 'hello' })
 
 // ---------------------------------------------------------------
 // Literal
 // ---------------------------------------------------------------
 
 export type Literal_String = Static<typeof Literal_String>
-export const Literal_String = Type.Literal('foo', { $id: 'Literal_String', default: 'foo' })
+export const Literal_String = Type.Literal('hello', { $id: 'Literal_String', default: 'hello' })
 
 export type Literal_Number = Static<typeof Literal_Number>
-export const Literal_Number = Type.Literal(1, { $id: 'Literal_Number', default: 1 })
+export const Literal_Number = Type.Literal(42, { $id: 'Literal_Number', default: 42 })
 
 export type Literal_Boolean = Static<typeof Literal_Boolean>
 export const Literal_Boolean = Type.Literal(true, { $id: 'Literal_Boolean', default: true })

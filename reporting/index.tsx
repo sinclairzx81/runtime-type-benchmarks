@@ -114,14 +114,14 @@ export interface TypeGroupProperties {
 }
 export function TypeGroup(props: TypeGroupProperties) {
   const descriptions = new Map<string, string>()
-  descriptions.set('Primitive', 'This benchmark measures validation performance for JavaScript primitive types')
-  descriptions.set('Literal', 'This benchmark measures validation performance for JavaScript primitive values')
-  descriptions.set('Math', 'This benchmark measures types commonly used for linear algebra and computer graphics')
-  descriptions.set('Object', 'This benchmark measures various constraints applied object schematics')
-  descriptions.set('Tuple', 'This benchmark measures arrays of a fixed length where bounds checking on the array is required')
-  descriptions.set('Composite', 'This benchmark measures composite types for union and intersection')
-  descriptions.set('Recursive', 'This benchmark measures recursive data structures')
-  descriptions.set('Array', 'This benchmark measures a variety of array types')
+  descriptions.set('Primitive', 'Operations per second the typeof operator and regular expressions')
+  descriptions.set('Literal', 'Operations per second comparing two JavaScript values')
+  descriptions.set('Math', 'Operations per second for types commonly used for linear algebra and graphics')
+  descriptions.set('Object', 'Operations per second for objects object types with constraints. A loose object means the validator allows additional properties. A strict object means additional properties are constrained')
+  descriptions.set('Tuple', 'Operations per second for tuple types. Similar to arrays, these types require array bounds checking')
+  descriptions.set('Composite', 'Operations per second for variations of union and intersection types')
+  descriptions.set('Recursive', 'Operations per second for recursive data structures')
+  descriptions.set('Array', 'Operations per second for types expressed as arrays of length 8')
   return (
     <div className="type-group">
       <div className="header">
@@ -165,7 +165,7 @@ export function App() {
     <div className="app">
       <div className="header">
         <div className='title'>
-          <h2>Runtime Type Benchmarks</h2>
+          <h2><a target='_blank' href='https://github.com/sinclairzx81/runtime-type-benchmarks'>Runtime Type Benchmarks</a></h2>
           <p>High Performance Validation Benchmarks for JavaScript</p>
         </div>
         <div className='controls'>
