@@ -12,14 +12,16 @@ export function Benchmark(schema: TSchema, iterations: number, results: Map<stri
   if (schema.$id === undefined) throw Error('Schema must have a specify a unique type $id')
   if (typenames.has(schema.$id)) throw Error(`Duplicate schema $id ${schema.$id}`)
   typenames.add(schema.$id)
-  console.log(schema.$id)
+  process.stdout.write(`\x1b[36m${schema.$id}\x1b[0m`)
   const check = setup(schema)
   const value = Value.Create(schema)
   const start = Date.now()
   for (let i = 0; i < iterations; i++) {
     if (check(value)) throw Error('Expected Fail')
   }
-  results.set(schema.$id, Date.now() - start)
+  const elapsed = Date.now() - start
+  process.stdout.write(` ${elapsed} ms\n`)
+  results.set(schema.$id, elapsed)
 }
 
 // ---------------------------------------------------------------
@@ -138,9 +140,9 @@ Object_Strict.default = {
   K: 'extra', // error
 }
 
-export type Object_Required = Correct.Object_Required
-export const Object_Required = Value.Clone(Correct.Object_Required)
-Object_Required.default = {
+export type Object_Simple = Correct.Object_Simple
+export const Object_Simple = Value.Clone(Correct.Object_Simple)
+Object_Simple.default = {
   position: { x: 1, y: 2, z: 3 },
   rotation: { x: 1, y: 2, z: 3 },
   scale: { x: 1, y: 2, z: true }, // error
@@ -299,15 +301,15 @@ export const Array_Object_Strict = Value.Clone(Correct.Array_Object_Strict)
 Array_Object_Strict.default = Value.Create(Array_Object_Strict)
 Array_Object_Strict.default[7] = Value.Create(Object_Strict)
 
-export type Array_Object_Required = Correct.Array_Object_Required
-export const Array_Object_Required = Value.Clone(Correct.Array_Object_Required)
-Array_Object_Required.default = Value.Create(Array_Object_Required)
-Array_Object_Required.default[7] = Value.Create(Object_Required)
-
 export type Array_Object_Partial = Correct.Array_Object_Partial
 export const Array_Object_Partial = Value.Clone(Correct.Array_Object_Partial)
 Array_Object_Partial.default = Value.Create(Array_Object_Partial)
 Array_Object_Partial.default[7] = Value.Create(Object_Partial)
+
+export type Array_Object_Simple = Correct.Array_Object_Simple
+export const Array_Object_Simple = Value.Clone(Correct.Array_Object_Simple)
+Array_Object_Simple.default = Value.Create(Array_Object_Simple)
+Array_Object_Simple.default[7] = Value.Create(Object_Simple)
 
 export type Array_Tuple_Number = Correct.Array_Tuple_Number
 export const Array_Tuple_Number = Value.Clone(Correct.Array_Tuple_Number)

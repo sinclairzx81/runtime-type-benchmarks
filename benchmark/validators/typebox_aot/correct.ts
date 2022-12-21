@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { Command } from '../../command/index'
 import * as Cases from '../../schematics/correct'
+
 export function Execute(iterations: number) {
   const results = new Map<string, number>()
   Cases.Benchmark(Cases.Array_Composite_Intersect, iterations, results, () => {
@@ -230,8 +231,8 @@ export function Execute(iterations: number) {
       return check_Array_Object_Partial(value)
     }
   })
-  Cases.Benchmark(Cases.Array_Object_Required, iterations, results, () => {
-    function check_Object_Required(value) {
+  Cases.Benchmark(Cases.Array_Object_Simple, iterations, results, () => {
+    function check_Object_Simple(value) {
       return (
         typeof value === 'object' &&
         value !== null &&
@@ -265,11 +266,11 @@ export function Execute(iterations: number) {
         !isNaN(value.scale.z)
       )
     }
-    function check_Array_Object_Required(value) {
-      return Array.isArray(value) && value.every((value) => check_Object_Required(value)) && value.length >= 8
+    function check_Array_Object_Simple(value) {
+      return Array.isArray(value) && value.every((value) => check_Object_Simple(value)) && value.length >= 8
     }
     return function check(value) {
-      return check_Array_Object_Required(value)
+      return check_Array_Object_Simple(value)
     }
   })
   Cases.Benchmark(Cases.Array_Object_Strict, iterations, results, () => {
@@ -638,8 +639,8 @@ export function Execute(iterations: number) {
       return check_Object_Partial(value)
     }
   })
-  Cases.Benchmark(Cases.Object_Required, iterations, results, () => {
-    function check_Object_Required(value) {
+  Cases.Benchmark(Cases.Object_Simple, iterations, results, () => {
+    function check_Object_Simple(value) {
       return (
         typeof value === 'object' &&
         value !== null &&
@@ -674,7 +675,7 @@ export function Execute(iterations: number) {
       )
     }
     return function check(value) {
-      return check_Object_Required(value)
+      return check_Object_Simple(value)
     }
   })
   Cases.Benchmark(Cases.Object_Strict, iterations, results, () => {
@@ -831,6 +832,7 @@ export function Execute(iterations: number) {
   })
   return results
 }
+
 const parameter = Command.Parameter()
 const results = Execute(parameter.iterations)
 Command.WriteResults(results)

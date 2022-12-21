@@ -69,6 +69,7 @@ export function TypeResultToolTip(props: TypeResultToolTipProperties) {
     </div>
   )
 }
+
 // ---------------------------------------------------------------------------
 // TypeResult
 // ---------------------------------------------------------------------------
@@ -90,8 +91,7 @@ export function TypeResult(props: TypeResultProperties) {
           />
           <Legend verticalAlign="bottom" align="right" formatter={(value) => { return <span style={{ color: fontColor }}>{value}</span> }} />
           <Tooltip
-            wrapperStyle={{ background: "#000", zIndex: 1000000 }}
-            contentStyle={{ background: '#000', padding: 32 }}
+            wrapperStyle={{ zIndex: 1000000 }}
             cursor={{ fill: '#000' }}
             content={<TypeResultToolTip result={props.result} />}
           />
@@ -105,11 +105,13 @@ export function TypeResult(props: TypeResultProperties) {
     </div>
   )
 }
+
 // ---------------------------------------------------------------------------
 // TypeGroup
 // ---------------------------------------------------------------------------
 export interface TypeGroupProperties {
   group: string
+  filter: string
   results: Reports.ReportingResult[]
 }
 export function TypeGroup(props: TypeGroupProperties) {
@@ -129,9 +131,13 @@ export function TypeGroup(props: TypeGroupProperties) {
         <p>{descriptions.get(props.group)}</p>
       </div>
       <div className="body">
-        {props.results.map((record, index) => (
-          <TypeResult key={index} result={record} />
-        ))}
+        {props.results
+          .filter((result) => {
+            return result.typename.toLowerCase().includes(props.filter)
+          })
+          .map((result, index) => (
+            <TypeResult key={index} result={result} />
+          ))}
       </div>
     </div>
   )
@@ -144,6 +150,7 @@ export function TypeGroup(props: TypeGroupProperties) {
 export function App() {
   const [groups, setGroups] = React.useState<Map<string, Reports.ReportingResult[]>>(new Map())
   const [dataset, setDataset] = React.useState('correct')
+  const [filter, setFilter] = React.useState('')
   React.useEffect(() => {
     load()
   }, [])
@@ -158,6 +165,9 @@ export function App() {
     setDataset(dataset)
     setGroups(groups)
   }
+  function onFilterChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFilter(() => e.target.value)
+  }
   const correctClassName = dataset === 'correct' ? 'button selected' : 'button'
   const incorrectClassName = dataset === 'incorrect' ? 'button selected' : 'button'
   // prettier-ignore
@@ -169,14 +179,18 @@ export function App() {
           <p>High Performance Validation Benchmarks for JavaScript</p>
         </div>
         <div className='controls'>
+          <input className='filter' type='text' value={filter} onChange={onFilterChange} placeholder='Type Filter' />
           <div className={correctClassName} onClick={() => onChange('correct')}>Correct Data</div>
           <div className={incorrectClassName} onClick={() => onChange('incorrect')}>Incorrect Data</div>
         </div>
       </div>
       <div className="results">
-        {[...groups.entries()].map((entry) => {
+        {[...groups.entries()].filter(entry => {
+          const [_, results] = entry
+          return results.some(result => result.typename.toLowerCase().includes(filter))
+        }).map((entry) => {
           const [group, results] = entry
-          return <TypeGroup key={group} group={group} results={results} />
+          return <TypeGroup filter={filter} key={group} group={group} results={results} />
         })}
       </div>
     </div>
