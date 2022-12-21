@@ -7,6 +7,11 @@ import * as Cases from '../../schematics/correct'
 import * as Fs from 'node:fs'
 import * as Path from 'node:path'
 
+export interface TypeBoxAotGeneratorOptions {
+  allowArrayObjects: boolean
+  allowNaN: boolean
+}
+
 export namespace TypeBoxAotGenerator {
   function Include(schema: unknown): schema is TSchema {
     return TypeGuard.TSchema(schema)
@@ -38,8 +43,9 @@ export namespace TypeBoxAotGenerator {
     const filename = Path.join(directory, dataset) + '.ts'
     Fs.writeFileSync(filename, output, 'utf-8')
   }
-  export function Build(directory: string, typesystem: 'json-schema' | 'structural') {
-    TypeSystem.Kind = typesystem
+  export function Build(directory: string, options: TypeBoxAotGeneratorOptions) {
+    TypeSystem.AllowArrayObjects = options.allowArrayObjects
+    TypeSystem.AllowNaN = options.allowNaN
     Fs.mkdirSync(directory, { recursive: true })
     Generate(directory, 'correct')
     Generate(directory, 'incorrect')

@@ -10,6 +10,7 @@ export namespace TsrcGenerator {
     return (
       TypeGuard.TSchema(schema) &&
       ![
+        'Primitive_Integer',
         'Primitive_RegEx',
         'Primitive_Undefined',
         'Literal_Boolean',

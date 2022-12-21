@@ -41,6 +41,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Object_Simple, iterations, results, () => Validators.Object_Simple)
   Cases.Benchmark(Cases.Object_Strict, iterations, results, () => Validators.Object_Strict)
   Cases.Benchmark(Cases.Primitive_Boolean, iterations, results, () => Validators.Primitive_Boolean)
+  Cases.Benchmark(Cases.Primitive_Integer, iterations, results, () => Validators.Primitive_Integer)
   Cases.Benchmark(Cases.Primitive_Null, iterations, results, () => Validators.Primitive_Null)
   Cases.Benchmark(Cases.Primitive_Number, iterations, results, () => Validators.Primitive_Number)
   Cases.Benchmark(Cases.Primitive_RegEx, iterations, results, () => Validators.Primitive_RegEx)
