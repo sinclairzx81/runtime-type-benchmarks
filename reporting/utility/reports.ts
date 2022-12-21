@@ -55,7 +55,6 @@ export namespace Reports {
       const array = map.get(group)!
       array.push(result)
     }
-    console.log(map)
     return map
   }
 }
