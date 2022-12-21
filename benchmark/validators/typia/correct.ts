@@ -49,6 +49,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Math_Vector3, iterations, results, () => (value) => Typia.is<Cases.Array_Math_Vector3>(value))
   Cases.Benchmark(Cases.Array_Math_Matrix4, iterations, results, () => (value) => Typia.is<Cases.Array_Math_Matrix4>(value))
   Cases.Benchmark(Cases.Array_Math_Box3D, iterations, results, () => (value) => Typia.is<Cases.Array_Math_Box3D>(value))
+  Cases.Benchmark(Cases.Array_Math_Mesh, iterations, results, () => (value) => Typia.is<Cases.Array_Math_Mesh>(value))
   return results
 }
 

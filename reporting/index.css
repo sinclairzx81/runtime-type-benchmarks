@@ -15,29 +15,51 @@ body {
   padding-right: 16px;
 }
 .app {
-  width: 100%;
-  height: 100%;
-}
-.app .benchmarks {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 100px;
-  background-color: #111;
-  margin-top: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-}
-.app .benchmarks > .header {
-  width: calc(266px - 32px);
-  min-width: calc(266px - 32px);
   padding: 16px;
+  width: calc(100% - 32px);
+  height: calc(100% - 32px);
 }
-.app .benchmarks > .body {
+/* ---------------------------------------------------
+ HEADER
+/* --------------------------------------------------- */
+.app > .header {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  height: 96px;
+  background-image: linear-gradient(#030303, #111);
+  margin-bottom: 16px;
+  border-radius: 8px;
 }
-.app .benchmarks > .body .button {
+.app > .header > .title {
+  padding: 16px;
+  width: calc(100% - 32px);
+  height: 96px;
+  white-space: nowrap;
+}
+.app > .header > .title h2 {
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  line-height: 24px;
+}
+.app > .header > .title a {
+  color: rgb(236, 159, 15);
+  text-decoration: none;
+}
+.app > .header > .title p {
+  margin: 0;
+  padding: 0;
+}
+.app > .header > .controls {
+  display: flex;
+  flex-direction: row;
+  text-align: right;
+  margin-top: 16px;
+  height: 64px;
+}
+.app > .header > .controls .button {
   width: 128px;
   height: 24px;
   line-height: 24px;
@@ -45,26 +67,18 @@ body {
   cursor: pointer;
   padding: 16px;
   margin: 8px;
-  background-color: #080808;
+  background: #080808;
   border-radius: 8px;
 }
-.app .benchmarks > .body .button.selected {
-  background-color: #444;
+.app > .header > .controls .button.selected {
+  background-color: rgb(71, 118, 73);
 }
-.app .benchmarks > .body {
-  width: calc(100% - 200px - 32px);
-  height: calc(100% - 32px);
-  padding: 16px;
-}
-
+/* ---------------------------------------------------
+ Results
+/* --------------------------------------------------- */
 .app > .results {
   width: 100%;
-  height: calc(100% - 100px);
-}
-.app > .results > .scroll {
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
+  height: calc(100% - 96px);
 }
 .type-group {
   background-image: linear-gradient(#040404, #080808);
@@ -75,8 +89,11 @@ body {
   margin-bottom: 16px;
 }
 .type-group > .header {
-  width: calc(256px - 32px);
+  width: 256px;
   padding: 16px;
+}
+.type-group > .header h2 {
+  color: #5b4;
 }
 .type-group > .body {
   width: calc(100% - 256px - 32px);
@@ -84,11 +101,52 @@ body {
 }
 .type-result {
   display: inline-block;
-  width: 420px;
+  width: 520px;
   height: 240px;
   padding: 16px;
 }
-.chart tspan {
-  color: white;
-  border: 10px solid red;
+
+/** Tooltip */
+.type-tooltip {
+  border: 1px solid #888;
+  background: #111 !important;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+.type-tooltip > .header {
+  background: #111;
+  min-width: 100px;
+  height: 24px;
+  line-height: 24px;
+  margin-left: 16px;
+}
+.type-tooltip > .body {
+  display: flex;
+  flex-direction: row;
+}
+.type-tooltip > .body > .result {
+  padding: 10px 16px 16px 16px;
+}
+.type-tooltip > .body > .result tr {
+  padding: 0;
+  margin: 0;
+}
+.type-tooltip > .body > .result td:nth-child(1) {
+  width: 40px;
+}
+.type-tooltip > .body > .result td:nth-child(2) {
+  width: 90px;
+}
+.type-tooltip > .body > .result td:nth-child(3) {
+  width: 40px;
+}
+.type-tooltip > .body > .result th {
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+.type-tooltip > .body > .type {
+  min-width: 180px;
+  padding: 0px 16px 16px 16px;
 }

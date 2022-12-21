@@ -1,8 +1,6 @@
 import { TypeCompiler } from '@sinclair/typebox/compiler'
-import { TypeSystem } from '@sinclair/typebox/system'
 import { Command } from '../../command/index'
-import * as Cases from '../../schematics/correct'
-TypeSystem.Kind = 'structural'
+import * as Cases from '../../schematics/incorrect'
 
 export function Compile(schema: any) {
   const check = TypeCompiler.Compile(schema)
@@ -30,7 +28,6 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Object_Partial, iterations, results, Compile)
   Cases.Benchmark(Cases.Tuple_Number, iterations, results, Compile)
   Cases.Benchmark(Cases.Tuple_Object, iterations, results, Compile)
-  Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, Compile)
   Cases.Benchmark(Cases.Composite_Union_Literal, iterations, results, Compile)
   Cases.Benchmark(Cases.Composite_Union_Discriminated, iterations, results, Compile)
   Cases.Benchmark(Cases.Composite_Union_Non_Discriminated, iterations, results, Compile)
@@ -46,6 +43,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Object_Partial, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Tuple_Number, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Tuple_Object, iterations, results, Compile)
+  Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Tuple_Union_Literal, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Composite_Union_Literal, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Composite_Union_Discriminated, iterations, results, Compile)
@@ -56,9 +54,10 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Math_Vector3, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Math_Matrix4, iterations, results, Compile)
   Cases.Benchmark(Cases.Array_Math_Box3D, iterations, results, Compile)
+  Cases.Benchmark(Cases.Array_Math_Mesh, iterations, results, Compile)
   return results
 }
 
 const parameter = Command.Parameter()
-const results = Execute(parameter.iterations)
-Command.WriteResults(results)
+const result = Execute(parameter.iterations)
+Command.WriteResults(result)

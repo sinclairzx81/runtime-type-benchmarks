@@ -15,6 +15,5 @@
         "transform": "ts-runtime-checks" 
       }
     ]
-  },
-  "reflection": true
+  }
 }

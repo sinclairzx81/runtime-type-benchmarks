@@ -4,7 +4,7 @@ High Performance Validation Benchmarks for JavaScript
 
 ### Overview
 
-This project tests a variety of high performance JavaScript runtime validation libraries to try and adequately measure their comparative performance metrics. This project also attempts to compare JIT to AOT compilation strategies with a goal to shed some light on V8 optimizations that may or may not occur when evaluating JIT routines at runtime.
+This project tests a variety of high performance JavaScript validation libraries to try and adequately measure their comparative performance. This project also attempts to compare JIT to AOT compilation with the goal to shed light on V8 optimizations that may or may not occur when evaluating JIT routines at runtime.
 
 ### Benchmarks
 
@@ -18,8 +18,8 @@ The following JavaScript validation packages are benchmarked.
 |---                                                                   |---          |---               |---                                                                                         |
 | [ts-runtime-checks](https://github.com/GoogleFeud/ts-runtime-checks) | AOT         | Structural       | A typescript transformer which automatically generates validation code from your types.    |
 | [typia](https://github.com/samchon/typia)                            | AOT         | Structural       | Super-fast Runtime validator (type checker) with only one line.                            |
-| [typebox](https://github.com/sinclairzx81/typebox)                   | JIT         | Json Schema      | JSON Schema Type Builder with Static Type Resolution for TypeScript.                       |
-| [ajv](https://github.com/ajv-validator/ajv)                          | JIT         | Json Schema      | The fastest JSON Schema Validator.                                                         |
+| [typebox](https://github.com/sinclairzx81/typebox)                   | JIT (optional AOT)   | Json Schema      | JSON Schema Type Builder with Static Type Resolution for TypeScript.                       |
+| [ajv](https://github.com/ajv-validator/ajv)                          | JIT (optional AOT)  | Json Schema      | The fastest JSON Schema Validator.                                                         |
 
 
 ### Commands
