@@ -1,22 +1,33 @@
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import ReactDOM from 'react-dom/client'
 import React from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+
+// ---------------------------------------------------------------------------
+// Benchmarks
+// ---------------------------------------------------------------------------
+export type Benchmarks = typeof Benchmarks
+export const Benchmarks = {
+  'ajv_aot': '#AAA',
+  'ajv_jit': '#AAC',
+  'typebox_aot': '#6A2',
+  'typebox_jit': '#6A5',
+  'typia': '#26A',
+  'tsrc': '#A33',
+ } as const
 
 // ---------------------------------------------------------------------------
 // Loader
 // ---------------------------------------------------------------------------
-namespace Loader {
+namespace Reporting {
   export interface DatasetResult {
     iterations: number
     results: Record<string, number>
   }
-  export interface ReportingResult {
+  export type ReportingResult = {
     typename: string
     persecond: number
-    typebox: number
-    typia: number
-    tsrc: number
-    ajv: number
+  } & {
+    -readonly [K in keyof Benchmarks]: number
   }
   export function OperationsPerSecond(iterations: number, elapsed: number | undefined) {
     if (elapsed === undefined) return 0
@@ -27,24 +38,21 @@ namespace Loader {
     return await fetch(`results/${packageName}/${dataset}.json`).then((res) => res.json())
   }
   export async function LoadReportingResults(dataset: string): Promise<ReportingResult[]> {
-    const [ajv, typebox, typia, tsrc] = await Promise.all([LoadDatasetResult('ajv', dataset), LoadDatasetResult('typebox', dataset), LoadDatasetResult('typia', dataset), LoadDatasetResult('tsrc', dataset)])
-    const results: ReportingResult[] = []
-    for (const typename of Object.keys(typebox.results)) {
-      const ajvResult = OperationsPerSecond(ajv.iterations, ajv.results[typename])
-      const typeboxResult = OperationsPerSecond(typebox.iterations, typebox.results[typename])
-      const typiaResult = OperationsPerSecond(typia.iterations, typia.results[typename])
-      const tsrcResult = OperationsPerSecond(tsrc.iterations, tsrc.results[typename])
-      const persecond = [ajvResult, typeboxResult, typiaResult, tsrcResult].sort((a, b) => b - a)[0]
-      results.push({
-        typename,
-        persecond,
-        ajv: ajvResult,
-        typebox: typeboxResult,
-        typia: typiaResult,
-        tsrc: tsrcResult,
-      })
+    // Read all benchmarks for the given dataset
+    const benchmark_results = await Promise.all(Object.keys(Benchmarks).map(async (benchmark) => {
+      return [benchmark, await LoadDatasetResult(benchmark, dataset)]
+    })) as [string, DatasetResult][]
+    // Remap to reporting reports
+    const reporting_results: ReportingResult[] = []
+    for (const typename of Object.keys(benchmark_results[0][1].results)) {
+      const reporting_result: Omit<ReportingResult, 'persecond' | 'typename'> = {} as any
+      for(const [lib, result] of benchmark_results) {
+        reporting_result[lib as keyof Benchmarks] = OperationsPerSecond(result.iterations, result.results[typename])
+      }
+      const persecond = Object.values(reporting_result).sort((a, b) => b - a)[0]
+      reporting_results.push({ typename, persecond, ...reporting_result })
     }
-    return results
+    return reporting_results
   }
   export function GroupReportingResults(results: ReportingResult[]): Map<string, ReportingResult[]> {
     const map = new Map<string, ReportingResult[]>()
@@ -61,7 +69,7 @@ namespace Loader {
 // TypeResult
 // ---------------------------------------------------------------------------
 export interface TypeResultProperties {
-  result: Loader.ReportingResult
+  result: Reporting.ReportingResult
 }
 export function TypeResult(props: TypeResultProperties) {
   const fontColor = '#BBB'
@@ -114,10 +122,10 @@ export function TypeResult(props: TypeResultProperties) {
             }}
           />
           <CartesianGrid strokeDasharray="2 2" />
-          <Bar dataKey="ajv" fill="#aaa" />
-          <Bar dataKey="typebox" fill="#385" />
-          <Bar dataKey="typia" fill="#669" />
-          <Bar dataKey="tsrc" fill="#933" />
+          {Object.entries(Benchmarks).map(entry => {
+            const [key, color] = entry
+            return <Bar key={key} dataKey={key} fill={color} />
+          })}
         </BarChart>
       </ResponsiveContainer>
     </div>
@@ -128,7 +136,7 @@ export function TypeResult(props: TypeResultProperties) {
 // ---------------------------------------------------------------------------
 export interface TypeGroupProperties {
   group: string
-  results: Loader.ReportingResult[]
+  results: Reporting.ReportingResult[]
 }
 export function TypeGroup(props: TypeGroupProperties) {
   const descriptions = new Map<string, string>()
@@ -160,19 +168,19 @@ export function TypeGroup(props: TypeGroupProperties) {
 // ---------------------------------------------------------------------------
 
 export function App() {
-  const [groups, setGroups] = React.useState<Map<string, Loader.ReportingResult[]>>(new Map())
+  const [groups, setGroups] = React.useState<Map<string, Reporting.ReportingResult[]>>(new Map())
   const [dataset, setDataset] = React.useState('correct')
   React.useEffect(() => {
     load()
   }, [])
   async function load() {
-    const results = await Loader.LoadReportingResults(dataset)
-    const groups = Loader.GroupReportingResults(results)
+    const results = await Reporting.LoadReportingResults(dataset)
+    const groups = Reporting.GroupReportingResults(results)
     setGroups(groups)
   }
   async function onChange(dataset: string) {
-    const results = await Loader.LoadReportingResults(dataset)
-    const groups = Loader.GroupReportingResults(results)
+    const results = await Reporting.LoadReportingResults(dataset)
+    const groups = Reporting.GroupReportingResults(results)
     setDataset(dataset)
     setGroups(groups)
   }
