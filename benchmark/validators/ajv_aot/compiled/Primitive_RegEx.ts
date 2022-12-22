@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Primitive_RegEx = validate10
-const schema11 = { $id: 'Primitive_RegEx', default: 'hello', type: 'string', pattern: 'hello' }
+const schema11 = { $id: 'Primitive_RegEx', type: 'string', pattern: 'hello' }
 const pattern0 = new RegExp('hello', 'u')
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Primitive_RegEx" */ let vErrors = null

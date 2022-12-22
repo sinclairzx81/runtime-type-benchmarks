@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Primitive_Number = validate10
-const schema11 = { $id: 'Primitive_Number', default: 1, type: 'number' }
+const schema11 = { $id: 'Primitive_Number', type: 'number' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Primitive_Number" */ let vErrors = null
   let errors = 0

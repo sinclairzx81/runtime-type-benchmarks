@@ -6,7 +6,15 @@ import * as Fs from 'node:fs'
 import * as Path from 'node:path'
 
 export namespace TsrcGenerator {
-  function Include(schema: unknown): schema is TSchema {
+  function Include(dataset: string, schema: unknown): schema is TSchema {
+    // prettier-ignore
+    const incorrect = dataset === 'incorrect' ? [
+      'Typia_Array_Recursive_Union_Explicit',
+      'Typia_Array_Recursive_Union_Implicit',
+      'Typia_Array_Simple',
+      'Typia_Object_Union_Explicit',
+      'Typia_Object_Union_Implicit'
+    ] : []
     return (
       TypeGuard.TSchema(schema) &&
       ![
@@ -18,10 +26,19 @@ export namespace TsrcGenerator {
         'Composite_Union_Non_Discriminated',
         'Recursive_Object',
         'Recursive_Union',
-        'Array_Composite_Union_Discriminated',
-        'Array_Composite_Union_Non_Discriminated',
-        'Array_Recursive_Object',
-        'Array_Recursive_Union',
+        'Tuple_Union_Literal',
+        'Array_Union',
+        'Array_Recursive',
+        'Typia_Array_Recursive',
+        'Typia_Object_Recursive',
+        'Number_Exclusive_Maximum',
+        'Number_Exclusive_Minimum',
+        'Number_Maximum',
+        'Number_Minimum',
+        'Number_Multiple_Of',
+        'String_MaxLength',
+        'String_MinLength',
+        ...incorrect,
       ].includes(schema.$id!)
     )
   }
@@ -34,7 +51,7 @@ export namespace TsrcGenerator {
     yield `export function Execute(iterations: number) {`
     yield `const results = new Map<string, number>()`
     for (const schema of Object.values(Cases)) {
-      if (Include(schema)) {
+      if (Include(dataset, schema)) {
         yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Tsrc.is<Cases.${schema.$id}>(value))`
       }
     }
@@ -51,6 +68,7 @@ export namespace TsrcGenerator {
     const filename = Path.join(directory, dataset) + '.ts'
     Fs.writeFileSync(filename, output, 'utf-8')
   }
+
   export function Build(directory: string) {
     Fs.mkdirSync(directory, { recursive: true })
     Generate(directory, 'correct')

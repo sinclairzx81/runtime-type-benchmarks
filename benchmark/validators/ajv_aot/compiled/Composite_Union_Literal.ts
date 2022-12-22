@@ -3,7 +3,6 @@
 export const Composite_Union_Literal = validate10
 const schema11 = {
   $id: 'Composite_Union_Literal',
-  default: 'D',
   anyOf: [
     { const: 'A', type: 'string' },
     { const: 'B', type: 'string' },

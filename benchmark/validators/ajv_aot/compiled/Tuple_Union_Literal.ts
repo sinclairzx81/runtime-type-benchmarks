@@ -3,7 +3,6 @@
 export const Tuple_Union_Literal = validate10
 const schema11 = {
   $id: 'Tuple_Union_Literal',
-  default: ['B', 'D', 'F'],
   type: 'array',
   items: [
     {

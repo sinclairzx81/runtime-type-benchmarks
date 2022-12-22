@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Tuple_Number = validate10
-const schema11 = { $id: 'Tuple_Number', default: [0, 0, 0], type: 'array', items: [{ type: 'number' }, { type: 'number' }, { type: 'number' }], additionalItems: false, minItems: 3, maxItems: 3 }
+const schema11 = { $id: 'Tuple_Number', type: 'array', items: [{ type: 'number' }, { type: 'number' }, { type: 'number' }], additionalItems: false, minItems: 3, maxItems: 3 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Tuple_Number" */ let vErrors = null
   let errors = 0

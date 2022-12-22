@@ -26,9 +26,10 @@ export namespace Reports {
         return [benchmark, await loadBenchmarkResult(benchmark, dataset)]
       }),
     )) as [string, BenchmarkResult][]
+    const typebox_index = benchmark_results.findIndex((tuple) => tuple[0] === 'typebox_jit')
     // Remap to reporting reports
     const reporting_results: ReportingResult[] = []
-    for (const typename of Object.keys(benchmark_results[0][1].results)) {
+    for (const typename of Object.keys(benchmark_results[typebox_index][1].results)) {
       const reporting_result: Omit<ReportingResult, 'persecond' | 'typename'> = {} as any
       for (const [lib, result] of benchmark_results) {
         reporting_result[lib as keyof Benchmarks] = operationsPerSecond(result.iterations, result.results[typename])

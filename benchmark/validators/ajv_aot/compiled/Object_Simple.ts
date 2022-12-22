@@ -3,7 +3,6 @@
 export const Object_Simple = validate10
 const schema11 = {
   $id: 'Object_Simple',
-  default: { position: { x: 1, y: 2, z: 3 }, rotation: { x: 1, y: 2, z: 3 }, scale: { x: 1, y: 2, z: 3 } },
   type: 'object',
   properties: {
     position: { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] },

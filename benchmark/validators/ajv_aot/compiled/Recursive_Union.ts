@@ -3,35 +3,6 @@
 export const Recursive_Union = validate10
 const schema11 = {
   $id: 'Recursive_Union',
-  default: {
-    type: 'Node',
-    nodes: [
-      {
-        type: 'Node',
-        nodes: [
-          { type: 'Leaf', value: 'x' },
-          { type: 'Leaf', value: 'x' },
-          { type: 'Leaf', value: 'x' },
-        ],
-      },
-      {
-        type: 'Node',
-        nodes: [
-          { type: 'Leaf', value: 'x' },
-          { type: 'Leaf', value: 'x' },
-          { type: 'Leaf', value: 'x' },
-        ],
-      },
-      {
-        type: 'Node',
-        nodes: [
-          { type: 'Leaf', value: 'x' },
-          { type: 'Leaf', value: 'x' },
-          { type: 'Leaf', value: 'x' },
-        ],
-      },
-    ],
-  },
   anyOf: [
     { type: 'object', properties: { type: { const: 'Node', type: 'string' }, nodes: { type: 'array', items: { $ref: 'Recursive_Union' } } }, required: ['type', 'nodes'] },
     { type: 'object', properties: { type: { const: 'Leaf', type: 'string' }, value: { type: 'string' } }, required: ['type', 'value'] },

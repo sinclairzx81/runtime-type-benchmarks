@@ -2,33 +2,41 @@ import { Formatter } from '../../formatter/index'
 import { TSchema } from '@sinclair/typebox'
 import { TypeGuard } from '@sinclair/typebox/guard'
 import standaloneCode from 'ajv/dist/standalone'
-import Ajv from 'ajv'
 import * as Cases from '../../schematics/correct'
 import * as Path from 'node:path'
 import * as Fs from 'node:fs'
+import Ajv from 'ajv'
 
 export namespace AjvAotGenerator {
+  function Include(schema: unknown): schema is TSchema {
+    // prettier-ignore
+    return TypeGuard.TSchema(schema) && ![
+      'Primitive_Undefined', 
+      'Typia_Ultimate_Union'
+    ].includes(schema.$id!)
+  }
   // -------------------------------------------------------------------
   // Precompilation (we need to write validators to disk as modules)
   // -------------------------------------------------------------------
   function PrecompiledValidators(directory: string) {
     for (const schema of Object.values(Cases)) {
-      if (!TypeGuard.TSchema(schema) || TypeGuard.TUndefined(schema)) continue
-      const ajv = new Ajv({ schemas: [schema], code: { esm: true, source: true } })
-      const code = ['// @ts-nocheck', standaloneCode(ajv)].join('\n')
-      Fs.writeFileSync(`${directory}/compiled/${schema.$id}.ts`, code, 'utf-8')
+      if (Include(schema)) {
+        const ajv = new Ajv({ schemas: [schema], code: { esm: true, source: true } })
+        const code = ['// @ts-nocheck', standaloneCode(ajv)].join('\n')
+        Fs.writeFileSync(`${directory}/compiled/${schema.$id}.ts`, code, 'utf-8')
+      }
     }
   }
-
   function PrecompiledIndex(directory: string) {
     const imports: string[] = []
     for (const schema of Object.values(Cases)) {
-      if (!TypeGuard.TSchema(schema) || TypeGuard.TUndefined(schema)) continue
-      imports.push(`export { ${schema.$id} } from './${schema.$id}'`)
+      if (Include(schema)) {
+        if (!TypeGuard.TSchema(schema) || TypeGuard.TUndefined(schema)) continue
+        imports.push(`export { ${schema.$id} } from './${schema.$id}'`)
+      }
     }
     Fs.writeFileSync(`${directory}/compiled/index.ts`, imports.join('\n'), 'utf-8')
   }
-
   function PrecompileModules(directory: string) {
     Fs.mkdirSync(`${directory}/compiled`, { recursive: true })
     PrecompiledValidators(directory)
@@ -37,9 +45,7 @@ export namespace AjvAotGenerator {
   // -------------------------------------------------------------------
   // Benchmark
   // -------------------------------------------------------------------
-  function Include(schema: unknown): schema is TSchema {
-    return TypeGuard.TSchema(schema) && !['Primitive_Undefined'].includes(schema.$id!)
-  }
+
   function* Benchmarks(dataset: string) {
     yield `// @ts-nocheck`
     yield `import { Command } from '../../command/index'`

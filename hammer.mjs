@@ -43,7 +43,7 @@ const measurement_iteration = 10_000_000
 export async function measure(packageName = 'typebox_aot', compiler = 'tsc', dataset = 'correct', iteration = measurement_iteration) {
   console.log(`\x1b[32mpackage: ${packageName} dataset: ${dataset} iteration: ${iteration}\x1b[0m`)
   const report_file = `reporting/results/${packageName}/${dataset}.json`
-  await shell(`npx ${compiler} benchmark/validators/${packageName}/${dataset}.ts --outDir target/benchmark/${packageName}/${dataset}`)
+  await shell(`npx ${compiler} benchmark/validators/${packageName}/${dataset}.ts --outDir target/benchmark/${packageName}/${dataset} --downlevelIteration`)
   await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iteration} ${report_file}`)
 }
 export async function typebox_aot(iteration = measurement_iteration) {
@@ -96,6 +96,6 @@ export async function benchmark(iteration = measurement_iteration) {
 // -----------------------------------------------------------------------------
 export async function reporting() {
   const serve = shell('hammer serve reporting/index.html --dist docs --minify --sourcemap')
-  const drift = shell('drift url http://localhost:5000 size 1920 7070 wait 2000 save screenshot.png')
+  const drift = shell('drift url http://localhost:5000 size 1920 8000 wait 2000 save screenshot.png')
   await Promise.all([serve, drift])
 }

@@ -1,17 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Math_Matrix4 = validate10
-const schema11 = {
-  $id: 'Math_Matrix4',
-  default: [
-    [1, 0, 0, 0],
-    [0, 1, 0, 0],
-    [0, 0, 1, 0],
-    [0, 0, 0, 1],
-  ],
-  type: 'array',
-  items: { type: 'array', items: { type: 'number' } },
-}
+const schema11 = { $id: 'Math_Matrix4', type: 'array', items: { type: 'array', items: { type: 'number' } } }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Math_Matrix4" */ let vErrors = null
   let errors = 0

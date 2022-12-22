@@ -1,115 +1,226 @@
-import { Type, Static, TSchema } from '@sinclair/typebox'
-import { Value } from '@sinclair/typebox/value'
-import * as Correct from './correct'
+import { TypeGuard } from '@sinclair/typebox/guard'
+import { TSchema } from '@sinclair/typebox'
+export * from './array/index'
+export * from './composite/index'
+export * from './literal/index'
+export * from './math/index'
+export * from './number/index'
+export * from './object/index'
+export * from './primitive/index'
+export * from './recursive/index'
+export * from './string/index'
+export * from './tuple/index'
+export * from './typia/index'
 
-// ---------------------------------------------------------------
+const dataset = new Map<string, unknown>()
+
+// ---------------------------------------------------------------------------------
 // Benchmark
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 export type BenchmarkSetup = (schema: TSchema) => BenchmarkCheck
 export type BenchmarkCheck = (value: unknown) => boolean
-const typenames = new Set<string>()
+const types = new Set<string>()
 export function Benchmark(schema: TSchema, iterations: number, results: Map<string, number>, setup: BenchmarkSetup) {
+  if (!TypeGuard.TSchema(schema)) throw Error('Invalid Schema for benchmark')
   if (schema.$id === undefined) throw Error('Schema must have a specify a unique type $id')
-  if (typenames.has(schema.$id)) throw Error(`Duplicate schema $id ${schema.$id}`)
-  typenames.add(schema.$id)
-  process.stdout.write(`\x1b[36m${schema.$id}\x1b[0m`)
+  if (types.has(schema.$id)) throw Error(`Duplicate schema $id ${schema.$id}`)
+  if (!dataset.has(schema.$id)) throw Error(`Unable to locate dataset for ${schema.$id}`)
+  types.add(schema.$id)
+  process.stdout.write(`\x1b[36m${schema.$id}\x1b[0m ... `)
   const check = setup(schema)
-  const value = Value.Create(schema)
+  const value = dataset.get(schema.$id)!
   const start = Date.now()
   for (let i = 0; i < iterations; i++) {
-    if (check(value)) throw Error('Expected Fail')
+    if (check(value)) {
+      console.log('schema', schema)
+      console.log('value', value)
+      throw Error('Expected Fail')
+    }
   }
   const elapsed = Date.now() - start
-  process.stdout.write(` ${elapsed} ms\n`)
+  process.stdout.write(`${elapsed} ms\n`)
   results.set(schema.$id, elapsed)
 }
 
-// ---------------------------------------------------------------
-// Primitive
-// ---------------------------------------------------------------
-export type Primitive_Number = Correct.Primitive_Number
-export const Primitive_Number = Value.Clone(Correct.Primitive_Number)
-Primitive_Number.default = true
+// ---------------------------------------------------------------------------------
+// Array
+// ---------------------------------------------------------------------------------
+dataset.set(
+  'Array_Number',
+  Array.from({ length: 8 }, (_, i) => {
+    if (i === 7) return 'not-a-number'
+    return 1
+  }),
+)
+dataset.set(
+  'Array_Object',
+  Array.from({ length: 8 }, (_, i) => {
+    if (i === 7)
+      return {
+        x: 1,
+        y: 2,
+        z: 'not-a-number',
+      }
+    return {
+      x: 1,
+      y: 2,
+      z: 3,
+    }
+  }),
+)
+// prettier-ignore
+dataset.set('Array_Recursive', Array.from({ length: 2 }, (_, i) => {
+    if (i === 1)
+      return {
+        id: 'A',
+        nodes: ['not-a-node'],
+      }
+    return {
+      id: 'A',
+      nodes: [
+        {
+          id: 'B',
+          nodes: [
+            { id: 'C', nodes: [] },
+            { id: 'D', nodes: [] },
+            { id: 'E', nodes: [] },
+          ],
+        },
+        {
+          id: 'F',
+          nodes: [
+            { id: 'G', nodes: [] },
+            { id: 'H', nodes: [] },
+            { id: 'I', nodes: [] },
+          ],
+        },
+        {
+          id: 'J',
+          nodes: [
+            { id: 'K', nodes: [] },
+            { id: 'L', nodes: [] },
+            { id: 'M', nodes: [] },
+          ],
+        },
+      ],
+    }
+  }),
+)
+dataset.set(
+  'Array_Union',
+  Array.from({ length: 8 }, (_, i) => {
+    if (i === 7)
+      return {
+        id: 'Vector4',
+        x: 1,
+        y: 1,
+        z: 1,
+        w: 'not-a-number',
+      }
+    const mod = i % 3
+    switch (mod) {
+      case 0:
+        return {
+          type: 'Vector2',
+          x: 1,
+          y: 1,
+        }
+      case 1:
+        return {
+          type: 'Vector3',
+          x: 1,
+          y: 1,
+          z: 1,
+        }
+      case 2:
+        return {
+          type: 'Vector4',
+          x: 1,
+          y: 1,
+          z: 1,
+          w: 1,
+        }
+      default:
+        throw Error('Modulus Overflow')
+    }
+  }),
+)
 
-export type Primitive_String = Correct.Primitive_String
-export const Primitive_String = Value.Clone(Correct.Primitive_String)
-Primitive_String.default = 1
+// ---------------------------------------------------------------------------------
+// Composite
+// ---------------------------------------------------------------------------------
+dataset.set('Composite_Union_Literal', 'E')
+dataset.set('Composite_Union_Discriminated', { type: 'E', value: true })
+dataset.set('Composite_Union_Non_Discriminated', { A: 'A', C: 'C' })
+dataset.set('Composite_Intersect', {
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+  E: 'E',
+  F: 'F',
+  G: 'G',
+  H: 'A', // error
+})
 
-export type Primitive_Boolean = Correct.Primitive_Boolean
-export const Primitive_Boolean = Value.Clone(Correct.Primitive_Boolean)
-Primitive_Boolean.default = 1
-
-export type Primitive_Integer = Correct.Primitive_Integer
-export const Primitive_Integer = Value.Clone(Correct.Primitive_Integer)
-Primitive_Integer.default = 3.14
-
-export type Primitive_Null = Correct.Primitive_Null
-export const Primitive_Null = Value.Clone(Correct.Primitive_Null)
-Primitive_Null.default = 1
-
-export type Primitive_Undefined = Correct.Primitive_Undefined
-export const Primitive_Undefined = Value.Clone(Correct.Primitive_Undefined)
-Primitive_Undefined.default = 1
-
-export type Primitive_RegEx = Correct.Primitive_RegEx
-export const Primitive_RegEx = Value.Clone(Correct.Primitive_RegEx)
-Primitive_RegEx.default = 'invalid-pattern'
-
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Literal
-// ---------------------------------------------------------------
-export type Literal_String = Correct.Literal_String
-export const Literal_String = Value.Clone(Correct.Literal_String)
-Literal_String.default = 'bar'
+// ---------------------------------------------------------------------------------
+dataset.set('Literal_String', 'bar')
+dataset.set('Literal_Number', 1)
+dataset.set('Literal_Boolean', false)
 
-export type Literal_Number = Correct.Literal_Number
-export const Literal_Number = Value.Clone(Correct.Literal_Number)
-Literal_Number.default = 2
-
-export type Literal_Boolean = Correct.Literal_Boolean
-export const Literal_Boolean = Value.Clone(Correct.Literal_Boolean)
-Literal_Boolean.default = false
-
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Math
-// ---------------------------------------------------------------
-
-export type Math_Vector3 = Correct.Math_Vector3
-export const Math_Vector3 = Value.Clone(Correct.Math_Vector3)
-Math_Vector3.default = {
+// ---------------------------------------------------------------------------------
+dataset.set('Math_Vector3', {
   x: 0,
   y: 0,
   z: false, // error
-}
-
-export type Math_Matrix4 = Correct.Math_Matrix4
-export const Math_Matrix4 = Value.Clone(Correct.Math_Matrix4)
-Math_Matrix4.default = [
+})
+dataset.set('Math_Matrix4', [
   [1, 0, 0, 0],
   [0, 1, 0, 0],
   [0, 0, 1, 0],
   [0, 0, 0, true], // error
-]
-
-export type Math_Box3D = Correct.Math_Box3D
-export const Math_Box3D = Value.Clone(Correct.Math_Box3D)
-Math_Box3D.default = {
+])
+dataset.set('Math_Box3D', {
   scale: { x: 0, y: 0, z: 0 },
   position: { x: 0, y: 0, z: 0 },
   rotate: { x: 0, y: 0, z: 0 },
   pivot: { x: 0, y: 0, z: false }, // error
-}
+})
+dataset.set('Math_Mesh', {
+  vertices: Array.from({ length: 128 }, () => 0),
+  normals: Array.from({ length: 128 }, () => 0),
+  texoords: Array.from({ length: 128 }, () => 0),
+  indices: Array.from({ length: 128 }, (a, i) => (i < 127 ? 0 : 'not-a-number')),
+})
 
-export type Math_Mesh = Correct.Math_Mesh
-export const Math_Mesh = Value.Clone(Correct.Math_Mesh)
-Math_Mesh.default.indices[299] = 'not-a-number'
+// ---------------------------------------------------------------------------------
+// Number
+// ---------------------------------------------------------------------------------
+dataset.set('Number_Exclusive_Maximum', 8)
+dataset.set('Number_Exclusive_Minimum', 8)
+dataset.set('Number_Maximum', 9)
+dataset.set('Number_Minimum', 7)
+dataset.set('Number_Multiple_Of', 15)
 
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+// Primitive
+// ---------------------------------------------------------------------------------
+dataset.set('Primitive_Boolean', 1)
+dataset.set('Primitive_Integer', 3.14)
+dataset.set('Primitive_Null', 1)
+dataset.set('Primitive_Number', true)
+dataset.set('Primitive_RegEx', 'invalid-pattern')
+dataset.set('Primitive_String', 1)
+dataset.set('Primitive_Undefined', 1)
+
+// ---------------------------------------------------------------------------------
 // Object
-// ---------------------------------------------------------------
-export type Object_Loose = Correct.Object_Loose
-export const Object_Loose = Value.Clone(Correct.Object_Loose)
-Object_Loose.default = {
+// ---------------------------------------------------------------------------------
+dataset.set('Object_Loose', {
   A: 1,
   B: 1,
   C: 1,
@@ -123,11 +234,8 @@ Object_Loose.default = {
     I: 1,
     J: 1, // error
   },
-}
-
-export type Object_Strict = Correct.Object_Strict
-export const Object_Strict = Value.Clone(Correct.Object_Strict)
-Object_Strict.default = {
+})
+dataset.set('Object_Strict', {
   A: 1,
   B: 1,
   C: 1,
@@ -142,111 +250,50 @@ Object_Strict.default = {
     J: 1, // error
   },
   K: 'extra', // error
-}
-
-export type Object_Simple = Correct.Object_Simple
-export const Object_Simple = Value.Clone(Correct.Object_Simple)
-Object_Simple.default = {
+})
+dataset.set('Object_Simple', {
   position: { x: 1, y: 2, z: 3 },
   rotation: { x: 1, y: 2, z: 3 },
   scale: { x: 1, y: 2, z: true }, // error
-}
-
-export type Object_Partial = Correct.Object_Partial
-export const Object_Partial = Value.Clone(Correct.Object_Partial)
-Object_Partial.default = {
+})
+dataset.set('Object_Partial', {
   position: { x: 1, y: 2, z: 3 },
   rotation: { x: 1, y: 2, z: true }, // error
-}
+})
 
-// ---------------------------------------------------------------
-// Tuple
-// ---------------------------------------------------------------
-
-export type Tuple_Number = Correct.Tuple_Number
-export const Tuple_Number = Value.Clone(Correct.Tuple_Number)
-Tuple_Number.default = [0, 0, true]
-
-export type Tuple_Object = Correct.Tuple_Object
-export const Tuple_Object = Value.Clone(Correct.Tuple_Object)
-Tuple_Object.default = [
-  { x: 0, y: 0, z: 0 },
-  { x: 0, y: 0, z: 0 },
-  { x: 0, y: 0, z: true }, // error
-]
-
-export type Tuple_Union_Literal = Correct.Tuple_Union_Literal
-export const Tuple_Union_Literal = Value.Clone(Correct.Tuple_Union_Literal)
-Tuple_Union_Literal.default = ['B', 'D', 'G']
-
-// ---------------------------------------------------------------
-// Composite
-// ---------------------------------------------------------------
-
-export type Composite_Union_Literal = Correct.Composite_Union_Literal
-export const Composite_Union_Literal = Value.Clone(Correct.Composite_Union_Literal)
-Composite_Union_Literal.default = 'E'
-
-export type Composite_Union_Discriminated = Correct.Composite_Union_Discriminated
-export const Composite_Union_Discriminated = Value.Clone(Correct.Composite_Union_Discriminated)
-Composite_Union_Discriminated.default = { type: 'E', value: true }
-
-export type Composite_Union_Non_Discriminated = Correct.Composite_Union_Non_Discriminated
-export const Composite_Union_Non_Discriminated = Value.Clone(Correct.Composite_Union_Non_Discriminated)
-Composite_Union_Non_Discriminated.default = { A: 'A', C: 'C' }
-
-export type Composite_Intersect = Correct.Composite_Intersect
-export const Composite_Intersect = Value.Clone(Correct.Composite_Intersect)
-Composite_Intersect.default = {
-  A: 'A',
-  B: 'B',
-  C: 'C',
-  D: 'D',
-  E: 'E',
-  F: 'F',
-  G: 'G',
-  H: 'A', // error
-}
-
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Recursive
-// ---------------------------------------------------------------
-
-export type Recursive_Object = Correct.Recursive_Object
-export const Recursive_Object = Value.Clone(Correct.Recursive_Object)
-Recursive_Object.default = {
-  id: '',
+// ---------------------------------------------------------------------------------
+dataset.set('Recursive_Object', {
+  id: 'A',
   nodes: [
     {
-      id: '',
+      id: 'B',
       nodes: [
-        { id: '', nodes: [] },
-        { id: '', nodes: [] },
-        { id: '', nodes: [] },
+        { id: 'C', nodes: [] },
+        { id: 'D', nodes: [] },
+        { id: 'E', nodes: [] },
       ],
     },
     {
-      id: '',
+      id: 'F',
       nodes: [
-        { id: '', nodes: [] },
-        { id: '', nodes: [] },
-        { id: '', nodes: [] },
+        { id: 'G', nodes: [] },
+        { id: 'H', nodes: [] },
+        { id: 'I', nodes: [] },
       ],
     },
     {
-      id: '',
+      id: 'J',
       nodes: [
-        { id: '', nodes: [] },
-        { id: '', nodes: [] },
-        { id: '', nodes: [1] }, // error
+        { id: 'K', nodes: [] },
+        { id: 'L', nodes: [] },
+        { id: 'M', nodes: [1] }, // error
       ],
     },
   ],
-}
-
-export type Recursive_Union = Correct.Recursive_Union
-export const Recursive_Union = Value.Clone(Correct.Recursive_Union)
-Recursive_Union.default = {
+})
+dataset.set('Recursive_Union', {
   type: 'Node',
   nodes: [
     {
@@ -274,108 +321,641 @@ Recursive_Union.default = {
       ],
     },
   ],
-}
+})
 
-// ---------------------------------------------------------------
-// Array
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+// String
+// ---------------------------------------------------------------------------------
+dataset.set('String_MaxLength', '000000000')
+dataset.set('String_MinLength', '0000000')
 
-export type Array_Primitive_Number = Correct.Array_Primitive_Number
-export const Array_Primitive_Number = Value.Clone(Correct.Array_Primitive_Number)
-Array_Primitive_Number.default = Value.Create(Array_Primitive_Number)
-Array_Primitive_Number.default[7] = Value.Create(Primitive_Number)
+// ---------------------------------------------------------------------------------
+// Tuple
+// ---------------------------------------------------------------------------------
+dataset.set('Tuple_Number', [0, 0, true])
+dataset.set('Tuple_Object', [
+  { x: 0, y: 0, z: 0 },
+  { x: 0, y: 0, z: 0 },
+  { x: 0, y: 0, z: true }, // error
+])
+dataset.set('Tuple_Union_Literal', ['B', 'D', 'G'])
 
-export type Array_Primitive_String = Correct.Array_Primitive_String
-export const Array_Primitive_String = Value.Clone(Correct.Array_Primitive_String)
-Array_Primitive_String.default = Value.Create(Array_Primitive_String)
-Array_Primitive_String.default[7] = Value.Create(Primitive_String)
-
-export type Array_Primitive_Boolean = Correct.Array_Primitive_Boolean
-export const Array_Primitive_Boolean = Value.Clone(Correct.Array_Primitive_Boolean)
-Array_Primitive_Boolean.default = Value.Create(Array_Primitive_Boolean)
-Array_Primitive_Boolean.default[7] = Value.Create(Primitive_Boolean)
-
-export type Array_Object_Loose = Correct.Array_Object_Loose
-export const Array_Object_Loose = Value.Clone(Correct.Array_Object_Loose)
-Array_Object_Loose.default = Value.Create(Array_Object_Loose)
-Array_Object_Loose.default[7] = Value.Create(Object_Loose)
-
-export type Array_Object_Strict = Correct.Array_Object_Strict
-export const Array_Object_Strict = Value.Clone(Correct.Array_Object_Strict)
-Array_Object_Strict.default = Value.Create(Array_Object_Strict)
-Array_Object_Strict.default[7] = Value.Create(Object_Strict)
-
-export type Array_Object_Partial = Correct.Array_Object_Partial
-export const Array_Object_Partial = Value.Clone(Correct.Array_Object_Partial)
-Array_Object_Partial.default = Value.Create(Array_Object_Partial)
-Array_Object_Partial.default[7] = Value.Create(Object_Partial)
-
-export type Array_Object_Simple = Correct.Array_Object_Simple
-export const Array_Object_Simple = Value.Clone(Correct.Array_Object_Simple)
-Array_Object_Simple.default = Value.Create(Array_Object_Simple)
-Array_Object_Simple.default[7] = Value.Create(Object_Simple)
-
-export type Array_Tuple_Number = Correct.Array_Tuple_Number
-export const Array_Tuple_Number = Value.Clone(Correct.Array_Tuple_Number)
-Array_Tuple_Number.default = Value.Create(Array_Tuple_Number)
-Array_Tuple_Number.default[7] = Value.Create(Tuple_Number)
-
-export type Array_Tuple_Object = Correct.Array_Tuple_Object
-export const Array_Tuple_Object = Value.Clone(Correct.Array_Tuple_Object)
-Array_Tuple_Object.default = Value.Create(Array_Tuple_Object)
-Array_Tuple_Object.default[7] = Value.Create(Tuple_Object)
-
-export type Array_Tuple_Union_Literal = Correct.Array_Tuple_Union_Literal
-export const Array_Tuple_Union_Literal = Value.Clone(Correct.Array_Tuple_Union_Literal)
-Array_Tuple_Union_Literal.default = Value.Create(Array_Tuple_Union_Literal)
-Array_Tuple_Union_Literal.default[7] = Value.Create(Tuple_Union_Literal)
-
-export type Array_Composite_Union_Literal = Correct.Array_Composite_Union_Literal
-export const Array_Composite_Union_Literal = Value.Clone(Correct.Array_Composite_Union_Literal)
-Array_Composite_Union_Literal.default = Value.Create(Array_Composite_Union_Literal)
-Array_Composite_Union_Literal.default[7] = Value.Create(Composite_Union_Discriminated)
-
-export type Array_Composite_Union_Discriminated = Correct.Array_Composite_Union_Discriminated
-export const Array_Composite_Union_Discriminated = Value.Clone(Correct.Array_Composite_Union_Discriminated)
-Array_Composite_Union_Discriminated.default = Value.Create(Array_Composite_Union_Discriminated)
-Array_Composite_Union_Discriminated.default[7] = Value.Create(Composite_Union_Discriminated)
-
-export type Array_Composite_Union_Non_Discriminated = Correct.Array_Composite_Union_Non_Discriminated
-export const Array_Composite_Union_Non_Discriminated = Value.Clone(Correct.Array_Composite_Union_Non_Discriminated)
-Array_Composite_Union_Non_Discriminated.default = Value.Create(Array_Composite_Union_Non_Discriminated)
-Array_Composite_Union_Non_Discriminated.default[7] = Value.Create(Composite_Union_Non_Discriminated)
-
-export type Array_Composite_Intersect = Correct.Array_Composite_Intersect
-export const Array_Composite_Intersect = Value.Clone(Correct.Array_Composite_Intersect)
-Array_Composite_Intersect.default = Value.Create(Array_Composite_Intersect)
-Array_Composite_Intersect.default[7] = Value.Create(Composite_Intersect)
-
-export type Array_Recursive_Object = Correct.Array_Recursive_Object
-export const Array_Recursive_Object = Value.Clone(Correct.Array_Recursive_Object)
-Array_Recursive_Object.default = Value.Create(Array_Recursive_Object)
-Array_Recursive_Object.default[7] = Value.Create(Recursive_Object)
-
-export type Array_Recursive_Union = Correct.Array_Recursive_Union
-export const Array_Recursive_Union = Value.Clone(Correct.Array_Recursive_Union)
-Array_Recursive_Union.default = Value.Create(Array_Recursive_Union)
-Array_Recursive_Union.default[7] = Value.Create(Recursive_Union)
-
-export type Array_Math_Vector3 = Correct.Array_Math_Vector3
-export const Array_Math_Vector3 = Value.Clone(Correct.Array_Math_Vector3)
-Array_Math_Vector3.default = Value.Create(Array_Math_Vector3)
-Array_Math_Vector3.default[7] = Value.Create(Math_Vector3)
-
-export type Array_Math_Matrix4 = Correct.Array_Math_Matrix4
-export const Array_Math_Matrix4 = Value.Clone(Correct.Array_Math_Matrix4)
-Array_Math_Matrix4.default = Value.Create(Array_Math_Matrix4)
-Array_Math_Matrix4.default[7] = Value.Create(Math_Matrix4)
-
-export type Array_Math_Box3D = Correct.Array_Math_Box3D
-export const Array_Math_Box3D = Value.Clone(Correct.Array_Math_Box3D)
-Array_Math_Box3D.default = Value.Create(Array_Math_Box3D)
-Array_Math_Box3D.default[7] = Value.Create(Math_Box3D)
-
-export type Array_Math_Mesh = Correct.Array_Math_Mesh
-export const Array_Math_Mesh = Value.Clone(Correct.Array_Math_Mesh)
-Array_Math_Mesh.default = Value.Create(Array_Math_Mesh)
-Array_Math_Mesh.default[7] = Value.Create(Math_Mesh)
+// ---------------------------------------------------------------------------------
+// Typia
+// ---------------------------------------------------------------------------------
+// prettier-ignore
+dataset.set('Typia_Array_Hierarchical', [
+  {
+    id: true,
+    serial: 1,
+    name: 'name-1',
+    established_at: {
+      time: 1,
+      zone: 1,
+    },
+    departments: Array.from({ length: 4 }, () => {
+      return {
+        id: 1,
+        code: 'code-1',
+        sales: 1,
+        created_at: {
+          time: 1,
+          zone: 1,
+        },
+        employees: Array.from({ length: 4 }, () => {
+          return {
+            id: 1,
+            name: 'name-1',
+            age: 1,
+            grade: 1,
+            employeed_at: {
+              time: 1,
+              zone: 1,
+            },
+          }
+        }),
+      }
+    }),
+  },
+])
+// prettier-ignore
+dataset.set('Typia_Array_Recursive_Union_Explicit', [
+  {
+    id: 'error', // error
+    name: 'name-1',
+    path: 'path-1',
+    width: 1,
+    height: 1,
+    url: 'url-1',
+    size: 1,
+    type: 'file',
+    extension: 'jpg',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    size: 1,
+    type: 'file',
+    extension: 'txt',
+    content: 'content-1',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    size: 1,
+    count: 1,
+    type: 'file',
+    extension: 'zip',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    target: {
+      id: 1,
+      name: 'name-1',
+      path: 'path-1',
+      target: {
+        id: 1,
+        name: 'name-1',
+        path: 'path-1',
+        target: {
+          id: 1,
+          name: 'name-1',
+          path: 'path-1',
+          children: Array.from({ length: 2 }, () => {
+            return {
+              id: 1,
+              name: 'name-1',
+              path: 'path-1',
+              size: 1,
+              type: 'file',
+              extension: 'txt',
+              content: 'content-1',
+            }
+          }),
+          type: 'directory',
+        },
+        type: 'file',
+        extension: 'lnk',
+      },
+      type: 'file',
+      extension: 'lnk',
+    },
+    type: 'file',
+    extension: 'lnk',
+  },
+])
+// prettier-ignore
+dataset.set('Typia_Array_Recursive_Union_Implicit', [
+  {
+    id: 'error', // error
+    name: 'name-1',
+    path: 'path-1',
+    width: 1,
+    height: 1,
+    url: 'url-1',
+    size: 1,
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    size: 1,
+    content: 'content-1',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    target: {
+      id: 1,
+      name: 'name-1',
+      path: 'path-1',
+      size: 1,
+      content: 'content-1',
+    },
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    children: Array.from({ length: 1 }, () => {
+      return {
+        id: 1,
+        name: 'name-1',
+        path: 'path-1',
+        children: Array.from({ length: 2 }, () => {
+          return {
+            id: 1,
+            name: 'name-1',
+            path: 'path-1',
+            size: 1,
+            content: 'content-1',
+          }
+        }),
+        access: 'write',
+      }
+    }),
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    children: Array.from({ length: 4 }, () => {
+      return {
+        id: 1,
+        name: 'name-1',
+        path: 'path-1',
+        size: 1,
+        content: 'content-1',
+      }
+    }),
+    access: 'read',
+  },
+])
+// prettier-ignore
+dataset.set('Typia_Array_Recursive', {
+  children: Array.from({ length: 4 }, () => {
+    return {
+      children: Array.from({ length: 4 }, () => {
+        return {
+          children: [{}], // error
+          id: 1,
+          code: 'code-1',
+          sequence: 1,
+          created_at: {
+            time: 1,
+            zone: 1,
+          },
+        }
+      }),
+      id: 1,
+      code: 'code-1',
+      sequence: 1,
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
+    }
+  }),
+  id: 1,
+  code: 'code-1',
+  sequence: 1,
+  created_at: {
+    time: 1,
+    zone: 1,
+  },
+})
+// prettier-ignore
+dataset.set('Typia_Array_Simple', Array.from({ length: 8 }, (_, i) => {
+    if (i === 7)
+      return {
+        name: 'name-1',
+        email: 'email-1',
+        hobbies: ['item', 'item', true], // error
+      }
+    const mod = i % 3
+    switch (mod) {
+      case 0:
+        return {
+          name: 'name-1',
+          email: 'email-1',
+          hobbies: [
+            {
+              name: 'name-1',
+              rank: 11,
+            },
+            {
+              name: 'name-1',
+              rank: 11,
+            },
+            {
+              name: 'name-1',
+              rank: 11,
+            },
+          ],
+        }
+      case 1:
+        return {
+          name: 'name-1',
+          email: 'email-1',
+          hobbies: [
+            {
+              body: 'body-1',
+            },
+            {
+              body: 'body-1',
+            },
+            {
+              body: 'body-1',
+            },
+          ],
+        }
+      case 2:
+        return {
+          name: 'name-1',
+          email: 'email-1',
+          hobbies: ['item', 'item', 'item'],
+        }
+      default:
+        throw Error('Modulus Overflow')
+    }
+  }),
+)
+// prettier-ignore
+dataset.set('Typia_Object_Hierarchical', {
+  id: 1,
+  channel: {
+    id: 1,
+    code: 'code-1',
+    name: 'name-1',
+    sequence: 1,
+    exclusive: true,
+    priority: 1,
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+  },
+  member: {
+    id: 1,
+    account: {
+      id: 1,
+      code: 'code-1',
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
+    },
+    enterprise: {
+      id: 1,
+      account: {
+        id: 1,
+        code: 'code-1',
+        created_at: {
+          time: 1,
+          zone: 1,
+        },
+      },
+      name: 'name-1',
+      grade: 1,
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
+    },
+    emails: ['email-1', 'email-2', 'email-3'],
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+    authorized: 1, // error
+  },
+  account: {
+    id: 1,
+    code: 'code-1',
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+  },
+  href: 'href-1',
+  referrer: 'referrer-1',
+  ip: [0, 0, 0, 0],
+  created_at: {
+    time: 1,
+    zone: 1,
+  },
+})
+// prettier-ignore
+dataset.set('Typia_Object_Recursive', {
+  parent: {
+    parent: {
+      parent: {
+        parent: {
+          parent: 1, // error
+          id: 1,
+          code: 'code-1',
+          name: 'name-1',
+          sequence: 1,
+          created_at: {
+            time: 1,
+            zone: 1,
+          },
+        },
+        id: 1,
+        code: 'code-1',
+        name: 'name-1',
+        sequence: 1,
+        created_at: {
+          time: 1,
+          zone: 1,
+        },
+      },
+      id: 1,
+      code: 'code-1',
+      name: 'name-1',
+      sequence: 1,
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
+    },
+    id: 1,
+    code: 'code-1',
+    name: 'name-1',
+    sequence: 1,
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+  },
+  id: 1,
+  code: 'code-1',
+  name: 'name-1',
+  sequence: 1,
+  created_at: {
+    time: 1,
+    zone: 1,
+  },
+})
+// prettier-ignore
+dataset.set('Typia_Object_Simple', {
+  scale: { x: 1, y: 1, z: 1 },
+  position: { x: 1, y: 1, z: 1 },
+  rotate: { x: 1, y: 1, z: 1 },
+  pivot: { x: 1, y: 1, z: true }, // error
+})
+// prettier-ignore
+dataset.set('Typia_Object_Union_Explicit', {
+  type: 'circle',
+  centroid: { x: 1, y: 1 },
+  radius: false, // error
+})
+// prettier-ignore
+dataset.set('Typia_Object_Union_Explicit', Array.from({ length: 8 }, (_, i) => {
+  if (i === 7)
+    return {
+      type: 'circle',
+      centroid: { x: 1, y: true }, // error
+      radius: 1,
+    }
+    const mod = i % 7
+    switch (mod) {
+      case 0:
+        return {
+          type: 'point',
+          x: 1,
+          y: 1,
+        }
+      case 1:
+        return {
+          type: 'line',
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+        }
+      case 2:
+        return {
+          type: 'triangle',
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+        }
+      case 3:
+        return {
+          type: 'rectangle',
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+          p4: {
+            x: 1,
+            y: 1,
+          },
+        }
+      case 4:
+        return {
+          type: 'polyline',
+          points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
+        }
+      case 5:
+        return {
+          type: 'polygon',
+          outer: {
+            type: 'polyline',
+            points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
+          },
+          inner: Array.from({ length: 4 }, () => {
+            return {
+              points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
+            }
+          }),
+        }
+      case 6:
+        return {
+          type: 'circle',
+          centroid: { x: 1, y: 1 },
+          radius: 1,
+        }
+      default:
+        throw new Error('Modulus Overflow')
+    }
+  }),
+)
+// prettier-ignore
+dataset.set('Typia_Object_Union_Implicit', Array.from({ length: 2 }, (_, i) => {
+  if (i === 1)
+    return {
+      x: 1,
+      y: 1,
+      slope: false, // error
+    }
+    const mod = i % 7
+    switch (mod) {
+      case 0:
+        return {
+          x: 1,
+          y: 1,
+          slope: 1,
+        }
+      case 1:
+        return {
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          distance: 1,
+        }
+      case 2:
+        return {
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+          width: 1,
+          height: 1,
+          area: 1,
+        }
+      case 3:
+        return {
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+          p4: {
+            x: 1,
+            y: 1,
+          },
+          width: 1,
+          height: 1,
+          area: 1,
+        }
+      case 4:
+        return {
+          points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
+          length: 1,
+        }
+      case 5:
+        return {
+          outer: {
+            type: 'polyline',
+            points: Array.from({ length: 342 }, (_, i) => ({ x: 1, y: 1 })),
+          },
+          inner: Array.from({ length: 4 }, () => {
+            return {
+              points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
+            }
+          }),
+          area: 1,
+        }
+      case 6:
+        return {
+          centroid: { x: 1, y: 1 },
+          radius: 1,
+          area: 1,
+        }
+      default:
+        throw new Error('Modulus Overflow')
+    }
+  }),
+)
+// partial implementation - too complex
+// prettier-ignore
+dataset.set('Typia_Ultimate_Union', Array.from({ length: 2 }, (_, i) => {
+  const attribute = () => ({
+    description: 'description-1',
+    'x-tson-metaTags': [{ kind: 'kind-1' }, { kind: 'kind-2' }],
+    'x-tson-jsDocTags': [
+      {
+        name: 'name-1',
+        text: [
+          {
+            text: 'text-1',
+            kind: 'kind-1',
+          },
+        ],
+      },
+    ],
+  })
+  const atomic = (type: string, value: unknown) => {
+    return { type, nullable: true, default: value, ...attribute() }
+  }
+  const application = (invalidate: boolean) => {
+    return {
+      schemas: [atomic('boolean', true), atomic('integer', 1), atomic('number', 1), atomic('string', 'string')],
+      components: {
+        schemas: {},
+      },
+      purpose: 'swaggers',
+      prefix: 'prefix-1',
+    }
+  }
+  return application(i === 1)
+}),
+)
