@@ -1,6 +1,7 @@
 input {
   border: none;
 }
+
 input:focus {
   outline: none;
 }
@@ -14,6 +15,7 @@ body {
   background: #000;
   color: #fff;
 }
+
 #root {
   display: block;
   width: calc(100% - 32px);
@@ -21,11 +23,13 @@ body {
   padding-left: 16px;
   padding-right: 16px;
 }
+
 .app {
   padding: 16px;
   width: calc(100% - 32px);
   height: calc(100% - 32px);
 }
+
 /* ---------------------------------------------------
  HEADER
 /* --------------------------------------------------- */
@@ -38,12 +42,14 @@ body {
   margin-bottom: 16px;
   border-radius: 8px;
 }
+
 .app > .header > .title {
   padding: 16px;
   width: calc(100% - 32px);
   height: 96px;
   white-space: nowrap;
 }
+
 .app > .header > .title h2 {
   margin: 0;
   padding: 0;
@@ -51,14 +57,17 @@ body {
   margin-bottom: 10px;
   line-height: 24px;
 }
+
 .app > .header > .title a {
   color: rgb(236, 159, 15);
   text-decoration: none;
 }
+
 .app > .header > .title p {
   margin: 0;
   padding: 0;
 }
+
 .app > .header > .controls {
   display: flex;
   flex-direction: row;
@@ -66,6 +75,7 @@ body {
   margin-top: 16px;
   height: 64px;
 }
+
 .app > .header > .controls .button {
   width: 140px;
   height: 24px;
@@ -79,10 +89,12 @@ body {
   font-size: 1.2em;
   font-weight: bold;
 }
+
 .app > .header > .controls .button.selected {
   color: #000;
   background-color: rgb(236, 159, 15);
 }
+
 .app > .header > .controls .filter {
   width: 500px;
   height: 24px;
@@ -96,6 +108,7 @@ body {
   font-size: 1.2em;
   font-family: monospace;
 }
+
 /* ---------------------------------------------------
  Results
 /* --------------------------------------------------- */
@@ -103,6 +116,7 @@ body {
   width: 100%;
   height: calc(100% - 96px);
 }
+
 .type-group {
   /* background-image: linear-gradient(#040404, #080808); */
   background: #080808;
@@ -112,20 +126,24 @@ body {
   border-radius: 8px;
   margin-bottom: 16px;
 }
+
 .type-group > .header {
   width: 256px;
   padding: 16px;
 }
+
 .type-group > .header h2 {
   color: #5b4;
 }
+
 .type-group > .body {
   width: calc(100% - 256px - 32px);
   padding: 16px;
 }
+
 .type-result {
   display: inline-block;
-  width: 520px;
+  width: 580px;
   height: 240px;
   padding: 16px;
 }
@@ -141,37 +159,46 @@ body {
   max-height: 512px;
   overflow-y: hidden;
 }
+
 .type-tooltip > .header {
   min-width: 100px;
   height: 24px;
   line-height: 24px;
   margin-left: 16px;
 }
+
 .type-tooltip > .body {
   display: flex;
   flex-direction: row;
 }
+
 .type-tooltip > .body > .result {
   padding: 10px 0px -10px 0px;
 }
+
 .type-tooltip > .body > .result tr {
   padding: 0;
   margin: 0;
 }
+
 .type-tooltip > .body > .result td:nth-child(1) {
   width: 40px;
 }
+
 .type-tooltip > .body > .result td:nth-child(2) {
   width: 90px;
 }
+
 .type-tooltip > .body > .result td:nth-child(3) {
   width: 40px;
 }
+
 .type-tooltip > .body > .result th {
   padding: 0;
   margin: 0;
   text-align: left;
 }
+
 .type-tooltip > .body > .type {
   min-width: 180px;
   padding: 0px 16px 16px 16px;

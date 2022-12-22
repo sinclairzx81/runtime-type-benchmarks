@@ -7,25 +7,25 @@ import { AjvAotGenerator } from './benchmark/validators/ajv_aot/build'
 import { AjvJitGenerator } from './benchmark/validators/ajv_jit/build'
 import { TypiaGenerator } from './benchmark/validators/typia/build'
 import { TsrcGenerator } from './benchmark/validators/tsrc/build'
+import { TsisGenerator } from './benchmark/validators/tsis/build'
 
 // -----------------------------------------------------------------------------
 // Clean
 // -----------------------------------------------------------------------------
+export async function clean_validator(lib) {
+  await folder(`benchmark/validators/${lib}/compiled`).delete()
+  await file(`benchmark/validators/${lib}/incorrect.ts`).delete()
+  await file(`benchmark/validators/${lib}/correct.ts`).delete()
+}
 export async function clean() {
-  await folder('benchmark/validators/ajv_aot/compiled').delete()
-  await file('benchmark/validators/ajv_aot/incorrect.ts').delete()
-  await file('benchmark/validators/ajv_aot/correct.ts').delete()
-  await file('benchmark/validators/ajv_jit/incorrect.ts').delete()
-  await file('benchmark/validators/ajv_jit/correct.ts').delete()
-  await file('benchmark/validators/typebox_aot/incorrect.ts').delete()
-  await file('benchmark/validators/typebox_aot/correct.ts').delete()
-  await file('benchmark/validators/typebox_jit/incorrect.ts').delete()
-  await file('benchmark/validators/typebox_jit/correct.ts').delete()
-  await file('benchmark/validators/typia/incorrect.ts').delete()
-  await file('benchmark/validators/typia/correct.ts').delete()
-  await file('benchmark/validators/tsrc/incorrect.ts').delete()
-  await file('benchmark/validators/tsrc/correct.ts').delete()
   await folder('reporting/results').delete()
+  await clean_validator('ajv_aot')
+  await clean_validator('ajv_jit')
+  await clean_validator('typebox_aot')
+  await clean_validator('typebox_jit')
+  await clean_validator('typia')
+  await clean_validator('tsrc')
+  await clean_validator('tsis')
   await folder('target').delete()
 }
 
@@ -72,23 +72,34 @@ export async function ajv_jit(iteration = measurement_iteration) {
   await measure('ajv_jit', 'tsc', 'correct', iteration)
   await measure('ajv_jit', 'tsc', 'incorrect', iteration)
 }
-export async function tsrc(iteration = measurement_iteration) {
-  TsrcGenerator.Build('benchmark/validators/tsrc')
-  await measure('tsrc', 'ttsc', 'correct', iteration)
-  await measure('tsrc', 'ttsc', 'incorrect', iteration)
-}
 export async function typia(iteration = measurement_iteration) {
+  await shell('npm install typescript@latest')
   TypiaGenerator.Build('benchmark/validators/typia')
   await measure('typia', 'ttsc', 'correct', iteration)
   await measure('typia', 'ttsc', 'incorrect', iteration)
 }
+export async function tsrc(iteration = measurement_iteration) {
+  await shell('npm install typescript@latest')
+  TsrcGenerator.Build('benchmark/validators/tsrc')
+  await measure('tsrc', 'ttsc', 'correct', iteration)
+  await measure('tsrc', 'ttsc', 'incorrect', iteration)
+}
+export async function tsis(iteration = measurement_iteration) {
+  await shell('npm install typescript@4.6.4')
+  TsisGenerator.Build('benchmark/validators/tsis')
+  await measure('tsis', 'ttsc', 'correct', iteration)
+  await measure('tsis', 'ttsc', 'incorrect', iteration)
+}
+
 export async function benchmark(iteration = measurement_iteration) {
+  await clean()
   await typebox_aot(iteration)
   await typebox_jit(iteration)
   await ajv_aot(iteration)
   await ajv_jit(iteration)
   await typia(iteration)
   await tsrc(iteration)
+  await tsis(iteration)
 }
 
 // -----------------------------------------------------------------------------
