@@ -21,8 +21,9 @@ The following JavaScript validation packages are benchmarked.
 | [ts-runtime-checks](https://github.com/GoogleFeud/ts-runtime-checks) | tsrc       | AOT                       | Structural       | A typescript transformer which automatically generates validation code from your types.    |
 | [typescript-is](https://github.com/woutervh-/typescript-is)          | tsis       | AOT                       | Structural       | TypeScript transformer that generates run-time type-checks.                                |
 | [typia](https://github.com/samchon/typia)                            | typia      | AOT                       | Structural       | Super-fast Runtime validator (type checker) with only one line.                            |
-| [typebox](https://github.com/sinclairzx81/typebox)                   | typebox    | JIT (with optional AOT)   | Json Schema      | JSON Schema Type Builder with Static Type Resolution for TypeScript.                       |
-| [ajv](https://github.com/ajv-validator/ajv)                          | ajv        | JIT (with optional AOT)   | Json Schema      | The fastest JSON Schema Validator.                                                         |
+| [typebox](https://github.com/sinclairzx81/typebox)                   | typebox    | JIT (optional AOT)        | Json Schema      | JSON Schema Type Builder with Static Type Resolution for TypeScript.                       |
+| [ajv](https://github.com/ajv-validator/ajv)                          | ajv        | JIT (optional AOT)        | Json Schema      | The fastest JSON Schema Validator.                                                         |
+| [zod](https://github.com/colinhacks/zod)                             | zod        | Dynamic                   | Structural       | TypeScript-first schema validation with static type inference                              |
 
 
 ### Commands
