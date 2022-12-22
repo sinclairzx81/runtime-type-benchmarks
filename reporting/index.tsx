@@ -11,13 +11,14 @@ import { Render } from './utility/render'
 // ---------------------------------------------------------------------------
 export type Benchmarks = typeof Benchmarks
 export const Benchmarks = {
-  ajv_aot: '#C70',
-  ajv_jit: '#B50',
   typebox_aot: '#6A2',
   typebox_jit: '#580',
   typia: '#47A',
   tsrc: '#C33',
+  ajv_aot: '#ec9f0f',
+  ajv_jit: '#B50',
   tsis: '#33C',
+  zod: '#995'
 } as const
 
 // ---------------------------------------------------------------------------

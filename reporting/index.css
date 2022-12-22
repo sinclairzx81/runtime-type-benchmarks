@@ -59,7 +59,7 @@ body {
 }
 
 .app > .header > .title a {
-  color: rgb(236, 159, 15);
+  color: #ec9f0f;
   text-decoration: none;
 }
 
@@ -92,7 +92,7 @@ body {
 
 .app > .header > .controls .button.selected {
   color: #000;
-  background-color: rgb(236, 159, 15);
+  background-color: #ec9f0f;
 }
 
 .app > .header > .controls .filter {
@@ -118,7 +118,6 @@ body {
 }
 
 .type-group {
-  /* background-image: linear-gradient(#040404, #080808); */
   background: #080808;
   display: flex;
   flex-direction: row;
@@ -133,7 +132,7 @@ body {
 }
 
 .type-group > .header h2 {
-  color: #5b4;
+  color: #6A2;
 }
 
 .type-group > .body {
@@ -143,7 +142,7 @@ body {
 
 .type-result {
   display: inline-block;
-  width: 580px;
+  width: 600px;
   height: 240px;
   padding: 16px;
 }
@@ -151,8 +150,6 @@ body {
 /** Tooltip */
 .type-tooltip {
   border: 1px solid #333;
-
-  /* background-image: linear-gradient(#040404, #333); */
   background: #040404;
   min-width: 100px;
   min-height: 220px;

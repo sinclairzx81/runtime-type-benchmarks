@@ -1,4 +1,4 @@
-import { Formatter } from '../../formatter/index'
+import { Formatter } from '../../codegen/index'
 import { TypeGuard } from '@sinclair/typebox/guard'
 import { TSchema } from '@sinclair/typebox'
 import * as Cases from '../../schematics/correct'
@@ -9,9 +9,20 @@ export namespace TsisGenerator {
   function Include(dataset: string, schema: unknown): schema is TSchema {
     // prettier-ignore
     const incorrect = dataset === 'incorrect' ? [] : []
+    // prettier-ignore
     return (
-      TypeGuard.TSchema(schema) &&
-      !['Primitive_Integer', 'Primitive_RegEx', 'Number_Exclusive_Maximum', 'Number_Exclusive_Minimum', 'Number_Maximum', 'Number_Minimum', 'Number_Multiple_Of', 'String_MaxLength', 'String_MinLength', ...incorrect].includes(schema.$id!)
+      TypeGuard.TSchema(schema) && ![
+        'Primitive_Integer', 
+        'Primitive_RegEx', 
+        'Number_Exclusive_Maximum', 
+        'Number_Exclusive_Minimum', 
+        'Number_Maximum', 
+        'Number_Minimum', 
+        'Number_Multiple_Of', 
+        'String_MaxLength', 
+        'String_MinLength', 
+        ...incorrect
+      ].includes(schema.$id!)
     )
   }
 

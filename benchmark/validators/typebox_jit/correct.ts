@@ -2,7 +2,7 @@ import { TypeCompiler } from '@sinclair/typebox/compiler'
 import { TypeSystem } from '@sinclair/typebox/system'
 import { Command } from '../../command/index'
 import * as Cases from '../../schematics/correct'
-TypeSystem.AllowArrayObjects = true
+TypeSystem.AllowArrayObjects = false
 TypeSystem.AllowNaN = true
 
 export function Compile(schema: any) {
