@@ -20,6 +20,14 @@
     "Primitive_Number": 0,
     "Primitive_String": 0,
     "Tuple_Number": 0,
-    "Tuple_Object": 0
+    "Tuple_Object": 0,
+    "Typia_Array_Hierarchical": 0,
+    "Typia_Array_Recursive_Union_Explicit": 0,
+    "Typia_Array_Recursive_Union_Implicit": 0,
+    "Typia_Array_Simple": 0,
+    "Typia_Object_Hierarchical": 0,
+    "Typia_Object_Union_Explicit": 1,
+    "Typia_Object_Union_Implicit": 0,
+    "Typia_Ultimate_Union": 0
   }
 }

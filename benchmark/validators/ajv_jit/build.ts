@@ -7,7 +7,12 @@ import * as Path from 'node:path'
 
 export namespace AjvJitGenerator {
   function Include(schema: unknown): schema is TSchema {
-    return TypeGuard.TSchema(schema) && !['Primitive_Undefined'].includes(schema.$id!)
+    console.log(schema)
+    // prettier-ignore
+    return TypeGuard.TSchema(schema) && ![
+      'Primitive_Undefined', 
+      'Typia_Ultimate_Union'
+    ].includes(schema.$id!)
   }
   function* GenerateBenchmark(dataset: string) {
     yield `import Ajv from 'ajv'`

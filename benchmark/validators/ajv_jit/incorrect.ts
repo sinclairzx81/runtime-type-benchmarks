@@ -40,6 +40,15 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Tuple_Number, iterations, results, Compile)
   Cases.Benchmark(Cases.Tuple_Object, iterations, results, Compile)
   Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Array_Hierarchical, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Array_Recursive, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Explicit, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Implicit, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Array_Simple, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Object_Hierarchical, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Object_Recursive, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, Compile)
+  Cases.Benchmark(Cases.Typia_Object_Union_Implicit, iterations, results, Compile)
   return results
 }
 

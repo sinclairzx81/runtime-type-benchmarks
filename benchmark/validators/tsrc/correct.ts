@@ -24,6 +24,14 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Primitive_String, iterations, results, () => (value) => Tsrc.is<Cases.Primitive_String>(value))
   Cases.Benchmark(Cases.Tuple_Number, iterations, results, () => (value) => Tsrc.is<Cases.Tuple_Number>(value))
   Cases.Benchmark(Cases.Tuple_Object, iterations, results, () => (value) => Tsrc.is<Cases.Tuple_Object>(value))
+  Cases.Benchmark(Cases.Typia_Array_Hierarchical, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Array_Hierarchical>(value))
+  Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Explicit, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Array_Recursive_Union_Explicit>(value))
+  Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Implicit, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Array_Recursive_Union_Implicit>(value))
+  Cases.Benchmark(Cases.Typia_Array_Simple, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Array_Simple>(value))
+  Cases.Benchmark(Cases.Typia_Object_Hierarchical, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Object_Hierarchical>(value))
+  Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Object_Union_Explicit>(value))
+  Cases.Benchmark(Cases.Typia_Object_Union_Implicit, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Object_Union_Implicit>(value))
+  Cases.Benchmark(Cases.Typia_Ultimate_Union, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Ultimate_Union>(value))
   return results
 }
 

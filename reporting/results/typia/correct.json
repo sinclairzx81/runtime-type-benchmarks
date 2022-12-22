@@ -25,10 +25,20 @@
     "Primitive_Number": 0,
     "Primitive_String": 0,
     "Primitive_Undefined": 0,
-    "Recursive_Object": 0,
+    "Recursive_Object": 1,
     "Recursive_Union": 0,
     "Tuple_Number": 0,
     "Tuple_Object": 0,
-    "Tuple_Union_Literal": 0
+    "Tuple_Union_Literal": 0,
+    "Typia_Array_Hierarchical": 0,
+    "Typia_Array_Recursive": 1,
+    "Typia_Array_Recursive_Union_Explicit": 0,
+    "Typia_Array_Recursive_Union_Implicit": 1,
+    "Typia_Array_Simple": 0,
+    "Typia_Object_Hierarchical": 0,
+    "Typia_Object_Recursive": 0,
+    "Typia_Object_Union_Explicit": 2,
+    "Typia_Object_Union_Implicit": 1,
+    "Typia_Ultimate_Union": 2
   }
 }

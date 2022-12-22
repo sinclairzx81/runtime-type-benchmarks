@@ -8,8 +8,39 @@ export * from './object/index'
 export * from './primitive/index'
 export * from './recursive/index'
 export * from './tuple/index'
+export * from './typia/index'
 
 const dataset = new Map<string, unknown>()
+
+// ---------------------------------------------------------------
+// Benchmark
+// ---------------------------------------------------------------
+
+export type BenchmarkSetup = (schema: TSchema) => BenchmarkCheck
+export type BenchmarkCheck = (value: unknown) => boolean
+const types = new Set<string>()
+export function Benchmark(schema: TSchema, iterations: number, results: Map<string, number>, setup: BenchmarkSetup) {
+  if (!TypeGuard.TSchema(schema)) throw Error('Invalid Schema for benchmark')
+  if (schema.$id === undefined) throw Error('Schema must have a specify a unique type $id')
+  if (types.has(schema.$id)) throw Error(`Duplicate schema $id ${schema.$id}`)
+  if (!dataset.has(schema.$id)) throw Error(`Unable to locate dataset for ${schema.$id}`)
+  types.add(schema.$id)
+  process.stdout.write(`\x1b[36m${schema.$id}\x1b[0m ... `)
+  const check = setup(schema)
+  const value = dataset.get(schema.$id)!
+  const start = Date.now()
+  for (let i = 0; i < iterations; i++) {
+    if (check(value)) {
+      console.log('schema', schema)
+      console.log('value', value)
+      throw Error('Expected Fail')
+    }
+  }
+  const elapsed = Date.now() - start
+  process.stdout.write(`${elapsed} ms\n`)
+  results.set(schema.$id, elapsed)
+}
+
 // ---------------------------------------------------------------
 // Array
 // ---------------------------------------------------------------
@@ -86,7 +117,7 @@ dataset.set(
         z: 1,
         w: 'not-a-number',
       }
-    const mod = i & 2
+    const mod = i % 3
     switch (mod) {
       case 0:
         return {
@@ -295,31 +326,621 @@ dataset.set('Recursive_Union', {
     },
   ],
 })
+// ---------------------------------------------------------------
+// Typia
+// ---------------------------------------------------------------
 
-// ---------------------------------------------------------------
-// Benchmark
-// ---------------------------------------------------------------
-export type BenchmarkSetup = (schema: TSchema) => BenchmarkCheck
-export type BenchmarkCheck = (value: unknown) => boolean
-const types = new Set<string>()
-export function Benchmark(schema: TSchema, iterations: number, results: Map<string, number>, setup: BenchmarkSetup) {
-  if (!TypeGuard.TSchema(schema)) throw Error('Invalid Schema for benchmark')
-  if (schema.$id === undefined) throw Error('Schema must have a specify a unique type $id')
-  if (types.has(schema.$id)) throw Error(`Duplicate schema $id ${schema.$id}`)
-  if (!dataset.has(schema.$id)) throw Error(`Unable to locate dataset for ${schema.$id}`)
-  types.add(schema.$id)
-  process.stdout.write(`\x1b[36m${schema.$id}\x1b[0m ... `)
-  const check = setup(schema)
-  const value = dataset.get(schema.$id)!
-  const start = Date.now()
-  for (let i = 0; i < iterations; i++) {
-    if (check(value)) {
-      console.log('schema', schema)
-      console.log('value', value)
-      throw Error('Expected Fail')
+dataset.set('Typia_Array_Hierarchical', [
+  {
+    id: true,
+    serial: 1,
+    name: 'name-1',
+    established_at: {
+      time: 1,
+      zone: 1,
+    },
+    departments: Array.from({ length: 4 }, () => {
+      return {
+        id: 1,
+        code: 'code-1',
+        sales: 1,
+        created_at: {
+          time: 1,
+          zone: 1,
+        },
+        employees: Array.from({ length: 4 }, () => {
+          return {
+            id: 1,
+            name: 'name-1',
+            age: 1,
+            grade: 1,
+            employeed_at: {
+              time: 1,
+              zone: 1,
+            },
+          }
+        }),
+      }
+    }),
+  },
+])
+dataset.set('Typia_Array_Recursive_Union_Explicit', [
+  {
+    id: 'error', // error
+    name: 'name-1',
+    path: 'path-1',
+    width: 1,
+    height: 1,
+    url: 'url-1',
+    size: 1,
+    type: 'file',
+    extension: 'jpg',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    size: 1,
+    type: 'file',
+    extension: 'txt',
+    content: 'content-1',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    size: 1,
+    count: 1,
+    type: 'file',
+    extension: 'zip',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    target: {
+      id: 1,
+      name: 'name-1',
+      path: 'path-1',
+      target: {
+        id: 1,
+        name: 'name-1',
+        path: 'path-1',
+        target: {
+          id: 1,
+          name: 'name-1',
+          path: 'path-1',
+          children: Array.from({ length: 4 }, () => {
+            return {
+              id: 1,
+              name: 'name-1',
+              path: 'path-1',
+              size: 1,
+              type: 'file',
+              extension: 'txt',
+              content: 'content-1',
+            }
+          }),
+          type: 'directory',
+        },
+        type: 'file',
+        extension: 'lnk',
+      },
+      type: 'file',
+      extension: 'lnk',
+    },
+    type: 'file',
+    extension: 'lnk',
+  },
+])
+
+dataset.set('Typia_Array_Recursive_Union_Implicit', [
+  {
+    id: 'error', // error
+    name: 'name-1',
+    path: 'path-1',
+    width: 1,
+    height: 1,
+    url: 'url-1',
+    size: 1,
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    size: 1,
+    content: 'content-1',
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    target: {
+      id: 1,
+      name: 'name-1',
+      path: 'path-1',
+      size: 1,
+      content: 'content-1',
+    },
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    children: Array.from({ length: 4 }, () => {
+      return {
+        id: 1,
+        name: 'name-1',
+        path: 'path-1',
+        children: Array.from({ length: 4 }, () => {
+          return {
+            id: 1,
+            name: 'name-1',
+            path: 'path-1',
+            size: 1,
+            content: 'content-1',
+          }
+        }),
+        access: 'write',
+      }
+    }),
+  },
+  {
+    id: 1,
+    name: 'name-1',
+    path: 'path-1',
+    children: Array.from({ length: 4 }, () => {
+      return {
+        id: 1,
+        name: 'name-1',
+        path: 'path-1',
+        size: 1,
+        content: 'content-1',
+      }
+    }),
+    access: 'read',
+  },
+])
+dataset.set('Typia_Array_Recursive', {
+  children: Array.from({ length: 4 }, () => {
+    return {
+      children: Array.from({ length: 4 }, () => {
+        return {
+          children: [{}], // error
+          id: 1,
+          code: 'code-1',
+          sequence: 1,
+          created_at: {
+            time: 1,
+            zone: 1,
+          },
+        }
+      }),
+      id: 1,
+      code: 'code-1',
+      sequence: 1,
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
     }
-  }
-  const elapsed = Date.now() - start
-  process.stdout.write(`${elapsed} ms\n`)
-  results.set(schema.$id, elapsed)
-}
+  }),
+  id: 1,
+  code: 'code-1',
+  sequence: 1,
+  created_at: {
+    time: 1,
+    zone: 1,
+  },
+})
+dataset.set(
+  'Typia_Array_Simple',
+  Array.from({ length: 16 }, (_, i) => {
+    if (i === 15)
+      return {
+        name: 'name-1',
+        email: 'email-1',
+        hobbies: ['item', 'item', true], // error
+      }
+    const mod = i % 3
+    switch (mod) {
+      case 0:
+        return {
+          name: 'name-1',
+          email: 'email-1',
+          hobbies: [
+            {
+              name: 'name-1',
+              rank: 11,
+            },
+            {
+              name: 'name-1',
+              rank: 11,
+            },
+            {
+              name: 'name-1',
+              rank: 11,
+            },
+          ],
+        }
+      case 1:
+        return {
+          name: 'name-1',
+          email: 'email-1',
+          hobbies: [
+            {
+              body: 'body-1',
+            },
+            {
+              body: 'body-1',
+            },
+            {
+              body: 'body-1',
+            },
+          ],
+        }
+      case 2:
+        return {
+          name: 'name-1',
+          email: 'email-1',
+          hobbies: ['item', 'item', 'item'],
+        }
+      default:
+        throw Error('Modulus Overflow')
+    }
+  }),
+)
+dataset.set('Typia_Object_Hierarchical', {
+  id: 1,
+  channel: {
+    id: 1,
+    code: 'code-1',
+    name: 'name-1',
+    sequence: 1,
+    exclusive: true,
+    priority: 1,
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+  },
+  member: {
+    id: 1,
+    account: {
+      id: 1,
+      code: 'code-1',
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
+    },
+    enterprise: {
+      id: 1,
+      account: {
+        id: 1,
+        code: 'code-1',
+        created_at: {
+          time: 1,
+          zone: 1,
+        },
+      },
+      name: 'name-1',
+      grade: 1,
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
+    },
+    emails: ['email-1', 'email-2', 'email-3'],
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+    authorized: 1, // error
+  },
+  account: {
+    id: 1,
+    code: 'code-1',
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+  },
+  href: 'href-1',
+  referrer: 'referrer-1',
+  ip: [0, 0, 0, 0],
+  created_at: {
+    time: 1,
+    zone: 1,
+  },
+})
+dataset.set('Typia_Object_Recursive', {
+  parent: {
+    parent: {
+      parent: {
+        parent: {
+          parent: 1, // error
+          id: 1,
+          code: 'code-1',
+          name: 'name-1',
+          sequence: 1,
+          created_at: {
+            time: 1,
+            zone: 1,
+          },
+        },
+        id: 1,
+        code: 'code-1',
+        name: 'name-1',
+        sequence: 1,
+        created_at: {
+          time: 1,
+          zone: 1,
+        },
+      },
+      id: 1,
+      code: 'code-1',
+      name: 'name-1',
+      sequence: 1,
+      created_at: {
+        time: 1,
+        zone: 1,
+      },
+    },
+    id: 1,
+    code: 'code-1',
+    name: 'name-1',
+    sequence: 1,
+    created_at: {
+      time: 1,
+      zone: 1,
+    },
+  },
+  id: 1,
+  code: 'code-1',
+  name: 'name-1',
+  sequence: 1,
+  created_at: {
+    time: 1,
+    zone: 1,
+  },
+})
+dataset.set('Typia_Object_Simple', {
+  scale: { x: 1, y: 1, z: 1 },
+  position: { x: 1, y: 1, z: 1 },
+  rotate: { x: 1, y: 1, z: 1 },
+  pivot: { x: 1, y: 1, z: true }, // error
+})
+dataset.set('Typia_Object_Union_Explicit', {
+  type: 'circle',
+  centroid: { x: 1, y: 1 },
+  radius: false, // error
+})
+dataset.set(
+  'Typia_Object_Union_Explicit',
+  Array.from({ length: 64 }, (_, i) => {
+    if (i === 63)
+      return {
+        type: 'circle',
+        centroid: { x: 1, y: true }, // error
+        radius: 1,
+      }
+    const mod = i % 7
+    switch (mod) {
+      case 0:
+        return {
+          type: 'point',
+          x: 1,
+          y: 1,
+        }
+      case 1:
+        return {
+          type: 'line',
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+        }
+      case 2:
+        return {
+          type: 'triangle',
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+        }
+      case 3:
+        return {
+          type: 'rectangle',
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+          p4: {
+            x: 1,
+            y: 1,
+          },
+        }
+      case 4:
+        return {
+          type: 'polyline',
+          points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+        }
+      case 5:
+        return {
+          type: 'polygon',
+          outer: {
+            type: 'polyline',
+            points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+          },
+          inner: Array.from({ length: 32 }, () => {
+            return {
+              points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+            }
+          }),
+        }
+      case 6:
+        return {
+          type: 'circle',
+          centroid: { x: 1, y: 1 },
+          radius: 1,
+        }
+      default:
+        throw new Error('Modulus Overflow')
+    }
+  }),
+)
+
+dataset.set(
+  'Typia_Object_Union_Implicit',
+  Array.from({ length: 64 }, (_, i) => {
+    if (i === 63)
+      return {
+        x: 1,
+        y: 1,
+        slope: false, // error
+      }
+    const mod = i % 7
+    switch (mod) {
+      case 0:
+        return {
+          x: 1,
+          y: 1,
+          slope: 1,
+        }
+      case 1:
+        return {
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          distance: 1,
+        }
+      case 2:
+        return {
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+          width: 1,
+          height: 1,
+          area: 1,
+        }
+      case 3:
+        return {
+          p1: {
+            x: 1,
+            y: 1,
+          },
+          p2: {
+            x: 1,
+            y: 1,
+          },
+          p3: {
+            x: 1,
+            y: 1,
+          },
+          p4: {
+            x: 1,
+            y: 1,
+          },
+          width: 1,
+          height: 1,
+          area: 1,
+        }
+      case 4:
+        return {
+          points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+          length: 1,
+        }
+      case 5:
+        return {
+          outer: {
+            type: 'polyline',
+            points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+          },
+          inner: Array.from({ length: 32 }, () => {
+            return {
+              points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+            }
+          }),
+          area: 1,
+        }
+      case 6:
+        return {
+          centroid: { x: 1, y: 1 },
+          radius: 1,
+          area: 1,
+        }
+      default:
+        throw new Error('Modulus Overflow')
+    }
+  }),
+)
+// partial implementation - too complex
+dataset.set(
+  'Typia_Ultimate_Union',
+  Array.from({ length: 64 }, (_, i) => {
+    const attribute = () => ({
+      description: 'description-1',
+      'x-tson-metaTags': [{ kind: 'kind-1' }, { kind: 'kind-2' }],
+      'x-tson-jsDocTags': [
+        {
+          name: 'name-1',
+          text: [
+            {
+              text: 'text-1',
+              kind: 'kind-1',
+            },
+          ],
+        },
+      ],
+    })
+    const atomic = (type: string, value: unknown) => {
+      return { type, nullable: true, default: value, ...attribute() }
+    }
+    const application = (invalidate: boolean) => {
+      return {
+        schemas: [atomic('boolean', true), atomic('integer', 1), atomic('number', 1), atomic('string', 'string')],
+        components: {
+          schemas: {},
+        },
+        purpose: invalidate ? 'error' : 'swagger', // error
+        prefix: 'prefix-1',
+      }
+    }
+    return application(i === 63)
+  }),
+)

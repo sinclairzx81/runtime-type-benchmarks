@@ -33,6 +33,16 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Tuple_Number, iterations, results, () => (value) => Typia.is<Cases.Tuple_Number>(value))
   Cases.Benchmark(Cases.Tuple_Object, iterations, results, () => (value) => Typia.is<Cases.Tuple_Object>(value))
   Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, () => (value) => Typia.is<Cases.Tuple_Union_Literal>(value))
+  Cases.Benchmark(Cases.Typia_Array_Hierarchical, iterations, results, () => (value) => Typia.is<Cases.Typia_Array_Hierarchical>(value))
+  Cases.Benchmark(Cases.Typia_Array_Recursive, iterations, results, () => (value) => Typia.is<Cases.Typia_Array_Recursive>(value))
+  Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Explicit, iterations, results, () => (value) => Typia.is<Cases.Typia_Array_Recursive_Union_Explicit>(value))
+  Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Implicit, iterations, results, () => (value) => Typia.is<Cases.Typia_Array_Recursive_Union_Implicit>(value))
+  Cases.Benchmark(Cases.Typia_Array_Simple, iterations, results, () => (value) => Typia.is<Cases.Typia_Array_Simple>(value))
+  Cases.Benchmark(Cases.Typia_Object_Hierarchical, iterations, results, () => (value) => Typia.is<Cases.Typia_Object_Hierarchical>(value))
+  Cases.Benchmark(Cases.Typia_Object_Recursive, iterations, results, () => (value) => Typia.is<Cases.Typia_Object_Recursive>(value))
+  Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, () => (value) => Typia.is<Cases.Typia_Object_Union_Explicit>(value))
+  Cases.Benchmark(Cases.Typia_Object_Union_Implicit, iterations, results, () => (value) => Typia.is<Cases.Typia_Object_Union_Implicit>(value))
+  Cases.Benchmark(Cases.Typia_Ultimate_Union, iterations, results, () => (value) => Typia.is<Cases.Typia_Ultimate_Union>(value))
   return results
 }
 

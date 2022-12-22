@@ -5,6 +5,7 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "downlevelIteration": true,
     "esModuleInterop": true,
     "jsx": "react",
     "plugins": [

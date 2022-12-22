@@ -124,6 +124,7 @@ export function TypeGroup(props: TypeGroupProperties) {
   descriptions.set('Composite', 'Operations per second for variations of union and intersection types')
   descriptions.set('Recursive', 'Operations per second for recursive data structures')
   descriptions.set('Array', 'Operations per second for types expressed as arrays of length 8')
+  descriptions.set('Typia', 'Operations per second measured against the typia benchmark suite')
   return (
     <div className="type-group">
       <div className="header">
