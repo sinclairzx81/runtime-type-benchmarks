@@ -18,10 +18,9 @@ export namespace TsrcGenerator {
         'Composite_Union_Non_Discriminated',
         'Recursive_Object',
         'Recursive_Union',
-        'Array_Composite_Union_Discriminated',
-        'Array_Composite_Union_Non_Discriminated',
-        'Array_Recursive_Object',
-        'Array_Recursive_Union',
+        'Tuple_Union_Literal',
+        'Array_Union',
+        'Array_Recursive',
       ].includes(schema.$id!)
     )
   }

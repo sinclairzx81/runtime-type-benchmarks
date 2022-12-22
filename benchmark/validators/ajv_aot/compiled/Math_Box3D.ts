@@ -3,7 +3,6 @@
 export const Math_Box3D = validate10
 const schema11 = {
   $id: 'Math_Box3D',
-  default: { scale: { x: 0, y: 0, z: 0 }, position: { x: 0, y: 0, z: 0 }, rotate: { x: 0, y: 0, z: 0 }, pivot: { x: 0, y: 0, z: 0 } },
   type: 'object',
   properties: {
     scale: { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] },

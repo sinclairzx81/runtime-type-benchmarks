@@ -4,22 +4,8 @@ import * as Cases from '../../schematics/incorrect'
 
 export function Execute(iterations: number) {
   const results = new Map<string, number>()
-  Cases.Benchmark(Cases.Array_Composite_Intersect, iterations, results, () => (value) => Tsrc.is<Cases.Array_Composite_Intersect>(value))
-  Cases.Benchmark(Cases.Array_Composite_Union_Literal, iterations, results, () => (value) => Tsrc.is<Cases.Array_Composite_Union_Literal>(value))
-  Cases.Benchmark(Cases.Array_Math_Box3D, iterations, results, () => (value) => Tsrc.is<Cases.Array_Math_Box3D>(value))
-  Cases.Benchmark(Cases.Array_Math_Matrix4, iterations, results, () => (value) => Tsrc.is<Cases.Array_Math_Matrix4>(value))
-  Cases.Benchmark(Cases.Array_Math_Mesh, iterations, results, () => (value) => Tsrc.is<Cases.Array_Math_Mesh>(value))
-  Cases.Benchmark(Cases.Array_Math_Vector3, iterations, results, () => (value) => Tsrc.is<Cases.Array_Math_Vector3>(value))
-  Cases.Benchmark(Cases.Array_Object_Loose, iterations, results, () => (value) => Tsrc.is<Cases.Array_Object_Loose>(value))
-  Cases.Benchmark(Cases.Array_Object_Partial, iterations, results, () => (value) => Tsrc.is<Cases.Array_Object_Partial>(value))
-  Cases.Benchmark(Cases.Array_Object_Simple, iterations, results, () => (value) => Tsrc.is<Cases.Array_Object_Simple>(value))
-  Cases.Benchmark(Cases.Array_Object_Strict, iterations, results, () => (value) => Tsrc.is<Cases.Array_Object_Strict>(value))
-  Cases.Benchmark(Cases.Array_Primitive_Boolean, iterations, results, () => (value) => Tsrc.is<Cases.Array_Primitive_Boolean>(value))
-  Cases.Benchmark(Cases.Array_Primitive_Number, iterations, results, () => (value) => Tsrc.is<Cases.Array_Primitive_Number>(value))
-  Cases.Benchmark(Cases.Array_Primitive_String, iterations, results, () => (value) => Tsrc.is<Cases.Array_Primitive_String>(value))
-  Cases.Benchmark(Cases.Array_Tuple_Number, iterations, results, () => (value) => Tsrc.is<Cases.Array_Tuple_Number>(value))
-  Cases.Benchmark(Cases.Array_Tuple_Object, iterations, results, () => (value) => Tsrc.is<Cases.Array_Tuple_Object>(value))
-  Cases.Benchmark(Cases.Array_Tuple_Union_Literal, iterations, results, () => (value) => Tsrc.is<Cases.Array_Tuple_Union_Literal>(value))
+  Cases.Benchmark(Cases.Array_Number, iterations, results, () => (value) => Tsrc.is<Cases.Array_Number>(value))
+  Cases.Benchmark(Cases.Array_Object, iterations, results, () => (value) => Tsrc.is<Cases.Array_Object>(value))
   Cases.Benchmark(Cases.Composite_Intersect, iterations, results, () => (value) => Tsrc.is<Cases.Composite_Intersect>(value))
   Cases.Benchmark(Cases.Composite_Union_Literal, iterations, results, () => (value) => Tsrc.is<Cases.Composite_Union_Literal>(value))
   Cases.Benchmark(Cases.Literal_Number, iterations, results, () => (value) => Tsrc.is<Cases.Literal_Number>(value))
@@ -38,7 +24,6 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Primitive_String, iterations, results, () => (value) => Tsrc.is<Cases.Primitive_String>(value))
   Cases.Benchmark(Cases.Tuple_Number, iterations, results, () => (value) => Tsrc.is<Cases.Tuple_Number>(value))
   Cases.Benchmark(Cases.Tuple_Object, iterations, results, () => (value) => Tsrc.is<Cases.Tuple_Object>(value))
-  Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, () => (value) => Tsrc.is<Cases.Tuple_Union_Literal>(value))
   return results
 }
 
