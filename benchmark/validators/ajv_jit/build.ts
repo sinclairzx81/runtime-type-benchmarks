@@ -7,7 +7,6 @@ import * as Path from 'node:path'
 
 export namespace AjvJitGenerator {
   function Include(schema: unknown): schema is TSchema {
-    console.log(schema)
     // prettier-ignore
     return TypeGuard.TSchema(schema) && ![
       'Primitive_Undefined', 
@@ -39,7 +38,6 @@ export namespace AjvJitGenerator {
     yield `const results = Execute(parameter.iterations)`
     yield `Command.WriteResults(results)`
   }
-
   function Generate(directory: string, dataset: string) {
     const output = Formatter.Format([...GenerateBenchmark(dataset)].join('\n'))
     const filename = Path.join(directory, dataset) + '.ts'

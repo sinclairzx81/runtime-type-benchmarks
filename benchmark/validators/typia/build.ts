@@ -7,7 +7,20 @@ import * as Path from 'node:path'
 
 export namespace TypiaGenerator {
   function Include(schema: unknown): schema is TSchema {
-    return TypeGuard.TSchema(schema) && !['Primitive_RegEx', 'Primitive_Integer'].includes(schema.$id!)
+    return (
+      TypeGuard.TSchema(schema) &&
+      ![
+        'Primitive_RegEx', // comment this when regex is resolved
+        'Primitive_Integer',
+        'Number_Exclusive_Maximum',
+        'Number_Exclusive_Minimum',
+        'Number_Maximum',
+        'Number_Minimum',
+        'Number_Multiple_Of',
+        'String_MaxLength',
+        'String_MinLength',
+      ].includes(schema.$id!)
+    )
   }
 
   function* GenerateBenchmark(dataset: string) {
@@ -15,6 +28,13 @@ export namespace TypiaGenerator {
     yield `import { Command } from '../../command/index'`
     yield `import * as Cases from '../../schematics/${dataset}'`
     yield ``
+    // -------------------------------------------------------------------------------------------------------------
+    // todo: Manually implement interfaces here for RegEx, Range and string Constraints. Have tested the comment
+    // flags on 3.4.11 but these do not seem to be detected during the ttsc pass. When fixed, implement a if block
+    // below for the specific tests to write the them to the benchmark.
+    //
+    // reference: (https://github.com/samchon/typia/wiki/Runtime-Validators#comment-tags)
+    // -------------------------------------------------------------------------------------------------------------
     yield `export function Execute(iterations: number) {`
     yield `const results = new Map<string, number>()`
     for (const schema of Object.values(Cases)) {

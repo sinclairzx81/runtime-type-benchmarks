@@ -4,18 +4,19 @@ export * from './array/index'
 export * from './composite/index'
 export * from './literal/index'
 export * from './math/index'
+export * from './number/index'
 export * from './object/index'
 export * from './primitive/index'
 export * from './recursive/index'
+export * from './string/index'
 export * from './tuple/index'
 export * from './typia/index'
 
 const dataset = new Map<string, unknown>()
 
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Benchmark
-// ---------------------------------------------------------------
-
+// ---------------------------------------------------------------------------------
 export type BenchmarkSetup = (schema: TSchema) => BenchmarkCheck
 export type BenchmarkCheck = (value: unknown) => boolean
 const types = new Set<string>()
@@ -41,9 +42,9 @@ export function Benchmark(schema: TSchema, iterations: number, results: Map<stri
   results.set(schema.$id, elapsed)
 }
 
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Array
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 dataset.set(
   'Array_Number',
   Array.from({ length: 8 }, (_, i) => {
@@ -67,10 +68,9 @@ dataset.set(
     }
   }),
 )
-dataset.set(
-  'Array_Recursive',
-  Array.from({ length: 8 }, (_, i) => {
-    if (i === 7)
+// prettier-ignore
+dataset.set('Array_Recursive', Array.from({ length: 2 }, (_, i) => {
+    if (i === 1)
       return {
         id: 'A',
         nodes: ['not-a-node'],
@@ -145,20 +145,10 @@ dataset.set(
     }
   }),
 )
-// ---------------------------------------------------------------
-// Primitive
-// ---------------------------------------------------------------
-dataset.set('Primitive_Boolean', 1)
-dataset.set('Primitive_Integer', 3.14)
-dataset.set('Primitive_Null', 1)
-dataset.set('Primitive_Number', true)
-dataset.set('Primitive_RegEx', 'invalid-pattern')
-dataset.set('Primitive_String', 1)
-dataset.set('Primitive_Undefined', 1)
 
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Composite
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 dataset.set('Composite_Union_Literal', 'E')
 dataset.set('Composite_Union_Discriminated', { type: 'E', value: true })
 dataset.set('Composite_Union_Non_Discriminated', { A: 'A', C: 'C' })
@@ -173,17 +163,16 @@ dataset.set('Composite_Intersect', {
   H: 'A', // error
 })
 
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Literal
-// ---------------------------------------------------------------
-
+// ---------------------------------------------------------------------------------
 dataset.set('Literal_String', 'bar')
 dataset.set('Literal_Number', 1)
 dataset.set('Literal_Boolean', false)
 
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Math
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 dataset.set('Math_Vector3', {
   x: 0,
   y: 0,
@@ -202,16 +191,35 @@ dataset.set('Math_Box3D', {
   pivot: { x: 0, y: 0, z: false }, // error
 })
 dataset.set('Math_Mesh', {
-  vertices: Array.from({ length: 100 * 3 }, () => 0),
-  normals: Array.from({ length: 100 * 3 }, () => 0),
-  texoords: Array.from({ length: 100 * 3 }, () => 0),
-  indices: Array.from({ length: 100 * 3 }, (a, i) => (i < 299 ? 0 : 'not-a-number')),
+  vertices: Array.from({ length: 128 }, () => 0),
+  normals: Array.from({ length: 128 }, () => 0),
+  texoords: Array.from({ length: 128 }, () => 0),
+  indices: Array.from({ length: 128 }, (a, i) => (i < 127 ? 0 : 'not-a-number')),
 })
 
-// ---------------------------------------------------------------
-// Object
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
+// Number
+// ---------------------------------------------------------------------------------
+dataset.set('Number_Exclusive_Maximum', 8)
+dataset.set('Number_Exclusive_Minimum', 8)
+dataset.set('Number_Maximum', 9)
+dataset.set('Number_Minimum', 7)
+dataset.set('Number_Multiple_Of', 15)
 
+// ---------------------------------------------------------------------------------
+// Primitive
+// ---------------------------------------------------------------------------------
+dataset.set('Primitive_Boolean', 1)
+dataset.set('Primitive_Integer', 3.14)
+dataset.set('Primitive_Null', 1)
+dataset.set('Primitive_Number', true)
+dataset.set('Primitive_RegEx', 'invalid-pattern')
+dataset.set('Primitive_String', 1)
+dataset.set('Primitive_Undefined', 1)
+
+// ---------------------------------------------------------------------------------
+// Object
+// ---------------------------------------------------------------------------------
 dataset.set('Object_Loose', {
   A: 1,
   B: 1,
@@ -253,20 +261,9 @@ dataset.set('Object_Partial', {
   rotation: { x: 1, y: 2, z: true }, // error
 })
 
-// ---------------------------------------------------------------
-// Tuple
-// ---------------------------------------------------------------
-dataset.set('Tuple_Number', [0, 0, true])
-dataset.set('Tuple_Object', [
-  { x: 0, y: 0, z: 0 },
-  { x: 0, y: 0, z: 0 },
-  { x: 0, y: 0, z: true }, // error
-])
-dataset.set('Tuple_Union_Literal', ['B', 'D', 'G'])
-
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 // Recursive
-// ---------------------------------------------------------------
+// ---------------------------------------------------------------------------------
 dataset.set('Recursive_Object', {
   id: 'A',
   nodes: [
@@ -296,7 +293,6 @@ dataset.set('Recursive_Object', {
     },
   ],
 })
-
 dataset.set('Recursive_Union', {
   type: 'Node',
   nodes: [
@@ -326,10 +322,28 @@ dataset.set('Recursive_Union', {
     },
   ],
 })
-// ---------------------------------------------------------------
-// Typia
-// ---------------------------------------------------------------
 
+// ---------------------------------------------------------------------------------
+// String
+// ---------------------------------------------------------------------------------
+dataset.set('String_MaxLength', '000000000')
+dataset.set('String_MinLength', '0000000')
+
+// ---------------------------------------------------------------------------------
+// Tuple
+// ---------------------------------------------------------------------------------
+dataset.set('Tuple_Number', [0, 0, true])
+dataset.set('Tuple_Object', [
+  { x: 0, y: 0, z: 0 },
+  { x: 0, y: 0, z: 0 },
+  { x: 0, y: 0, z: true }, // error
+])
+dataset.set('Tuple_Union_Literal', ['B', 'D', 'G'])
+
+// ---------------------------------------------------------------------------------
+// Typia
+// ---------------------------------------------------------------------------------
+// prettier-ignore
 dataset.set('Typia_Array_Hierarchical', [
   {
     id: true,
@@ -364,6 +378,7 @@ dataset.set('Typia_Array_Hierarchical', [
     }),
   },
 ])
+// prettier-ignore
 dataset.set('Typia_Array_Recursive_Union_Explicit', [
   {
     id: 'error', // error
@@ -410,7 +425,7 @@ dataset.set('Typia_Array_Recursive_Union_Explicit', [
           id: 1,
           name: 'name-1',
           path: 'path-1',
-          children: Array.from({ length: 4 }, () => {
+          children: Array.from({ length: 2 }, () => {
             return {
               id: 1,
               name: 'name-1',
@@ -433,7 +448,7 @@ dataset.set('Typia_Array_Recursive_Union_Explicit', [
     extension: 'lnk',
   },
 ])
-
+// prettier-ignore
 dataset.set('Typia_Array_Recursive_Union_Implicit', [
   {
     id: 'error', // error
@@ -467,12 +482,12 @@ dataset.set('Typia_Array_Recursive_Union_Implicit', [
     id: 1,
     name: 'name-1',
     path: 'path-1',
-    children: Array.from({ length: 4 }, () => {
+    children: Array.from({ length: 1 }, () => {
       return {
         id: 1,
         name: 'name-1',
         path: 'path-1',
-        children: Array.from({ length: 4 }, () => {
+        children: Array.from({ length: 2 }, () => {
           return {
             id: 1,
             name: 'name-1',
@@ -501,6 +516,7 @@ dataset.set('Typia_Array_Recursive_Union_Implicit', [
     access: 'read',
   },
 ])
+// prettier-ignore
 dataset.set('Typia_Array_Recursive', {
   children: Array.from({ length: 4 }, () => {
     return {
@@ -533,10 +549,9 @@ dataset.set('Typia_Array_Recursive', {
     zone: 1,
   },
 })
-dataset.set(
-  'Typia_Array_Simple',
-  Array.from({ length: 16 }, (_, i) => {
-    if (i === 15)
+// prettier-ignore
+dataset.set('Typia_Array_Simple', Array.from({ length: 8 }, (_, i) => {
+    if (i === 7)
       return {
         name: 'name-1',
         email: 'email-1',
@@ -590,6 +605,7 @@ dataset.set(
     }
   }),
 )
+// prettier-ignore
 dataset.set('Typia_Object_Hierarchical', {
   id: 1,
   channel: {
@@ -654,6 +670,7 @@ dataset.set('Typia_Object_Hierarchical', {
     zone: 1,
   },
 })
+// prettier-ignore
 dataset.set('Typia_Object_Recursive', {
   parent: {
     parent: {
@@ -705,26 +722,27 @@ dataset.set('Typia_Object_Recursive', {
     zone: 1,
   },
 })
+// prettier-ignore
 dataset.set('Typia_Object_Simple', {
   scale: { x: 1, y: 1, z: 1 },
   position: { x: 1, y: 1, z: 1 },
   rotate: { x: 1, y: 1, z: 1 },
   pivot: { x: 1, y: 1, z: true }, // error
 })
+// prettier-ignore
 dataset.set('Typia_Object_Union_Explicit', {
   type: 'circle',
   centroid: { x: 1, y: 1 },
   radius: false, // error
 })
-dataset.set(
-  'Typia_Object_Union_Explicit',
-  Array.from({ length: 64 }, (_, i) => {
-    if (i === 63)
-      return {
-        type: 'circle',
-        centroid: { x: 1, y: true }, // error
-        radius: 1,
-      }
+// prettier-ignore
+dataset.set('Typia_Object_Union_Explicit', Array.from({ length: 8 }, (_, i) => {
+  if (i === 7)
+    return {
+      type: 'circle',
+      centroid: { x: 1, y: true }, // error
+      radius: 1,
+    }
     const mod = i % 7
     switch (mod) {
       case 0:
@@ -784,18 +802,18 @@ dataset.set(
       case 4:
         return {
           type: 'polyline',
-          points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+          points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
         }
       case 5:
         return {
           type: 'polygon',
           outer: {
             type: 'polyline',
-            points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+            points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
           },
-          inner: Array.from({ length: 32 }, () => {
+          inner: Array.from({ length: 4 }, () => {
             return {
-              points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+              points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
             }
           }),
         }
@@ -810,16 +828,14 @@ dataset.set(
     }
   }),
 )
-
-dataset.set(
-  'Typia_Object_Union_Implicit',
-  Array.from({ length: 64 }, (_, i) => {
-    if (i === 63)
-      return {
-        x: 1,
-        y: 1,
-        slope: false, // error
-      }
+// prettier-ignore
+dataset.set('Typia_Object_Union_Implicit', Array.from({ length: 2 }, (_, i) => {
+  if (i === 1)
+    return {
+      x: 1,
+      y: 1,
+      slope: false, // error
+    }
     const mod = i % 7
     switch (mod) {
       case 0:
@@ -882,18 +898,18 @@ dataset.set(
         }
       case 4:
         return {
-          points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+          points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
           length: 1,
         }
       case 5:
         return {
           outer: {
             type: 'polyline',
-            points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+            points: Array.from({ length: 342 }, (_, i) => ({ x: 1, y: 1 })),
           },
-          inner: Array.from({ length: 32 }, () => {
+          inner: Array.from({ length: 4 }, () => {
             return {
-              points: Array.from({ length: 32 }, (_, i) => ({ x: 1, y: 1 })),
+              points: Array.from({ length: 4 }, (_, i) => ({ x: 1, y: 1 })),
             }
           }),
           area: 1,
@@ -910,37 +926,36 @@ dataset.set(
   }),
 )
 // partial implementation - too complex
-dataset.set(
-  'Typia_Ultimate_Union',
-  Array.from({ length: 64 }, (_, i) => {
-    const attribute = () => ({
-      description: 'description-1',
-      'x-tson-metaTags': [{ kind: 'kind-1' }, { kind: 'kind-2' }],
-      'x-tson-jsDocTags': [
-        {
-          name: 'name-1',
-          text: [
-            {
-              text: 'text-1',
-              kind: 'kind-1',
-            },
-          ],
-        },
-      ],
-    })
-    const atomic = (type: string, value: unknown) => {
-      return { type, nullable: true, default: value, ...attribute() }
+// prettier-ignore
+dataset.set('Typia_Ultimate_Union', Array.from({ length: 2 }, (_, i) => {
+  const attribute = () => ({
+    description: 'description-1',
+    'x-tson-metaTags': [{ kind: 'kind-1' }, { kind: 'kind-2' }],
+    'x-tson-jsDocTags': [
+      {
+        name: 'name-1',
+        text: [
+          {
+            text: 'text-1',
+            kind: 'kind-1',
+          },
+        ],
+      },
+    ],
+  })
+  const atomic = (type: string, value: unknown) => {
+    return { type, nullable: true, default: value, ...attribute() }
+  }
+  const application = (invalidate: boolean) => {
+    return {
+      schemas: [atomic('boolean', true), atomic('integer', 1), atomic('number', 1), atomic('string', 'string')],
+      components: {
+        schemas: {},
+      },
+      purpose: 'swaggers',
+      prefix: 'prefix-1',
     }
-    const application = (invalidate: boolean) => {
-      return {
-        schemas: [atomic('boolean', true), atomic('integer', 1), atomic('number', 1), atomic('string', 'string')],
-        components: {
-          schemas: {},
-        },
-        purpose: invalidate ? 'error' : 'swagger', // error
-        prefix: 'prefix-1',
-      }
-    }
-    return application(i === 63)
-  }),
+  }
+  return application(i === 1)
+}),
 )

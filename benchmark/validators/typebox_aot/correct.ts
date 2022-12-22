@@ -174,6 +174,46 @@ export function Execute(iterations: number) {
       return check_Math_Vector3(value)
     }
   })
+  Cases.Benchmark(Cases.Number_Exclusive_Maximum, iterations, results, () => {
+    function check_Number_Exclusive_Maximum(value) {
+      return typeof value === 'number' && value < 8
+    }
+    return function check(value) {
+      return check_Number_Exclusive_Maximum(value)
+    }
+  })
+  Cases.Benchmark(Cases.Number_Exclusive_Minimum, iterations, results, () => {
+    function check_Number_Exclusive_Minimum(value) {
+      return typeof value === 'number' && value > 8
+    }
+    return function check(value) {
+      return check_Number_Exclusive_Minimum(value)
+    }
+  })
+  Cases.Benchmark(Cases.Number_Maximum, iterations, results, () => {
+    function check_Number_Maximum(value) {
+      return typeof value === 'number' && value <= 8
+    }
+    return function check(value) {
+      return check_Number_Maximum(value)
+    }
+  })
+  Cases.Benchmark(Cases.Number_Minimum, iterations, results, () => {
+    function check_Number_Minimum(value) {
+      return typeof value === 'number' && value >= 8
+    }
+    return function check(value) {
+      return check_Number_Minimum(value)
+    }
+  })
+  Cases.Benchmark(Cases.Number_Multiple_Of, iterations, results, () => {
+    function check_Number_Multiple_Of(value) {
+      return typeof value === 'number' && value % 8 === 0
+    }
+    return function check(value) {
+      return check_Number_Multiple_Of(value)
+    }
+  })
   Cases.Benchmark(Cases.Object_Loose, iterations, results, () => {
     function check_Object_Loose(value) {
       return (
@@ -334,6 +374,22 @@ export function Execute(iterations: number) {
     }
     return function check(value) {
       return check_Recursive_Union(value)
+    }
+  })
+  Cases.Benchmark(Cases.String_MaxLength, iterations, results, () => {
+    function check_String_MaxLength(value) {
+      return typeof value === 'string' && value.length <= 8
+    }
+    return function check(value) {
+      return check_String_MaxLength(value)
+    }
+  })
+  Cases.Benchmark(Cases.String_MinLength, iterations, results, () => {
+    function check_String_MinLength(value) {
+      return typeof value === 'string' && value.length >= 8
+    }
+    return function check(value) {
+      return check_String_MinLength(value)
     }
   })
   Cases.Benchmark(Cases.Tuple_Number, iterations, results, () => {

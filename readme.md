@@ -4,7 +4,7 @@ High Performance Validation Benchmarks for JavaScript
 
 ### Overview
 
-This project measures a set of high performance JavaScript validation libraries to adequately measure their comparative validation performance. This project also seeks to compare JIT to AOT performance by measuring the script validation routines against those dynamically evaluated at runtime.
+This project measures a set of high performance JavaScript runtime type checking libraries to adequately compare their validation performance across a wide range of data structures. It also seeks to compare JIT to AOT performance by measuring static JavaScript validation routines against those dynamically evaluated at runtime.
 
 ### Benchmarks
 

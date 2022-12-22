@@ -116,14 +116,16 @@ export interface TypeGroupProperties {
 }
 export function TypeGroup(props: TypeGroupProperties) {
   const descriptions = new Map<string, string>()
-  descriptions.set('Primitive', 'Operations per second measuring the typeof operator, integers and regular expressions')
+  descriptions.set('Array', 'Operations per second for various array types')
+  descriptions.set('Composite', 'Operations per second for variations of union and intersection types')
   descriptions.set('Literal', 'Operations per second comparing two JavaScript values')
   descriptions.set('Math', 'Operations per second for types commonly used for linear algebra and graphics')
-  descriptions.set('Object', 'Operations per second for objects object types with constraints. A loose object means the validator allows additional properties. A strict object means additional properties are constrained')
-  descriptions.set('Tuple', 'Operations per second for tuple types. Similar to arrays, these types require array bounds checking')
-  descriptions.set('Composite', 'Operations per second for variations of union and intersection types')
+  descriptions.set('Number', 'Operations per second for constrained number values')
+  descriptions.set('Object', 'Operations per second for constrained objects values. The term strict means additional properties are disallowed')
+  descriptions.set('Primitive', 'Operations per second measuring the typeof operator, integers and regular expressions')
   descriptions.set('Recursive', 'Operations per second for recursive data structures')
-  descriptions.set('Array', 'Operations per second for types expressed as arrays of length 8')
+  descriptions.set('String', 'Operations per second for constrained string values')
+  descriptions.set('Tuple', 'Operations per second for tuple types. Similar to arrays, these types require array bounds checking')
   descriptions.set('Typia', 'Operations per second measured against the typia benchmark suite')
   return (
     <div className="type-group">

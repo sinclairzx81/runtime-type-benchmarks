@@ -138,6 +138,8 @@ body {
   background: #040404;
   min-width: 100px;
   min-height: 220px;
+  max-height: 512px;
+  overflow-y: hidden;
 }
 .type-tooltip > .header {
   min-width: 100px;

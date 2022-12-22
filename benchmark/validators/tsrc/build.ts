@@ -31,6 +31,13 @@ export namespace TsrcGenerator {
         'Array_Recursive',
         'Typia_Array_Recursive',
         'Typia_Object_Recursive',
+        'Number_Exclusive_Maximum',
+        'Number_Exclusive_Minimum',
+        'Number_Maximum',
+        'Number_Minimum',
+        'Number_Multiple_Of',
+        'String_MaxLength',
+        'String_MinLength',
         ...incorrect,
       ].includes(schema.$id!)
     )
