@@ -3,9 +3,10 @@
 export const Typia_Array_Recursive_Union_Explicit = validate10
 const schema11 = {
   $id: 'Typia_Array_Recursive_Union_Explicit',
+  description: 'Should validate the Typia_Array_Recursive_Union_Explicit structure',
   type: 'array',
   items: {
-    $id: 'T0',
+    $id: 'T1',
     anyOf: [
       {
         type: 'object',
@@ -34,19 +35,19 @@ const schema11 = {
       },
       {
         type: 'object',
-        properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T0' }, type: { const: 'file', type: 'string' }, extension: { const: 'lnk', type: 'string' } },
+        properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T1' }, type: { const: 'file', type: 'string' }, extension: { const: 'lnk', type: 'string' } },
         required: ['id', 'name', 'path', 'target', 'type', 'extension'],
       },
       {
         type: 'object',
-        properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T0' } }, type: { const: 'directory', type: 'string' } },
+        properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T1' } }, type: { const: 'directory', type: 'string' } },
         required: ['id', 'name', 'path', 'children', 'type'],
       },
     ],
   },
 }
 const schema12 = {
-  $id: 'T0',
+  $id: 'T1',
   anyOf: [
     {
       type: 'object',
@@ -75,19 +76,19 @@ const schema12 = {
     },
     {
       type: 'object',
-      properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T0' }, type: { const: 'file', type: 'string' }, extension: { const: 'lnk', type: 'string' } },
+      properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T1' }, type: { const: 'file', type: 'string' }, extension: { const: 'lnk', type: 'string' } },
       required: ['id', 'name', 'path', 'target', 'type', 'extension'],
     },
     {
       type: 'object',
-      properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T0' } }, type: { const: 'directory', type: 'string' } },
+      properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T1' } }, type: { const: 'directory', type: 'string' } },
       required: ['id', 'name', 'path', 'children', 'type'],
     },
   ],
 }
 const wrapper0 = { validate: validate11 }
 function validate11(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="T0" */ let vErrors = null
+  /*# sourceURL="T1" */ let vErrors = null
   let errors = 0
   const _errs0 = errors
   let valid0 = false

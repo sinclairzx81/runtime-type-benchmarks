@@ -52,5 +52,6 @@ export const Typia_Object_Hierarchical = Type.Object(
   },
   {
     $id: 'Typia_Object_Hierarchical',
+    description: 'Should validate the Typia_Object_Hierarchical structure',
   },
 )

@@ -14,9 +14,9 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Array_Object, iterations, results, () => {
     const Array_Object = z.array(
       z.object({
-        x: z.number(),
-        y: z.number(),
-        z: z.number(),
+        x: z.boolean(),
+        y: z.boolean(),
+        z: z.boolean(),
       }),
     )
     return (value) => {
@@ -28,22 +28,22 @@ export function Execute(iterations: number) {
     const Array_Union = z.array(
       z.union([
         z.object({
-          type: z.literal('Vector2'),
-          x: z.number(),
-          y: z.number(),
+          type: z.literal('BitVector2'),
+          x: z.boolean(),
+          y: z.boolean(),
         }),
         z.object({
-          type: z.literal('Vector3'),
-          x: z.number(),
-          y: z.number(),
-          z: z.number(),
+          type: z.literal('BitVector3'),
+          x: z.boolean(),
+          y: z.boolean(),
+          z: z.boolean(),
         }),
         z.object({
-          type: z.literal('Vector4'),
-          x: z.number(),
-          y: z.number(),
-          z: z.number(),
-          w: z.number(),
+          type: z.literal('BitVector4'),
+          x: z.boolean(),
+          y: z.boolean(),
+          z: z.boolean(),
+          w: z.boolean(),
         }),
       ]),
     )
@@ -99,13 +99,6 @@ export function Execute(iterations: number) {
       return success
     }
   })
-  Cases.Benchmark(Cases.Composite_Union_Literal, iterations, results, () => {
-    const Composite_Union_Literal = z.union([z.literal('A'), z.literal('B'), z.literal('C'), z.literal('D')])
-    return (value) => {
-      const { success } = Composite_Union_Literal.safeParse(value)
-      return success
-    }
-  })
   Cases.Benchmark(Cases.Composite_Union_Non_Discriminated, iterations, results, () => {
     const Composite_Union_Non_Discriminated = z.union([
       z.object({
@@ -119,6 +112,13 @@ export function Execute(iterations: number) {
     ])
     return (value) => {
       const { success } = Composite_Union_Non_Discriminated.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Composite_Union_String_Literal, iterations, results, () => {
+    const Composite_Union_String_Literal = z.union([z.literal('A'), z.literal('B'), z.literal('C'), z.literal('D')])
+    return (value) => {
+      const { success } = Composite_Union_String_Literal.safeParse(value)
       return success
     }
   })
@@ -143,8 +143,27 @@ export function Execute(iterations: number) {
       return success
     }
   })
-  Cases.Benchmark(Cases.Math_Box3D, iterations, results, () => {
-    const Math_Box3D = z.object({
+  Cases.Benchmark(Cases.Math_Matrix4, iterations, results, () => {
+    const Math_Matrix4 = z.array(z.array(z.number()))
+    return (value) => {
+      const { success } = Math_Matrix4.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Math_Mesh, iterations, results, () => {
+    const Math_Mesh = z.object({
+      vertices: z.array(z.number()),
+      normals: z.array(z.number()),
+      texoords: z.array(z.number()),
+      indices: z.array(z.number()),
+    })
+    return (value) => {
+      const { success } = Math_Mesh.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Math_Transform3D, iterations, results, () => {
+    const Math_Transform3D = z.object({
       scale: z.object({
         x: z.number(),
         y: z.number(),
@@ -167,26 +186,7 @@ export function Execute(iterations: number) {
       }),
     })
     return (value) => {
-      const { success } = Math_Box3D.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Math_Matrix4, iterations, results, () => {
-    const Math_Matrix4 = z.array(z.array(z.number()))
-    return (value) => {
-      const { success } = Math_Matrix4.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Math_Mesh, iterations, results, () => {
-    const Math_Mesh = z.object({
-      vertices: z.array(z.number()),
-      normals: z.array(z.number()),
-      texoords: z.array(z.number()),
-      indices: z.array(z.number().int()),
-    })
-    return (value) => {
-      const { success } = Math_Mesh.safeParse(value)
+      const { success } = Math_Transform3D.safeParse(value)
       return success
     }
   })
@@ -423,10 +423,10 @@ export function Execute(iterations: number) {
       return success
     }
   })
-  Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, () => {
-    const Tuple_Union_Literal = z.tuple([z.union([z.literal('A'), z.literal('B')]), z.union([z.literal('C'), z.literal('D')]), z.union([z.literal('E'), z.literal('F')])])
+  Cases.Benchmark(Cases.Tuple_Union_String_Literal, iterations, results, () => {
+    const Tuple_Union_String_Literal = z.tuple([z.union([z.literal('A'), z.literal('B')]), z.union([z.literal('C'), z.literal('D')]), z.union([z.literal('E'), z.literal('F')])])
     return (value) => {
-      const { success } = Tuple_Union_Literal.safeParse(value)
+      const { success } = Tuple_Union_String_Literal.safeParse(value)
       return success
     }
   })

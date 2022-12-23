@@ -21,5 +21,6 @@ export const Object_Object = Type.Object(
   },
   {
     $id: 'Object_Object',
+    description: 'Should validate a two level nested object',
   },
 )

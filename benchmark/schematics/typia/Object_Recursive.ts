@@ -18,5 +18,6 @@ export const Typia_Object_Recursive = Type.Recursive(
     }),
   {
     $id: 'Typia_Object_Recursive',
+    description: 'Should validate the Typia_Object_Recursive structure',
   },
 )

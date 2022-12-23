@@ -15,7 +15,7 @@ export namespace TsrcGenerator {
         'Composite_Union_Non_Discriminated',
         'Recursive_Node',
         'Recursive_Union_Node',
-        'Tuple_Union_Literal',
+        'Tuple_Union_String_Literal',
         'Array_Union',
         'Array_Recursive',
         'Number_NaN',

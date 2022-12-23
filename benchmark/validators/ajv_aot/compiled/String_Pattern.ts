@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const String_Pattern = validate10
-const schema11 = { $id: 'String_Pattern', pattern: '12343567890', type: 'string' }
+const schema11 = { $id: 'String_Pattern', pattern: '12343567890', description: 'Should validate a string value with a pattern constraint', type: 'string' }
 const pattern0 = new RegExp('12343567890', 'u')
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="String_Pattern" */ let vErrors = null

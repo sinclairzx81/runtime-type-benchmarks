@@ -55,9 +55,9 @@ dataset.set('Array_Number', Array.from({ length: 8 }, () => {
 // prettier-ignore
 dataset.set('Array_Object', Array.from({ length: 8 }, () => {
     return {
-      x: 1,
-      y: 2,
-      z: 3,
+      x: true,
+      y: true,
+      z: true,
     }
   }),
 )
@@ -100,24 +100,24 @@ dataset.set('Array_Union', Array.from({ length: 8 }, (_, i) => {
     switch (mod) {
       case 0:
         return {
-          type: 'Vector2',
-          x: 1,
-          y: 1,
+          type: 'BitVector2',
+          x: true,
+          y: true,
         }
       case 1:
         return {
-          type: 'Vector3',
-          x: 1,
-          y: 1,
-          z: 1,
+          type: 'BitVector3',
+          x: true,
+          y: true,
+          z: true,
         }
       case 2:
         return {
-          type: 'Vector4',
-          x: 1,
-          y: 1,
-          z: 1,
-          w: 1,
+          type: 'BitVector4',
+          x: true,
+          y: true,
+          z: true,
+          w: true,
         }
       default:
         throw Error('Modulus Overflow')
@@ -132,7 +132,7 @@ dataset.set('Boolean_Boolean', true)
 // ---------------------------------------------------------------------------------
 // Composite
 // ---------------------------------------------------------------------------------
-dataset.set('Composite_Union_Literal', 'D')
+dataset.set('Composite_Union_String_Literal', 'D')
 dataset.set('Composite_Union_Discriminated', { type: 'D', value: 42 })
 dataset.set('Composite_Union_Non_Discriminated', { C: 'C', D: 'D' })
 dataset.set('Composite_Intersect', {
@@ -167,7 +167,7 @@ dataset.set('Math_Matrix4', [
   [0, 0, 1, 0],
   [0, 0, 0, 1],
 ])
-dataset.set('Math_Box3D', {
+dataset.set('Math_Transform3D', {
   scale: { x: 0, y: 0, z: 0 },
   position: { x: 0, y: 0, z: 0 },
   rotate: { x: 0, y: 0, z: 0 },
@@ -320,7 +320,7 @@ dataset.set('String_String', 'hello')
 // ---------------------------------------------------------------------------------
 // Tuple
 // ---------------------------------------------------------------------------------
-dataset.set('Tuple_Union_Literal', ['B', 'D', 'F'])
+dataset.set('Tuple_Union_String_Literal', ['B', 'D', 'F'])
 dataset.set('Tuple_Number', [0, 0, 0])
 dataset.set('Tuple_Object', [
   { x: 0, y: 0, z: 0 },

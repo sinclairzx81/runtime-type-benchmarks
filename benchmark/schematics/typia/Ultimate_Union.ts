@@ -136,4 +136,5 @@ const Schema = Type.Recursive((schema) =>
 export type Typia_Ultimate_Union = Static<typeof Typia_Ultimate_Union>
 export const Typia_Ultimate_Union = Type.Array(Application(Schema), {
   $id: 'Typia_Ultimate_Union',
+  description: 'Should validate the Typia_Ultimate_Union structure',
 })

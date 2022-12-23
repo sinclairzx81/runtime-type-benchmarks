@@ -13,4 +13,5 @@ export const Recursive_Union_Node = Type.Recursive((Recursive_Union_Node) => Typ
   }),
 ]), {
   $id: 'Recursive_Union_Node',
+  description: 'Should validate a recursive union object'
 })

@@ -3,6 +3,7 @@
 export const Math_Transform3D = validate10
 const schema11 = {
   $id: 'Math_Transform3D',
+  description: 'Should validate a transform 3D object type',
   type: 'object',
   properties: {
     scale: { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] },

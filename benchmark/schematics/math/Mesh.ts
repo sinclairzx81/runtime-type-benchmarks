@@ -6,9 +6,10 @@ export const Math_Mesh = Type.Object(
     vertices: Type.Array(Type.Number()),
     normals: Type.Array(Type.Number()),
     texoords: Type.Array(Type.Number()),
-    indices: Type.Array(Type.Integer()),
+    indices: Type.Array(Type.Number()),
   },
   {
     $id: 'Math_Mesh',
+    description: 'Tests for a Mesh data structure with 100 components per property',
   },
 )

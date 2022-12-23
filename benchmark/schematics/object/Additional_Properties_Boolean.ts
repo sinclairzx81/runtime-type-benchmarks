@@ -11,5 +11,6 @@ export const Object_Additional_Properties_Boolean = Type.Object(
   {
     $id: 'Object_Additional_Properties_Boolean',
     additionalProperties: Type.Boolean(),
+    description: 'Should allow additional properties, but only with values of type boolean',
   },
 )

@@ -3,9 +3,10 @@
 export const Typia_Array_Recursive_Union_Implicit = validate10
 const schema11 = {
   $id: 'Typia_Array_Recursive_Union_Implicit',
+  description: 'Should validate the Typia_Array_Recursive_Union_Implicit structure',
   type: 'array',
   items: {
-    $id: 'T1',
+    $id: 'T2',
     anyOf: [
       {
         type: 'object',
@@ -14,15 +15,15 @@ const schema11 = {
       },
       { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, size: { type: 'number' }, content: { type: 'string' } }, required: ['id', 'name', 'path', 'size', 'content'] },
       { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, size: { type: 'number' }, count: { type: 'number' } }, required: ['id', 'name', 'path', 'size', 'count'] },
-      { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T1' } }, required: ['id', 'name', 'path', 'target'] },
-      { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T1' } } }, required: ['id', 'name', 'path', 'children'] },
+      { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T2' } }, required: ['id', 'name', 'path', 'target'] },
+      { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T2' } } }, required: ['id', 'name', 'path', 'children'] },
       {
         type: 'object',
         properties: {
           id: { type: 'number' },
           name: { type: 'string' },
           path: { type: 'string' },
-          children: { type: 'array', items: { $ref: 'T1' } },
+          children: { type: 'array', items: { $ref: 'T2' } },
           access: {
             anyOf: [
               { const: 'read', type: 'string' },
@@ -36,7 +37,7 @@ const schema11 = {
   },
 }
 const schema12 = {
-  $id: 'T1',
+  $id: 'T2',
   anyOf: [
     {
       type: 'object',
@@ -45,15 +46,15 @@ const schema12 = {
     },
     { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, size: { type: 'number' }, content: { type: 'string' } }, required: ['id', 'name', 'path', 'size', 'content'] },
     { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, size: { type: 'number' }, count: { type: 'number' } }, required: ['id', 'name', 'path', 'size', 'count'] },
-    { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T1' } }, required: ['id', 'name', 'path', 'target'] },
-    { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T1' } } }, required: ['id', 'name', 'path', 'children'] },
+    { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, target: { $ref: 'T2' } }, required: ['id', 'name', 'path', 'target'] },
+    { type: 'object', properties: { id: { type: 'number' }, name: { type: 'string' }, path: { type: 'string' }, children: { type: 'array', items: { $ref: 'T2' } } }, required: ['id', 'name', 'path', 'children'] },
     {
       type: 'object',
       properties: {
         id: { type: 'number' },
         name: { type: 'string' },
         path: { type: 'string' },
-        children: { type: 'array', items: { $ref: 'T1' } },
+        children: { type: 'array', items: { $ref: 'T2' } },
         access: {
           anyOf: [
             { const: 'read', type: 'string' },
@@ -67,7 +68,7 @@ const schema12 = {
 }
 const wrapper0 = { validate: validate11 }
 function validate11(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="T1" */ let vErrors = null
+  /*# sourceURL="T2" */ let vErrors = null
   let errors = 0
   const _errs0 = errors
   let valid0 = false

@@ -3,7 +3,7 @@
 export const Composite_Union_String_Literal = validate10
 const schema11 = {
   $id: 'Composite_Union_String_Literal',
-  description: 'Tests for a string literal union (string enum)',
+  description: 'Should validate a string literal union',
   anyOf: [
     { const: 'A', type: 'string' },
     { const: 'B', type: 'string' },

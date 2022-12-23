@@ -9,6 +9,7 @@ const schema11 = {
     C: { type: 'object', properties: { A: { type: 'string' }, B: { type: 'string' }, C: { type: 'string' } } },
   },
   $id: 'Object_Partial',
+  description: 'Should allow partially applied objects',
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Object_Partial" */ let vErrors = null

@@ -3,6 +3,7 @@
 export const Composite_Intersect = validate10
 const schema11 = {
   $id: 'Composite_Intersect',
+  description: 'Should validate an intersected object',
   type: 'object',
   properties: {
     A: { const: 'A', type: 'string' },

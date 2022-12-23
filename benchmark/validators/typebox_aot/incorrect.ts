@@ -14,23 +14,18 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Array_Object, iterations, results, () => {
     function check_Array_Object(value) {
-      return (
-        Array.isArray(value) &&
-        value.every(
-          (value) => typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.x === 'number' && !isNaN(value.x) && typeof value.y === 'number' && !isNaN(value.y) && typeof value.z === 'number' && !isNaN(value.z),
-        )
-      )
+      return Array.isArray(value) && value.every((value) => typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.x === 'boolean' && typeof value.y === 'boolean' && typeof value.z === 'boolean')
     }
     return function check(value) {
       return check_Array_Object(value)
     }
   })
   Cases.Benchmark(Cases.Array_Recursive, iterations, results, () => {
-    function check_Recursive_Object(value) {
-      return typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.id === 'string' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_Object(value))
+    function check_T0(value) {
+      return typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.id === 'string' && Array.isArray(value.nodes) && value.nodes.every((value) => check_T0(value))
     }
     function check_Array_Recursive(value) {
-      return Array.isArray(value) && value.every((value) => check_Recursive_Object(value))
+      return Array.isArray(value) && value.every((value) => check_T0(value))
     }
     return function check(value) {
       return check_Array_Recursive(value)
@@ -42,29 +37,16 @@ export function Execute(iterations: number) {
         Array.isArray(value) &&
         value.every(
           (value) =>
-            (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'Vector2' && typeof value.x === 'number' && !isNaN(value.x) && typeof value.y === 'number' && !isNaN(value.y)) ||
+            (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'BitVector2' && typeof value.x === 'boolean' && typeof value.y === 'boolean') ||
+            (typeof value === 'object' && value !== null && !Array.isArray(value) && value.type === 'BitVector3' && typeof value.x === 'boolean' && typeof value.y === 'boolean' && typeof value.z === 'boolean') ||
             (typeof value === 'object' &&
               value !== null &&
               !Array.isArray(value) &&
-              value.type === 'Vector3' &&
-              typeof value.x === 'number' &&
-              !isNaN(value.x) &&
-              typeof value.y === 'number' &&
-              !isNaN(value.y) &&
-              typeof value.z === 'number' &&
-              !isNaN(value.z)) ||
-            (typeof value === 'object' &&
-              value !== null &&
-              !Array.isArray(value) &&
-              value.type === 'Vector4' &&
-              typeof value.x === 'number' &&
-              !isNaN(value.x) &&
-              typeof value.y === 'number' &&
-              !isNaN(value.y) &&
-              typeof value.z === 'number' &&
-              !isNaN(value.z) &&
-              typeof value.w === 'number' &&
-              !isNaN(value.w)),
+              value.type === 'BitVector4' &&
+              typeof value.x === 'boolean' &&
+              typeof value.y === 'boolean' &&
+              typeof value.z === 'boolean' &&
+              typeof value.w === 'boolean'),
         )
       )
     }
@@ -101,14 +83,6 @@ export function Execute(iterations: number) {
       return check_Composite_Union_Discriminated(value)
     }
   })
-  Cases.Benchmark(Cases.Composite_Union_Literal, iterations, results, () => {
-    function check_Composite_Union_Literal(value) {
-      return value === 'A' || value === 'B' || value === 'C' || value === 'D'
-    }
-    return function check(value) {
-      return check_Composite_Union_Literal(value)
-    }
-  })
   Cases.Benchmark(Cases.Composite_Union_Non_Discriminated, iterations, results, () => {
     function check_Composite_Union_Non_Discriminated(value) {
       return (
@@ -118,6 +92,14 @@ export function Execute(iterations: number) {
     }
     return function check(value) {
       return check_Composite_Union_Non_Discriminated(value)
+    }
+  })
+  Cases.Benchmark(Cases.Composite_Union_String_Literal, iterations, results, () => {
+    function check_Composite_Union_String_Literal(value) {
+      return value === 'A' || value === 'B' || value === 'C' || value === 'D'
+    }
+    return function check(value) {
+      return check_Composite_Union_String_Literal(value)
     }
   })
   Cases.Benchmark(Cases.Literal_Boolean, iterations, results, () => {
@@ -144,8 +126,36 @@ export function Execute(iterations: number) {
       return check_Literal_String(value)
     }
   })
-  Cases.Benchmark(Cases.Math_Box3D, iterations, results, () => {
-    function check_Math_Box3D(value) {
+  Cases.Benchmark(Cases.Math_Matrix4, iterations, results, () => {
+    function check_Math_Matrix4(value) {
+      return Array.isArray(value) && value.every((value) => Array.isArray(value) && value.every((value) => typeof value === 'number' && !isNaN(value)))
+    }
+    return function check(value) {
+      return check_Math_Matrix4(value)
+    }
+  })
+  Cases.Benchmark(Cases.Math_Mesh, iterations, results, () => {
+    function check_Math_Mesh(value) {
+      return (
+        typeof value === 'object' &&
+        value !== null &&
+        !Array.isArray(value) &&
+        Array.isArray(value.vertices) &&
+        value.vertices.every((value) => typeof value === 'number' && !isNaN(value)) &&
+        Array.isArray(value.normals) &&
+        value.normals.every((value) => typeof value === 'number' && !isNaN(value)) &&
+        Array.isArray(value.texoords) &&
+        value.texoords.every((value) => typeof value === 'number' && !isNaN(value)) &&
+        Array.isArray(value.indices) &&
+        value.indices.every((value) => typeof value === 'number' && !isNaN(value))
+      )
+    }
+    return function check(value) {
+      return check_Math_Mesh(value)
+    }
+  })
+  Cases.Benchmark(Cases.Math_Transform3D, iterations, results, () => {
+    function check_Math_Transform3D(value) {
       return (
         typeof value === 'object' &&
         value !== null &&
@@ -189,35 +199,7 @@ export function Execute(iterations: number) {
       )
     }
     return function check(value) {
-      return check_Math_Box3D(value)
-    }
-  })
-  Cases.Benchmark(Cases.Math_Matrix4, iterations, results, () => {
-    function check_Math_Matrix4(value) {
-      return Array.isArray(value) && value.every((value) => Array.isArray(value) && value.every((value) => typeof value === 'number' && !isNaN(value)))
-    }
-    return function check(value) {
-      return check_Math_Matrix4(value)
-    }
-  })
-  Cases.Benchmark(Cases.Math_Mesh, iterations, results, () => {
-    function check_Math_Mesh(value) {
-      return (
-        typeof value === 'object' &&
-        value !== null &&
-        !Array.isArray(value) &&
-        Array.isArray(value.vertices) &&
-        value.vertices.every((value) => typeof value === 'number' && !isNaN(value)) &&
-        Array.isArray(value.normals) &&
-        value.normals.every((value) => typeof value === 'number' && !isNaN(value)) &&
-        Array.isArray(value.texoords) &&
-        value.texoords.every((value) => typeof value === 'number' && !isNaN(value)) &&
-        Array.isArray(value.indices) &&
-        value.indices.every((value) => typeof value === 'number' && Number.isInteger(value))
-      )
-    }
-    return function check(value) {
-      return check_Math_Mesh(value)
+      return check_Math_Transform3D(value)
     }
   })
   Cases.Benchmark(Cases.Math_Vector3, iterations, results, () => {
@@ -506,12 +488,12 @@ export function Execute(iterations: number) {
       return check_Tuple_Object(value)
     }
   })
-  Cases.Benchmark(Cases.Tuple_Union_Literal, iterations, results, () => {
-    function check_Tuple_Union_Literal(value) {
+  Cases.Benchmark(Cases.Tuple_Union_String_Literal, iterations, results, () => {
+    function check_Tuple_Union_String_Literal(value) {
       return Array.isArray(value) && value.length === 3 && (value[0] === 'A' || value[0] === 'B') && (value[1] === 'C' || value[1] === 'D') && (value[2] === 'E' || value[2] === 'F')
     }
     return function check(value) {
-      return check_Tuple_Union_Literal(value)
+      return check_Tuple_Union_String_Literal(value)
     }
   })
   Cases.Benchmark(Cases.Typia_Array_Hierarchical, iterations, results, () => {
@@ -609,7 +591,7 @@ export function Execute(iterations: number) {
     }
   })
   Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Explicit, iterations, results, () => {
-    function check_T0(value) {
+    function check_T1(value) {
       return (
         (typeof value === 'object' &&
           value !== null &&
@@ -659,7 +641,7 @@ export function Execute(iterations: number) {
           !isNaN(value.id) &&
           typeof value.name === 'string' &&
           typeof value.path === 'string' &&
-          check_T0(value.target) &&
+          check_T1(value.target) &&
           value.type === 'file' &&
           value.extension === 'lnk') ||
         (typeof value === 'object' &&
@@ -670,19 +652,19 @@ export function Execute(iterations: number) {
           typeof value.name === 'string' &&
           typeof value.path === 'string' &&
           Array.isArray(value.children) &&
-          value.children.every((value) => check_T0(value)) &&
+          value.children.every((value) => check_T1(value)) &&
           value.type === 'directory')
       )
     }
     function check_Typia_Array_Recursive_Union_Explicit(value) {
-      return Array.isArray(value) && value.every((value) => check_T0(value))
+      return Array.isArray(value) && value.every((value) => check_T1(value))
     }
     return function check(value) {
       return check_Typia_Array_Recursive_Union_Explicit(value)
     }
   })
   Cases.Benchmark(Cases.Typia_Array_Recursive_Union_Implicit, iterations, results, () => {
-    function check_T1(value) {
+    function check_T2(value) {
       return (
         (typeof value === 'object' &&
           value !== null &&
@@ -719,7 +701,7 @@ export function Execute(iterations: number) {
           !isNaN(value.size) &&
           typeof value.count === 'number' &&
           !isNaN(value.count)) ||
-        (typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.id === 'number' && !isNaN(value.id) && typeof value.name === 'string' && typeof value.path === 'string' && check_T1(value.target)) ||
+        (typeof value === 'object' && value !== null && !Array.isArray(value) && typeof value.id === 'number' && !isNaN(value.id) && typeof value.name === 'string' && typeof value.path === 'string' && check_T2(value.target)) ||
         (typeof value === 'object' &&
           value !== null &&
           !Array.isArray(value) &&
@@ -728,7 +710,7 @@ export function Execute(iterations: number) {
           typeof value.name === 'string' &&
           typeof value.path === 'string' &&
           Array.isArray(value.children) &&
-          value.children.every((value) => check_T1(value))) ||
+          value.children.every((value) => check_T2(value))) ||
         (typeof value === 'object' &&
           value !== null &&
           !Array.isArray(value) &&
@@ -737,12 +719,12 @@ export function Execute(iterations: number) {
           typeof value.name === 'string' &&
           typeof value.path === 'string' &&
           Array.isArray(value.children) &&
-          value.children.every((value) => check_T1(value)) &&
+          value.children.every((value) => check_T2(value)) &&
           (value.access === 'read' || value.access === 'write'))
       )
     }
     function check_Typia_Array_Recursive_Union_Implicit(value) {
-      return Array.isArray(value) && value.every((value) => check_T1(value))
+      return Array.isArray(value) && value.every((value) => check_T2(value))
     }
     return function check(value) {
       return check_Typia_Array_Recursive_Union_Implicit(value)
@@ -1229,7 +1211,7 @@ export function Execute(iterations: number) {
     }
   })
   Cases.Benchmark(Cases.Typia_Ultimate_Union, iterations, results, () => {
-    function check_T2(value) {
+    function check_T3(value) {
       return (
         (typeof value === 'object' &&
           value !== null &&
@@ -1475,7 +1457,7 @@ export function Execute(iterations: number) {
           value !== null &&
           !Array.isArray(value) &&
           value.type === 'array' &&
-          check_T2(value.items) &&
+          check_T3(value.items) &&
           typeof value.nullable === 'boolean' &&
           (value.description === undefined ? true : typeof value.description === 'string') &&
           (value['x-tson-metaTags'] === undefined
@@ -1499,7 +1481,7 @@ export function Execute(iterations: number) {
           !Array.isArray(value) &&
           value.type === 'array' &&
           Array.isArray(value.items) &&
-          value.items.every((value) => check_T2(value)) &&
+          value.items.every((value) => check_T3(value)) &&
           typeof value.nullable === 'boolean' &&
           (value.description === undefined ? true : typeof value.description === 'string') &&
           (value['x-tson-metaTags'] === undefined
@@ -1564,7 +1546,7 @@ export function Execute(iterations: number) {
           value !== null &&
           !Array.isArray(value) &&
           Array.isArray(value.oneOf) &&
-          value.oneOf.every((value) => check_T2(value)) &&
+          value.oneOf.every((value) => check_T3(value)) &&
           (value.description === undefined ? true : typeof value.description === 'string') &&
           (value['x-tson-metaTags'] === undefined
             ? true
@@ -1637,7 +1619,7 @@ export function Execute(iterations: number) {
             value !== null &&
             !Array.isArray(value) &&
             Array.isArray(value.schemas) &&
-            value.schemas.every((value) => check_T2(value)) &&
+            value.schemas.every((value) => check_T3(value)) &&
             typeof value.components === 'object' &&
             value.components !== null &&
             !Array.isArray(value.components) &&
@@ -1905,7 +1887,7 @@ export function Execute(iterations: number) {
                       value !== null &&
                       !Array.isArray(value) &&
                       value.type === 'array' &&
-                      check_T2(value.items) &&
+                      check_T3(value.items) &&
                       typeof value.nullable === 'boolean' &&
                       (value.description === undefined ? true : typeof value.description === 'string') &&
                       (value['x-tson-metaTags'] === undefined
@@ -1929,7 +1911,7 @@ export function Execute(iterations: number) {
                       !Array.isArray(value) &&
                       value.type === 'array' &&
                       Array.isArray(value.items) &&
-                      value.items.every((value) => check_T2(value)) &&
+                      value.items.every((value) => check_T3(value)) &&
                       typeof value.nullable === 'boolean' &&
                       (value.description === undefined ? true : typeof value.description === 'string') &&
                       (value['x-tson-metaTags'] === undefined
@@ -1994,7 +1976,7 @@ export function Execute(iterations: number) {
                       value !== null &&
                       !Array.isArray(value) &&
                       Array.isArray(value.oneOf) &&
-                      value.oneOf.every((value) => check_T2(value)) &&
+                      value.oneOf.every((value) => check_T3(value)) &&
                       (value.description === undefined ? true : typeof value.description === 'string') &&
                       (value['x-tson-metaTags'] === undefined
                         ? true
@@ -2307,7 +2289,7 @@ export function Execute(iterations: number) {
                           value !== null &&
                           !Array.isArray(value) &&
                           value.type === 'array' &&
-                          check_T2(value.items) &&
+                          check_T3(value.items) &&
                           typeof value.nullable === 'boolean' &&
                           (value.description === undefined ? true : typeof value.description === 'string') &&
                           (value['x-tson-metaTags'] === undefined
@@ -2331,7 +2313,7 @@ export function Execute(iterations: number) {
                           !Array.isArray(value) &&
                           value.type === 'array' &&
                           Array.isArray(value.items) &&
-                          value.items.every((value) => check_T2(value)) &&
+                          value.items.every((value) => check_T3(value)) &&
                           typeof value.nullable === 'boolean' &&
                           (value.description === undefined ? true : typeof value.description === 'string') &&
                           (value['x-tson-metaTags'] === undefined
@@ -2396,7 +2378,7 @@ export function Execute(iterations: number) {
                           value !== null &&
                           !Array.isArray(value) &&
                           Array.isArray(value.oneOf) &&
-                          value.oneOf.every((value) => check_T2(value)) &&
+                          value.oneOf.every((value) => check_T3(value)) &&
                           (value.description === undefined ? true : typeof value.description === 'string') &&
                           (value['x-tson-metaTags'] === undefined
                             ? true
@@ -2712,7 +2694,7 @@ export function Execute(iterations: number) {
                       value.additionalProperties !== null &&
                       !Array.isArray(value.additionalProperties) &&
                       value.additionalProperties.type === 'array' &&
-                      check_T2(value.additionalProperties.items) &&
+                      check_T3(value.additionalProperties.items) &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
                       (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
                       (value.additionalProperties['x-tson-metaTags'] === undefined
@@ -2737,7 +2719,7 @@ export function Execute(iterations: number) {
                       !Array.isArray(value.additionalProperties) &&
                       value.additionalProperties.type === 'array' &&
                       Array.isArray(value.additionalProperties.items) &&
-                      value.additionalProperties.items.every((value) => check_T2(value)) &&
+                      value.additionalProperties.items.every((value) => check_T3(value)) &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
                       (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
                       (value.additionalProperties['x-tson-metaTags'] === undefined
@@ -2805,7 +2787,7 @@ export function Execute(iterations: number) {
                       value.additionalProperties !== null &&
                       !Array.isArray(value.additionalProperties) &&
                       Array.isArray(value.additionalProperties.oneOf) &&
-                      value.additionalProperties.oneOf.every((value) => check_T2(value)) &&
+                      value.additionalProperties.oneOf.every((value) => check_T3(value)) &&
                       (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
                       (value.additionalProperties['x-tson-metaTags'] === undefined
                         ? true

@@ -7,4 +7,5 @@ export const Recursive_Node = Type.Recursive((Recursive_Node) => Type.Object({
   nodes: Type.Array(Recursive_Node),
 }), {
   $id: 'Recursive_Node',
+  description: 'Should validate a recursive object'
 })

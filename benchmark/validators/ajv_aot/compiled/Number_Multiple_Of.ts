@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Number_Multiple_Of = validate10
-const schema11 = { $id: 'Number_Multiple_Of', multipleOf: 8, type: 'number' }
+const schema11 = { $id: 'Number_Multiple_Of', multipleOf: 8, description: 'Should validate a numeric value with a multiple-of modulus constraint', type: 'number' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Number_Multiple_Of" */ let vErrors = null
   let errors = 0

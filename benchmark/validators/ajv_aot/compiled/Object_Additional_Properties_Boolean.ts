@@ -4,6 +4,7 @@ export const Object_Additional_Properties_Boolean = validate10
 const schema11 = {
   $id: 'Object_Additional_Properties_Boolean',
   additionalProperties: { type: 'boolean' },
+  description: 'Should allow additional properties, but only with values of type boolean',
   type: 'object',
   properties: { A: { type: 'string' }, B: { type: 'string' }, C: { type: 'string' }, D: { type: 'string' } },
   required: ['A', 'B', 'C', 'D'],

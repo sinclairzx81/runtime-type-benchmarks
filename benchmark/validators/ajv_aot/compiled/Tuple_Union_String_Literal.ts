@@ -3,6 +3,7 @@
 export const Tuple_Union_String_Literal = validate10
 const schema11 = {
   $id: 'Tuple_Union_String_Literal',
+  description: 'Should validate a 3 tuple of union string literals',
   type: 'array',
   items: [
     {

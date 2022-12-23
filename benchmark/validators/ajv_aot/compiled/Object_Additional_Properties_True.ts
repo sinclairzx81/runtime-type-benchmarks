@@ -1,7 +1,13 @@
 // @ts-nocheck
 'use strict'
 export const Object_Additional_Properties_True = validate10
-const schema11 = { $id: 'Object_Additional_Properties_True', type: 'object', properties: { A: { type: 'string' }, B: { type: 'string' }, C: { type: 'string' }, D: { type: 'string' } }, required: ['A', 'B', 'C', 'D'] }
+const schema11 = {
+  $id: 'Object_Additional_Properties_True',
+  description: 'Should allow additional properties',
+  type: 'object',
+  properties: { A: { type: 'string' }, B: { type: 'string' }, C: { type: 'string' }, D: { type: 'string' } },
+  required: ['A', 'B', 'C', 'D'],
+}
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Object_Additional_Properties_True" */ let vErrors = null
   let errors = 0

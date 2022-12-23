@@ -81,4 +81,5 @@ const Union = Type.Union([
 export type Typia_Object_Union_Explicit = Static<typeof Typia_Object_Union_Explicit>
 export const Typia_Object_Union_Explicit = Type.Array(Union, {
   $id: 'Typia_Object_Union_Explicit',
+  description: 'Should validate the Typia_Object_Union_Explicit structure',
 })

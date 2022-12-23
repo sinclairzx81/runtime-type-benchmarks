@@ -3,6 +3,7 @@
 export const Tuple_Object = validate10
 const schema11 = {
   $id: 'Tuple_Object',
+  description: 'Should validate a 3 tuple of vector objects',
   type: 'array',
   items: [
     { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] },

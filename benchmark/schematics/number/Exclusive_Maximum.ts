@@ -4,4 +4,5 @@ export type Number_Exclusive_Maximum = Static<typeof Number_Exclusive_Maximum>
 export const Number_Exclusive_Maximum = Type.Number({
   $id: 'Number_Exclusive_Maximum',
   exclusiveMaximum: 8,
+  description: 'Should validate a numeric value with a exclusive maximum constraint',
 })

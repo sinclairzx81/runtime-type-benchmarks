@@ -10,5 +10,6 @@ export const Object_Additional_Properties_True = Type.Object(
   },
   {
     $id: 'Object_Additional_Properties_True',
+    description: 'Should allow additional properties',
   },
 )

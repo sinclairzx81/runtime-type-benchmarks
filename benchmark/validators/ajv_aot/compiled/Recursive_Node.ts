@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Recursive_Node = validate10
-const schema11 = { $id: 'Recursive_Node', type: 'object', properties: { id: { type: 'string' }, nodes: { type: 'array', items: { $ref: 'Recursive_Node' } } }, required: ['id', 'nodes'] }
+const schema11 = { $id: 'Recursive_Node', description: 'Should validate a recursive object', type: 'object', properties: { id: { type: 'string' }, nodes: { type: 'array', items: { $ref: 'Recursive_Node' } } }, required: ['id', 'nodes'] }
 const wrapper0 = { validate: validate10 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Recursive_Node" */ let vErrors = null

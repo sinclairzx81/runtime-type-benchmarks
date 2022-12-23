@@ -3,6 +3,7 @@
 export const Typia_Array_Hierarchical = validate10
 const schema11 = {
   $id: 'Typia_Array_Hierarchical',
+  description: 'Should validate the Typia_Array_Hierarchical structure',
   type: 'array',
   items: {
     type: 'object',

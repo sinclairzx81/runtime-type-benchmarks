@@ -3,8 +3,9 @@
 export const Math_Mesh = validate10
 const schema11 = {
   $id: 'Math_Mesh',
+  description: 'Tests for a Mesh data structure with 100 components per property',
   type: 'object',
-  properties: { vertices: { type: 'array', items: { type: 'number' } }, normals: { type: 'array', items: { type: 'number' } }, texoords: { type: 'array', items: { type: 'number' } }, indices: { type: 'array', items: { type: 'integer' } } },
+  properties: { vertices: { type: 'array', items: { type: 'number' } }, normals: { type: 'array', items: { type: 'number' } }, texoords: { type: 'array', items: { type: 'number' } }, indices: { type: 'array', items: { type: 'number' } } },
   required: ['vertices', 'normals', 'texoords', 'indices'],
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
@@ -119,8 +120,8 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                     for (let i3 = 0; i3 < len3; i3++) {
                       let data7 = data6[i3]
                       const _errs15 = errors
-                      if (!(typeof data7 == 'number' && !(data7 % 1) && !isNaN(data7) && isFinite(data7))) {
-                        validate10.errors = [{ instancePath: instancePath + '/indices/' + i3, schemaPath: '#/properties/indices/items/type', keyword: 'type', params: { type: 'integer' }, message: 'must be integer' }]
+                      if (!(typeof data7 == 'number' && isFinite(data7))) {
+                        validate10.errors = [{ instancePath: instancePath + '/indices/' + i3, schemaPath: '#/properties/indices/items/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }]
                         return false
                       }
                       var valid4 = _errs15 === errors

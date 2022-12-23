@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const String_String = validate10
-const schema11 = { $id: 'String_String', type: 'string' }
+const schema11 = { $id: 'String_String', description: 'Should validate a string', type: 'string' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="String_String" */ let vErrors = null
   let errors = 0

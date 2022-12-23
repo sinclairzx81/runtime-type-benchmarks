@@ -27,5 +27,6 @@ export const Object_Partial = Type.Partial(
   }),
   {
     $id: 'Object_Partial',
+    description: 'Should allow partially applied objects',
   },
 )

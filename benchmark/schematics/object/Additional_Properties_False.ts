@@ -11,5 +11,6 @@ export const Object_Additional_Properties_False = Type.Object(
   {
     $id: 'Object_Additional_Properties_False',
     additionalProperties: false,
+    description: 'Should not allow additional properties',
   },
 )

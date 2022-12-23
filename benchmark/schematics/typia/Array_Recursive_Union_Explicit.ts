@@ -56,4 +56,5 @@ const Bucket = Type.Recursive((Bucket) => Type.Union([ImageFile, TextFile, ZipFi
 export type Typia_Array_Recursive_Union_Explicit = Static<typeof Typia_Array_Recursive_Union_Explicit>
 export const Typia_Array_Recursive_Union_Explicit = Type.Array(Bucket, {
   $id: 'Typia_Array_Recursive_Union_Explicit',
+  description: 'Should validate the Typia_Array_Recursive_Union_Explicit structure',
 })

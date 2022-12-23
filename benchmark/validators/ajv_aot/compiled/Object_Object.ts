@@ -3,6 +3,7 @@
 export const Object_Object = validate10
 const schema11 = {
   $id: 'Object_Object',
+  description: 'Should validate a two level nested object',
   type: 'object',
   properties: {
     A: { type: 'object', properties: { A: { type: 'string' }, B: { type: 'string' }, C: { type: 'string' } }, required: ['A', 'B', 'C'] },

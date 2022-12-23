@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Number_Integer = validate10
-const schema11 = { $id: 'Number_Integer', type: 'integer' }
+const schema11 = { $id: 'Number_Integer', description: 'Should validate a numeric value as an integer', type: 'integer' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Number_Integer" */ let vErrors = null
   let errors = 0

@@ -3,6 +3,7 @@
 export const Composite_Union_Non_Discriminated = validate10
 const schema11 = {
   $id: 'Composite_Union_Non_Discriminated',
+  description: 'Should validate a non discriminated union type',
   anyOf: [
     { type: 'object', properties: { A: { type: 'string' }, B: { type: 'string' } }, required: ['A', 'B'] },
     { type: 'object', properties: { C: { type: 'string' }, D: { type: 'string' } }, required: ['C', 'D'] },

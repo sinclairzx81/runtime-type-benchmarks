@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Number_NaN = validate10
-const schema11 = { $id: 'Number_NaN', type: 'number' }
+const schema11 = { $id: 'Number_NaN', description: 'Should validate that numeric values of NaN are not numbers', type: 'number' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Number_NaN" */ let vErrors = null
   let errors = 0

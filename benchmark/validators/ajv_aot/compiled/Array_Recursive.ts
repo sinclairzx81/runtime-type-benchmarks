@@ -1,11 +1,16 @@
 // @ts-nocheck
 'use strict'
 export const Array_Recursive = validate10
-const schema11 = { $id: 'Array_Recursive', type: 'array', items: { $id: 'Recursive_Object', type: 'object', properties: { id: { type: 'string' }, nodes: { type: 'array', items: { $ref: 'Recursive_Object' } } }, required: ['id', 'nodes'] } }
-const schema12 = { $id: 'Recursive_Object', type: 'object', properties: { id: { type: 'string' }, nodes: { type: 'array', items: { $ref: 'Recursive_Object' } } }, required: ['id', 'nodes'] }
+const schema11 = {
+  $id: 'Array_Recursive',
+  description: 'Should validate an array of recursive objects',
+  type: 'array',
+  items: { $id: 'T0', type: 'object', properties: { id: { type: 'string' }, nodes: { type: 'array', items: { $ref: 'T0' } } }, required: ['id', 'nodes'] },
+}
+const schema12 = { $id: 'T0', type: 'object', properties: { id: { type: 'string' }, nodes: { type: 'array', items: { $ref: 'T0' } } }, required: ['id', 'nodes'] }
 const wrapper0 = { validate: validate11 }
 function validate11(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="Recursive_Object" */ let vErrors = null
+  /*# sourceURL="T0" */ let vErrors = null
   let errors = 0
   if (errors === 0) {
     if (data && typeof data == 'object' && !Array.isArray(data)) {

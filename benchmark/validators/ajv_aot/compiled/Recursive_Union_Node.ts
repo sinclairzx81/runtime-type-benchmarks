@@ -3,6 +3,7 @@
 export const Recursive_Union_Node = validate10
 const schema11 = {
   $id: 'Recursive_Union_Node',
+  description: 'Should validate a recursive union object',
   anyOf: [
     { type: 'object', properties: { type: { const: 'Node', type: 'string' }, nodes: { type: 'array', items: { $ref: 'Recursive_Union_Node' } } }, required: ['type', 'nodes'] },
     { type: 'object', properties: { type: { const: 'Leaf', type: 'string' }, value: { type: 'string' } }, required: ['type', 'value'] },

@@ -4,6 +4,7 @@ export const Object_Additional_Properties_False = validate10
 const schema11 = {
   $id: 'Object_Additional_Properties_False',
   additionalProperties: false,
+  description: 'Should not allow additional properties',
   type: 'object',
   properties: { A: { type: 'string' }, B: { type: 'string' }, C: { type: 'string' }, D: { type: 'string' } },
   required: ['A', 'B', 'C', 'D'],

@@ -56,14 +56,14 @@ dataset.set('Array_Number', Array.from({ length: 8 }, (_, i) => {
 dataset.set('Array_Object', Array.from({ length: 8 }, (_, i) => {
     if (i === 7)
       return {
-        x: 1,
-        y: 2,
-        z: 'not-a-number',
+        x: true,
+        y: true,
+        z: 'not-a-boolean',
       }
     return {
-      x: 1,
-      y: 2,
-      z: 3,
+      x: true,
+      y: true,
+      z: true,
     }
   })
 )
@@ -109,34 +109,34 @@ dataset.set('Array_Recursive', Array.from({ length: 2 }, (_, i) => {
 dataset.set('Array_Union', Array.from({ length: 8 }, (_, i) => {
     if (i === 7)
       return {
-        id: 'Vector4',
-        x: 1,
-        y: 1,
-        z: 1,
-        w: 'not-a-number',
+        id: 'BitVector4',
+        x: true,
+        y: true,
+        z: true,
+        w: 'not-a-boolean',
       }
     const mod = i % 3
     switch (mod) {
       case 0:
         return {
-          type: 'Vector2',
-          x: 1,
-          y: 1,
+          type: 'BitVector2',
+          x: true,
+          y: true,
         }
       case 1:
         return {
-          type: 'Vector3',
-          x: 1,
-          y: 1,
-          z: 1,
+          type: 'BitVector3',
+          x: true,
+          y: true,
+          z: true,
         }
       case 2:
         return {
-          type: 'Vector4',
-          x: 1,
-          y: 1,
-          z: 1,
-          w: 1,
+          type: 'BitVector4',
+          x: true,
+          y: true,
+          z: true,
+          w: true,
         }
       default:
         throw Error('Modulus Overflow')
@@ -151,7 +151,7 @@ dataset.set('Boolean_Boolean', 1)
 // ---------------------------------------------------------------------------------
 // Composite
 // ---------------------------------------------------------------------------------
-dataset.set('Composite_Union_Literal', 'E')
+dataset.set('Composite_Union_String_Literal', 'E')
 dataset.set('Composite_Union_Discriminated', { type: 'E', value: true })
 dataset.set('Composite_Union_Non_Discriminated', { A: 'A', C: 'C' })
 dataset.set('Composite_Intersect', {
@@ -186,7 +186,7 @@ dataset.set('Math_Matrix4', [
   [0, 0, 1, 0],
   [0, 0, 0, true], // error
 ])
-dataset.set('Math_Box3D', {
+dataset.set('Math_Transform3D', {
   scale: { x: 0, y: 0, z: 0 },
   position: { x: 0, y: 0, z: 0 },
   rotate: { x: 0, y: 0, z: 0 },
@@ -341,7 +341,7 @@ dataset.set('String_String', true)
 // Tuple
 // ---------------------------------------------------------------------------------
 dataset.set('Tuple_Number', [0, 0, true])
-dataset.set('Tuple_Union_Literal', ['B', 'D', 'G'])
+dataset.set('Tuple_Union_String_Literal', ['B', 'D', 'G'])
 dataset.set('Tuple_Object', [
   { x: 0, y: 0, z: 0 },
   { x: 0, y: 0, z: 0 },
