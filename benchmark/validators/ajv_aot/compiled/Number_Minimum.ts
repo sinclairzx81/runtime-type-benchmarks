@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Number_Minimum = validate10
-const schema11 = { $id: 'Number_Minimum', minimum: 8, type: 'number' }
+const schema11 = { $id: 'Number_Minimum', minimum: 8, description: 'Should validate a numeric value with a minimum constraint', type: 'number' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Number_Minimum" */ let vErrors = null
   let errors = 0

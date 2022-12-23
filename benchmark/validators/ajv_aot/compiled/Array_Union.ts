@@ -3,12 +3,13 @@
 export const Array_Union = validate10
 const schema11 = {
   $id: 'Array_Union',
+  description: 'Should validate an array of union objects',
   type: 'array',
   items: {
     anyOf: [
-      { type: 'object', properties: { type: { const: 'Vector2', type: 'string' }, x: { type: 'number' }, y: { type: 'number' } }, required: ['type', 'x', 'y'] },
-      { type: 'object', properties: { type: { const: 'Vector3', type: 'string' }, x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['type', 'x', 'y', 'z'] },
-      { type: 'object', properties: { type: { const: 'Vector4', type: 'string' }, x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' }, w: { type: 'number' } }, required: ['type', 'x', 'y', 'z', 'w'] },
+      { type: 'object', properties: { type: { const: 'BitVector2', type: 'string' }, x: { type: 'boolean' }, y: { type: 'boolean' } }, required: ['type', 'x', 'y'] },
+      { type: 'object', properties: { type: { const: 'BitVector3', type: 'string' }, x: { type: 'boolean' }, y: { type: 'boolean' }, z: { type: 'boolean' } }, required: ['type', 'x', 'y', 'z'] },
+      { type: 'object', properties: { type: { const: 'BitVector4', type: 'string' }, x: { type: 'boolean' }, y: { type: 'boolean' }, z: { type: 'boolean' }, w: { type: 'boolean' } }, required: ['type', 'x', 'y', 'z', 'w'] },
     ],
   },
 }
@@ -49,8 +50,8 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                   }
                   errors++
                 }
-                if ('Vector2' !== data1) {
-                  const err2 = { instancePath: instancePath + '/' + i0 + '/type', schemaPath: '#/items/anyOf/0/properties/type/const', keyword: 'const', params: { allowedValue: 'Vector2' }, message: 'must be equal to constant' }
+                if ('BitVector2' !== data1) {
+                  const err2 = { instancePath: instancePath + '/' + i0 + '/type', schemaPath: '#/items/anyOf/0/properties/type/const', keyword: 'const', params: { allowedValue: 'BitVector2' }, message: 'must be equal to constant' }
                   if (vErrors === null) {
                     vErrors = [err2]
                   } else {
@@ -64,10 +65,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
               }
               if (valid2) {
                 if (data0.x !== undefined) {
-                  let data2 = data0.x
                   const _errs7 = errors
-                  if (!(typeof data2 == 'number' && isFinite(data2))) {
-                    const err3 = { instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/anyOf/0/properties/x/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                  if (typeof data0.x !== 'boolean') {
+                    const err3 = { instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/anyOf/0/properties/x/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                     if (vErrors === null) {
                       vErrors = [err3]
                     } else {
@@ -81,10 +81,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                 }
                 if (valid2) {
                   if (data0.y !== undefined) {
-                    let data3 = data0.y
                     const _errs9 = errors
-                    if (!(typeof data3 == 'number' && isFinite(data3))) {
-                      const err4 = { instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/anyOf/0/properties/y/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                    if (typeof data0.y !== 'boolean') {
+                      const err4 = { instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/anyOf/0/properties/y/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                       if (vErrors === null) {
                         vErrors = [err4]
                       } else {
@@ -137,8 +136,8 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                     }
                     errors++
                   }
-                  if ('Vector3' !== data4) {
-                    const err8 = { instancePath: instancePath + '/' + i0 + '/type', schemaPath: '#/items/anyOf/1/properties/type/const', keyword: 'const', params: { allowedValue: 'Vector3' }, message: 'must be equal to constant' }
+                  if ('BitVector3' !== data4) {
+                    const err8 = { instancePath: instancePath + '/' + i0 + '/type', schemaPath: '#/items/anyOf/1/properties/type/const', keyword: 'const', params: { allowedValue: 'BitVector3' }, message: 'must be equal to constant' }
                     if (vErrors === null) {
                       vErrors = [err8]
                     } else {
@@ -152,10 +151,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                 }
                 if (valid3) {
                   if (data0.x !== undefined) {
-                    let data5 = data0.x
                     const _errs15 = errors
-                    if (!(typeof data5 == 'number' && isFinite(data5))) {
-                      const err9 = { instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/anyOf/1/properties/x/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                    if (typeof data0.x !== 'boolean') {
+                      const err9 = { instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/anyOf/1/properties/x/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                       if (vErrors === null) {
                         vErrors = [err9]
                       } else {
@@ -169,10 +167,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                   }
                   if (valid3) {
                     if (data0.y !== undefined) {
-                      let data6 = data0.y
                       const _errs17 = errors
-                      if (!(typeof data6 == 'number' && isFinite(data6))) {
-                        const err10 = { instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/anyOf/1/properties/y/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                      if (typeof data0.y !== 'boolean') {
+                        const err10 = { instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/anyOf/1/properties/y/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                         if (vErrors === null) {
                           vErrors = [err10]
                         } else {
@@ -186,10 +183,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                     }
                     if (valid3) {
                       if (data0.z !== undefined) {
-                        let data7 = data0.z
                         const _errs19 = errors
-                        if (!(typeof data7 == 'number' && isFinite(data7))) {
-                          const err11 = { instancePath: instancePath + '/' + i0 + '/z', schemaPath: '#/items/anyOf/1/properties/z/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                        if (typeof data0.z !== 'boolean') {
+                          const err11 = { instancePath: instancePath + '/' + i0 + '/z', schemaPath: '#/items/anyOf/1/properties/z/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                           if (vErrors === null) {
                             vErrors = [err11]
                           } else {
@@ -249,8 +245,8 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                       }
                       errors++
                     }
-                    if ('Vector4' !== data8) {
-                      const err15 = { instancePath: instancePath + '/' + i0 + '/type', schemaPath: '#/items/anyOf/2/properties/type/const', keyword: 'const', params: { allowedValue: 'Vector4' }, message: 'must be equal to constant' }
+                    if ('BitVector4' !== data8) {
+                      const err15 = { instancePath: instancePath + '/' + i0 + '/type', schemaPath: '#/items/anyOf/2/properties/type/const', keyword: 'const', params: { allowedValue: 'BitVector4' }, message: 'must be equal to constant' }
                       if (vErrors === null) {
                         vErrors = [err15]
                       } else {
@@ -264,10 +260,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                   }
                   if (valid4) {
                     if (data0.x !== undefined) {
-                      let data9 = data0.x
                       const _errs25 = errors
-                      if (!(typeof data9 == 'number' && isFinite(data9))) {
-                        const err16 = { instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/anyOf/2/properties/x/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                      if (typeof data0.x !== 'boolean') {
+                        const err16 = { instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/anyOf/2/properties/x/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                         if (vErrors === null) {
                           vErrors = [err16]
                         } else {
@@ -281,10 +276,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                     }
                     if (valid4) {
                       if (data0.y !== undefined) {
-                        let data10 = data0.y
                         const _errs27 = errors
-                        if (!(typeof data10 == 'number' && isFinite(data10))) {
-                          const err17 = { instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/anyOf/2/properties/y/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                        if (typeof data0.y !== 'boolean') {
+                          const err17 = { instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/anyOf/2/properties/y/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                           if (vErrors === null) {
                             vErrors = [err17]
                           } else {
@@ -298,10 +292,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                       }
                       if (valid4) {
                         if (data0.z !== undefined) {
-                          let data11 = data0.z
                           const _errs29 = errors
-                          if (!(typeof data11 == 'number' && isFinite(data11))) {
-                            const err18 = { instancePath: instancePath + '/' + i0 + '/z', schemaPath: '#/items/anyOf/2/properties/z/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                          if (typeof data0.z !== 'boolean') {
+                            const err18 = { instancePath: instancePath + '/' + i0 + '/z', schemaPath: '#/items/anyOf/2/properties/z/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                             if (vErrors === null) {
                               vErrors = [err18]
                             } else {
@@ -315,10 +308,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                         }
                         if (valid4) {
                           if (data0.w !== undefined) {
-                            let data12 = data0.w
                             const _errs31 = errors
-                            if (!(typeof data12 == 'number' && isFinite(data12))) {
-                              const err19 = { instancePath: instancePath + '/' + i0 + '/w', schemaPath: '#/items/anyOf/2/properties/w/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }
+                            if (typeof data0.w !== 'boolean') {
+                              const err19 = { instancePath: instancePath + '/' + i0 + '/w', schemaPath: '#/items/anyOf/2/properties/w/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }
                               if (vErrors === null) {
                                 vErrors = [err19]
                               } else {

@@ -3,6 +3,7 @@
 export const Typia_Array_Simple = validate10
 const schema11 = {
   $id: 'Typia_Array_Simple',
+  description: 'Should validate the Typia_Array_Simple structure',
   type: 'array',
   items: {
     type: 'object',

@@ -30,7 +30,8 @@ export interface TypeResultToolTipProperties {
 export function TypeResultToolTip(props: TypeResultToolTipProperties) {
   type Result = { ops: number; iterations: number; elapsed: number }
   type TupleResult = [string, Result]
-  const html = TypeScriptCodegen.GenerateHTML((Cases as any)[props.result.typename] as any)
+  const schema = (Cases as any)[props.result.typename] as any
+  const html = TypeScriptCodegen.GenerateHTML(schema)
   const entries = Object.entries(props.result).filter((entry) => {
     return !(entry[0] === 'typename' || entry[0] === 'best_ops')
   }) as any as TupleResult[]
@@ -48,6 +49,7 @@ export function TypeResultToolTip(props: TypeResultToolTipProperties) {
     <div className="type-tooltip">
       <div className="header">
         <h2>{props.result.typename}</h2>
+        <p>{schema.description}</p>
       </div>
       <div className="body">
         <div className="type">

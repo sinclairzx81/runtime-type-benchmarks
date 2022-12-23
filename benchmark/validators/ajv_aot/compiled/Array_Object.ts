@@ -1,7 +1,12 @@
 // @ts-nocheck
 'use strict'
 export const Array_Object = validate10
-const schema11 = { $id: 'Array_Object', type: 'array', items: { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] } }
+const schema11 = {
+  $id: 'Array_Object',
+  description: 'Should validate an array of objects',
+  type: 'array',
+  items: { type: 'object', properties: { x: { type: 'boolean' }, y: { type: 'boolean' }, z: { type: 'boolean' } }, required: ['x', 'y', 'z'] },
+}
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Array_Object" */ let vErrors = null
   let errors = 0
@@ -20,10 +25,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
               return false
             } else {
               if (data0.x !== undefined) {
-                let data1 = data0.x
                 const _errs3 = errors
-                if (!(typeof data1 == 'number' && isFinite(data1))) {
-                  validate10.errors = [{ instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/properties/x/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }]
+                if (typeof data0.x !== 'boolean') {
+                  validate10.errors = [{ instancePath: instancePath + '/' + i0 + '/x', schemaPath: '#/items/properties/x/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }]
                   return false
                 }
                 var valid1 = _errs3 === errors
@@ -32,10 +36,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
               }
               if (valid1) {
                 if (data0.y !== undefined) {
-                  let data2 = data0.y
                   const _errs5 = errors
-                  if (!(typeof data2 == 'number' && isFinite(data2))) {
-                    validate10.errors = [{ instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/properties/y/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }]
+                  if (typeof data0.y !== 'boolean') {
+                    validate10.errors = [{ instancePath: instancePath + '/' + i0 + '/y', schemaPath: '#/items/properties/y/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }]
                     return false
                   }
                   var valid1 = _errs5 === errors
@@ -44,10 +47,9 @@ function validate10(data, { instancePath = '', parentData, parentDataProperty, r
                 }
                 if (valid1) {
                   if (data0.z !== undefined) {
-                    let data3 = data0.z
                     const _errs7 = errors
-                    if (!(typeof data3 == 'number' && isFinite(data3))) {
-                      validate10.errors = [{ instancePath: instancePath + '/' + i0 + '/z', schemaPath: '#/items/properties/z/type', keyword: 'type', params: { type: 'number' }, message: 'must be number' }]
+                    if (typeof data0.z !== 'boolean') {
+                      validate10.errors = [{ instancePath: instancePath + '/' + i0 + '/z', schemaPath: '#/items/properties/z/type', keyword: 'type', params: { type: 'boolean' }, message: 'must be boolean' }]
                       return false
                     }
                     var valid1 = _errs7 === errors

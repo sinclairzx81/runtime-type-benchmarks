@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Math_Vector3 = validate10
-const schema11 = { $id: 'Math_Vector3', type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] }
+const schema11 = { $id: 'Math_Vector3', description: 'Should validate a Vector3 structure', type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Math_Vector3" */ let vErrors = null
   let errors = 0

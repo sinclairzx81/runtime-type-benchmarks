@@ -18,4 +18,5 @@ const Person = Type.Object({
 export type Typia_Array_Simple = Static<typeof Typia_Array_Simple>
 export const Typia_Array_Simple = Type.Array(Person, {
   $id: 'Typia_Array_Simple',
+  description: 'Should validate the Typia_Array_Simple structure',
 })

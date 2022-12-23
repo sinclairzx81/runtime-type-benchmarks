@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Literal_String = validate10
-const schema11 = { $id: 'Literal_String', const: 'hello', type: 'string' }
+const schema11 = { $id: 'Literal_String', description: 'Should validate a literal string value', const: 'hello', type: 'string' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Literal_String" */ let vErrors = null
   let errors = 0

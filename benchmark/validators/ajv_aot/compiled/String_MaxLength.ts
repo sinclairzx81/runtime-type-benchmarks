@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const String_MaxLength = validate10
-const schema11 = { $id: 'String_MaxLength', maxLength: 8, type: 'string' }
+const schema11 = { $id: 'String_MaxLength', maxLength: 8, description: 'Should validate a string value with a max-length constraint', type: 'string' }
 const func2 = require('ajv/dist/runtime/ucs2length').default
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="String_MaxLength" */ let vErrors = null

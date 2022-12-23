@@ -16,5 +16,6 @@ const Typia_Object_Simple = Type.Object(
   },
   {
     $id: 'Typia_Object_Simple',
+    description: 'Should validate the Typia_Object_Simple structure',
   },
 )

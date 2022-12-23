@@ -10,5 +10,6 @@ export const Composite_Intersect = Type.Intersect(
   ],
   {
     $id: 'Composite_Intersect',
+    description: 'Should validate an intersected object',
   },
 )

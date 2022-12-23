@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const String_MinLength = validate10
-const schema11 = { $id: 'String_MinLength', minLength: 8, type: 'string' }
+const schema11 = { $id: 'String_MinLength', minLength: 8, description: 'Should validate a string value with a min-length constraint', type: 'string' }
 const func2 = require('ajv/dist/runtime/ucs2length').default
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="String_MinLength" */ let vErrors = null

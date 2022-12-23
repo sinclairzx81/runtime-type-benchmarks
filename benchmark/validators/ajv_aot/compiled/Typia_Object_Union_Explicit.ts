@@ -3,6 +3,7 @@
 export const Typia_Object_Union_Explicit = validate10
 const schema11 = {
   $id: 'Typia_Object_Union_Explicit',
+  description: 'Should validate the Typia_Object_Union_Explicit structure',
   type: 'array',
   items: {
     anyOf: [

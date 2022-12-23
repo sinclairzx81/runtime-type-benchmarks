@@ -3,6 +3,7 @@
 export const Composite_Union_Discriminated = validate10
 const schema11 = {
   $id: 'Composite_Union_Discriminated',
+  description: 'Should validate a discriminated union type',
   anyOf: [
     { type: 'object', properties: { type: { const: 'A', type: 'string' }, value: { type: 'number' } }, required: ['type', 'value'] },
     { type: 'object', properties: { type: { const: 'B', type: 'string' }, value: { type: 'number' } }, required: ['type', 'value'] },

@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Number_Maximum = validate10
-const schema11 = { $id: 'Number_Maximum', maximum: 8, type: 'number' }
+const schema11 = { $id: 'Number_Maximum', maximum: 8, description: 'Should validate a numeric value with a maximum constraint', type: 'number' }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Number_Maximum" */ let vErrors = null
   let errors = 0

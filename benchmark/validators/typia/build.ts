@@ -10,15 +10,17 @@ export namespace TypiaGenerator {
     return (
       TypeGuard.TSchema(schema) &&
       ![
-        'Primitive_RegEx', // comment this when regex is resolved
-        'Primitive_Integer',
+        'Number_Integer',
+        'Number_NaN',
         'Number_Exclusive_Maximum',
         'Number_Exclusive_Minimum',
         'Number_Maximum',
         'Number_Minimum',
         'Number_Multiple_Of',
+        'String_Pattern',
         'String_MaxLength',
         'String_MinLength',
+        'Object_Additional_Properties_Boolean',
       ].includes(schema.$id!)
     )
   }
@@ -39,7 +41,7 @@ export namespace TypiaGenerator {
     yield `const results = new Map<string, number>()`
     for (const schema of Object.values(Cases)) {
       if (Include(schema)) {
-        if (['Object_Strict', 'Array_Object_Strict'].includes(schema.$id!)) {
+        if (['Object_Additional_Properties_False'].includes(schema.$id!)) {
           yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Typia.equals<Cases.${schema.$id}>(value))`
         } else {
           yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Typia.is<Cases.${schema.$id}>(value))`

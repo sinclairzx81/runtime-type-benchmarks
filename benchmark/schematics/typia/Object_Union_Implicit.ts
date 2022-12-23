@@ -47,4 +47,5 @@ const Union = Type.Union([Point, Line, Triangle, Rectangle, Polyline, Polygon, C
 export type Typia_Object_Union_Implicit = Static<typeof Typia_Object_Union_Implicit>
 export const Typia_Object_Union_Implicit = Type.Array(Union, {
   $id: 'Typia_Object_Union_Implicit',
+  description: 'Should validate the Typia_Object_Union_Implicit structure',
 })

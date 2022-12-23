@@ -1,8 +1,8 @@
 // @ts-nocheck
 'use strict'
-export const Tuple_Union_Literal = validate10
+export const Tuple_Union_String_Literal = validate10
 const schema11 = {
-  $id: 'Tuple_Union_Literal',
+  $id: 'Tuple_Union_String_Literal',
   type: 'array',
   items: [
     {
@@ -29,7 +29,7 @@ const schema11 = {
   maxItems: 3,
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="Tuple_Union_Literal" */ let vErrors = null
+  /*# sourceURL="Tuple_Union_String_Literal" */ let vErrors = null
   let errors = 0
   if (errors === 0) {
     if (Array.isArray(data)) {

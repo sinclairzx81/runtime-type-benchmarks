@@ -3,6 +3,7 @@
 export const Typia_Array_Recursive = validate10
 const schema11 = {
   $id: 'Typia_Array_Recursive',
+  description: 'Should validate the Typia_Array_Recursive structure',
   type: 'object',
   properties: {
     children: { type: 'array', items: { $ref: 'Typia_Array_Recursive' } },

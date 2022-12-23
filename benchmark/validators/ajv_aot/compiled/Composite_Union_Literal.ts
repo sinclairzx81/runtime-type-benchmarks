@@ -1,8 +1,9 @@
 // @ts-nocheck
 'use strict'
-export const Composite_Union_Literal = validate10
+export const Composite_Union_String_Literal = validate10
 const schema11 = {
-  $id: 'Composite_Union_Literal',
+  $id: 'Composite_Union_String_Literal',
+  description: 'Tests for a string literal union (string enum)',
   anyOf: [
     { const: 'A', type: 'string' },
     { const: 'B', type: 'string' },
@@ -11,7 +12,7 @@ const schema11 = {
   ],
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="Composite_Union_Literal" */ let vErrors = null
+  /*# sourceURL="Composite_Union_String_Literal" */ let vErrors = null
   let errors = 0
   const _errs0 = errors
   let valid0 = false

@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict'
 export const Math_Matrix4 = validate10
-const schema11 = { $id: 'Math_Matrix4', type: 'array', items: { type: 'array', items: { type: 'number' } } }
+const schema11 = { $id: 'Math_Matrix4', description: 'Should validate a 4x4 matrix expressed as a 2D array', type: 'array', items: { type: 'array', items: { type: 'number' } } }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
   /*# sourceURL="Math_Matrix4" */ let vErrors = null
   let errors = 0

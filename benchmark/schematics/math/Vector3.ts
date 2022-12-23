@@ -9,5 +9,6 @@ export const Math_Vector3 = Type.Object(
   },
   {
     $id: 'Math_Vector3',
+    description: 'Should validate a Vector3 structure',
   },
 )

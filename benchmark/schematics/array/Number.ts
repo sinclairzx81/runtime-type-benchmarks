@@ -5,4 +5,5 @@ const T = Type.Number()
 export type Array_Number = Static<typeof Array_Number>
 export const Array_Number = Type.Array(T, {
   $id: 'Array_Number',
+  description: 'Should validate an array of numbers',
 })

@@ -1,8 +1,8 @@
 // @ts-nocheck
 'use strict'
-export const Math_Box3D = validate10
+export const Math_Transform3D = validate10
 const schema11 = {
-  $id: 'Math_Box3D',
+  $id: 'Math_Transform3D',
   type: 'object',
   properties: {
     scale: { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] },
@@ -13,7 +13,7 @@ const schema11 = {
   required: ['scale', 'position', 'rotate', 'pivot'],
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="Math_Box3D" */ let vErrors = null
+  /*# sourceURL="Math_Transform3D" */ let vErrors = null
   let errors = 0
   if (errors === 0) {
     if (data && typeof data == 'object' && !Array.isArray(data)) {

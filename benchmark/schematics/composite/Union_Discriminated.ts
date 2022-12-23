@@ -10,5 +10,6 @@ export const Composite_Union_Discriminated = Type.Union(
   ],
   {
     $id: 'Composite_Union_Discriminated',
+    description: 'Should validate a discriminated union type',
   },
 )

@@ -32,4 +32,5 @@ const Company = Type.Object({
 export type Typia_Array_Hierarchical = Static<typeof Typia_Array_Hierarchical>
 export const Typia_Array_Hierarchical = Type.Array(Company, {
   $id: 'Typia_Array_Hierarchical',
+  description: 'Should validate the Typia_Array_Hierarchical structure',
 })
