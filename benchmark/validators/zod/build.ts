@@ -9,8 +9,7 @@ import * as Path from 'node:path'
 export namespace ZodGenerator {
   function Include(schema: unknown): schema is TSchema {
     // prettier-ignore
-    return (
-      TypeGuard.TSchema(schema) && ![
+    return (TypeGuard.TSchema(schema) && ![
         'Typia_Ultimate_Union',
         'Array_Recursive',
         'String_Pattern',
