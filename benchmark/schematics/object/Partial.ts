@@ -2,14 +2,30 @@ import { Type, Static } from '@sinclair/typebox'
 
 export type Object_Partial = Static<typeof Object_Partial>
 export const Object_Partial = Type.Partial(
-  Type.Object(
-    {
-      position: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
-      rotation: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
-      scale: Type.Object({ x: Type.Number(), y: Type.Number(), z: Type.Number() }),
-    },
-    {
-      $id: 'Object_Partial',
-    },
-  ),
+  Type.Object({
+    A: Type.Partial(
+      Type.Object({
+        A: Type.String(),
+        B: Type.String(),
+        C: Type.String(),
+      }),
+    ),
+    B: Type.Partial(
+      Type.Object({
+        A: Type.String(),
+        B: Type.String(),
+        C: Type.String(),
+      }),
+    ),
+    C: Type.Partial(
+      Type.Object({
+        A: Type.String(),
+        B: Type.String(),
+        C: Type.String(),
+      }),
+    ),
+  }),
+  {
+    $id: 'Object_Partial',
+  },
 )

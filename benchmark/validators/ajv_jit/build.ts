@@ -9,7 +9,7 @@ export namespace AjvJitGenerator {
   function Include(schema: unknown): schema is TSchema {
     // prettier-ignore
     return TypeGuard.TSchema(schema) && ![
-      'Primitive_Undefined', 
+      'Undefined_Undefined', 
       'Typia_Ultimate_Union'
     ].includes(schema.$id!)
   }

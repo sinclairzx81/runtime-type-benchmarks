@@ -13,7 +13,8 @@ export namespace ZodGenerator {
       TypeGuard.TSchema(schema) && ![
         'Typia_Ultimate_Union',
         'Array_Recursive',
-        'Primitive_RegEx',
+        'String_Pattern',
+        'Object_Additional_Properties_Boolean',
         'Typia_Array_Recursive_Union_Explicit',
         'Typia_Array_Recursive_Union_Implicit'
       ].includes(schema.$id!)

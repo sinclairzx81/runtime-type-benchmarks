@@ -1,16 +1,18 @@
 import { TypeGuard } from '@sinclair/typebox/guard'
 import { TSchema } from '@sinclair/typebox'
 export * from './Array/index'
+export * from './Boolean/index'
 export * from './Composite/index'
 export * from './Literal/index'
 export * from './Math/index'
+export * from './Null/index'
 export * from './Number/index'
 export * from './Object/index'
-export * from './primitive/index'
 export * from './Recursive/index'
 export * from './String/index'
 export * from './Tuple/index'
 export * from './Typia/index'
+export * from './Undefined/index'
 
 const dataset = new Map<string, unknown>()
 
@@ -141,6 +143,10 @@ dataset.set('Array_Union', Array.from({ length: 8 }, (_, i) => {
     }
   }),
 )
+// ---------------------------------------------------------------------------------
+// Boolean
+// ---------------------------------------------------------------------------------
+dataset.set('Boolean_Boolean', 1)
 
 // ---------------------------------------------------------------------------------
 // Composite
@@ -192,76 +198,79 @@ dataset.set('Math_Mesh', {
   texoords: Array.from({ length: 128 }, () => 0),
   indices: Array.from({ length: 128 }, (a, i) => (i < 127 ? 0 : 'not-a-number')),
 })
+// ---------------------------------------------------------------------------------
+// Null
+// ---------------------------------------------------------------------------------
+dataset.set('Null_Null', undefined)
 
 // ---------------------------------------------------------------------------------
 // Number
 // ---------------------------------------------------------------------------------
 dataset.set('Number_Exclusive_Maximum', 8)
 dataset.set('Number_Exclusive_Minimum', 8)
+dataset.set('Number_Integer', 3.14)
 dataset.set('Number_Maximum', 9)
 dataset.set('Number_Minimum', 7)
 dataset.set('Number_Multiple_Of', 15)
 dataset.set('Number_NaN', NaN)
-
-// ---------------------------------------------------------------------------------
-// Primitive
-// ---------------------------------------------------------------------------------
-dataset.set('Primitive_Boolean', 1)
-dataset.set('Primitive_Integer', 3.14)
-dataset.set('Primitive_Null', 1)
-dataset.set('Primitive_Number', true)
-dataset.set('Primitive_RegEx', 'invalid-pattern')
-dataset.set('Primitive_String', 1)
-dataset.set('Primitive_Undefined', 1)
+dataset.set('Number_Number', false)
 
 // ---------------------------------------------------------------------------------
 // Object
 // ---------------------------------------------------------------------------------
-dataset.set('Object_Loose', {
-  A: 1,
-  B: 1,
-  C: 1,
-  D: 'string',
-  E: Array.from({ length: 512 })
-    .map((x) => 'x')
-    .join(''),
-  F: true,
-  G: {
-    H: 'foo',
-    I: 1,
-    J: 1, // error
-  },
+dataset.set('Object_Additional_Properties_Boolean', {
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+  E: 'E', // additional boolean error (expect boolean)
 })
-dataset.set('Object_Strict', {
-  A: 1,
-  B: 1,
-  C: 1,
-  D: 'string',
-  E: Array.from({ length: 512 })
-    .map((x) => 'x')
-    .join(''),
-  F: true,
-  G: {
-    H: 'foo',
-    I: 1,
-    J: 1, // error
-  },
-  K: 'extra', // error
+dataset.set('Object_Additional_Properties_True', {
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: true, // error - additional properties is true and can be anything
+  E: 'E', // additional
 })
-dataset.set('Object_Simple', {
-  position: { x: 1, y: 2, z: 3 },
-  rotation: { x: 1, y: 2, z: 3 },
-  scale: { x: 1, y: 2, z: true }, // error
+dataset.set('Object_Additional_Properties_False', {
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+  E: 'E', // additional properties
 })
 dataset.set('Object_Partial', {
-  position: { x: 1, y: 2, z: 3 },
-  rotation: { x: 1, y: 2, z: true }, // error
+  A: {
+    A: 'A',
+    B: 'B',
+  },
+  B: {
+    A: 'A',
+    B: false, // expect string
+  },
+})
+dataset.set('Object_Object', {
+  A: {
+    A: 'A',
+    B: 'B',
+    C: 'C',
+  },
+  B: {
+    A: 'A',
+    B: 'B',
+    C: 'C',
+  },
+  C: {
+    A: 'A',
+    B: 'B',
+    C: false, // expect string
+  },
 })
 
 // ---------------------------------------------------------------------------------
 // Recursive
 // ---------------------------------------------------------------------------------
-dataset.set('Recursive_Object', {
+dataset.set('Recursive_Node', {
   id: 'A',
   nodes: [
     {
@@ -290,7 +299,7 @@ dataset.set('Recursive_Object', {
     },
   ],
 })
-dataset.set('Recursive_Union', {
+dataset.set('Recursive_Union_Node', {
   type: 'Node',
   nodes: [
     {
@@ -325,17 +334,19 @@ dataset.set('Recursive_Union', {
 // ---------------------------------------------------------------------------------
 dataset.set('String_MaxLength', '000000000')
 dataset.set('String_MinLength', '0000000')
+dataset.set('String_Pattern', '0987654321')
+dataset.set('String_String', true)
 
 // ---------------------------------------------------------------------------------
 // Tuple
 // ---------------------------------------------------------------------------------
 dataset.set('Tuple_Number', [0, 0, true])
+dataset.set('Tuple_Union_Literal', ['B', 'D', 'G'])
 dataset.set('Tuple_Object', [
   { x: 0, y: 0, z: 0 },
   { x: 0, y: 0, z: 0 },
-  { x: 0, y: 0, z: true }, // error
+  { x: 0, y: 0, z: true }, // expect number
 ])
-dataset.set('Tuple_Union_Literal', ['B', 'D', 'G'])
 
 // ---------------------------------------------------------------------------------
 // Typia
@@ -956,3 +967,8 @@ dataset.set('Typia_Ultimate_Union', Array.from({ length: 2 }, (_, i) => {
   return application(i === 1)
 }),
 )
+
+// ---------------------------------------------------------------------------------
+// Undefined
+// ---------------------------------------------------------------------------------
+dataset.set('Undefined_Undefined', null)

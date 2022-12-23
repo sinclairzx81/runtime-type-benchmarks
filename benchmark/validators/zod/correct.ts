@@ -52,6 +52,13 @@ export function Execute(iterations: number) {
       return success
     }
   })
+  Cases.Benchmark(Cases.Boolean_Boolean, iterations, results, () => {
+    const Boolean_Boolean = z.boolean()
+    return (value) => {
+      const { success } = Boolean_Boolean.safeParse(value)
+      return success
+    }
+  })
   Cases.Benchmark(Cases.Composite_Intersect, iterations, results, () => {
     const Composite_Intersect = z.object({
       A: z.literal('A'),
@@ -194,6 +201,13 @@ export function Execute(iterations: number) {
       return success
     }
   })
+  Cases.Benchmark(Cases.Null_Null, iterations, results, () => {
+    const Null_Null = z.null()
+    return (value) => {
+      const { success } = Null_Null.safeParse(value)
+      return success
+    }
+  })
   Cases.Benchmark(Cases.Number_Exclusive_Maximum, iterations, results, () => {
     const Number_Exclusive_Maximum = z.number().max(7)
     return (value) => {
@@ -205,6 +219,13 @@ export function Execute(iterations: number) {
     const Number_Exclusive_Minimum = z.number().min(9)
     return (value) => {
       const { success } = Number_Exclusive_Minimum.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Number_Integer, iterations, results, () => {
+    const Number_Integer = z.number().int()
+    return (value) => {
+      const { success } = Number_Integer.safeParse(value)
       return success
     }
   })
@@ -229,46 +250,90 @@ export function Execute(iterations: number) {
       return success
     }
   })
-  Cases.Benchmark(Cases.Object_Loose, iterations, results, () => {
-    const Object_Loose = z.object({
-      A: z.number(),
-      B: z.number(),
-      C: z.number(),
+  Cases.Benchmark(Cases.Number_NaN, iterations, results, () => {
+    const Number_NaN = z.number()
+    return (value) => {
+      const { success } = Number_NaN.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Number_Number, iterations, results, () => {
+    const Number_Number = z.number()
+    return (value) => {
+      const { success } = Number_Number.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Object_Additional_Properties_False, iterations, results, () => {
+    const Object_Additional_Properties_False = z
+      .object({
+        A: z.string(),
+        B: z.string(),
+        C: z.string(),
+        D: z.string(),
+      })
+      .strict()
+    return (value) => {
+      const { success } = Object_Additional_Properties_False.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Object_Additional_Properties_True, iterations, results, () => {
+    const Object_Additional_Properties_True = z.object({
+      A: z.string(),
+      B: z.string(),
+      C: z.string(),
       D: z.string(),
-      E: z.string(),
-      F: z.boolean(),
-      G: z.object({
-        H: z.string(),
-        I: z.number(),
-        J: z.boolean(),
+    })
+    return (value) => {
+      const { success } = Object_Additional_Properties_True.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Object_Object, iterations, results, () => {
+    const Object_Object = z.object({
+      A: z.object({
+        A: z.string(),
+        B: z.string(),
+        C: z.string(),
+      }),
+      B: z.object({
+        A: z.string(),
+        B: z.string(),
+        C: z.string(),
+      }),
+      C: z.object({
+        A: z.string(),
+        B: z.string(),
+        C: z.string(),
       }),
     })
     return (value) => {
-      const { success } = Object_Loose.safeParse(value)
+      const { success } = Object_Object.safeParse(value)
       return success
     }
   })
   Cases.Benchmark(Cases.Object_Partial, iterations, results, () => {
     const Object_Partial = z.object({
-      position: z
+      A: z
         .object({
-          x: z.number(),
-          y: z.number(),
-          z: z.number(),
+          A: z.string().optional(),
+          B: z.string().optional(),
+          C: z.string().optional(),
         })
         .optional(),
-      rotation: z
+      B: z
         .object({
-          x: z.number(),
-          y: z.number(),
-          z: z.number(),
+          A: z.string().optional(),
+          B: z.string().optional(),
+          C: z.string().optional(),
         })
         .optional(),
-      scale: z
+      C: z
         .object({
-          x: z.number(),
-          y: z.number(),
-          z: z.number(),
+          A: z.string().optional(),
+          B: z.string().optional(),
+          C: z.string().optional(),
         })
         .optional(),
     })
@@ -277,112 +342,24 @@ export function Execute(iterations: number) {
       return success
     }
   })
-  Cases.Benchmark(Cases.Object_Simple, iterations, results, () => {
-    const Object_Simple = z.object({
-      position: z.object({
-        x: z.number(),
-        y: z.number(),
-        z: z.number(),
-      }),
-      rotation: z.object({
-        x: z.number(),
-        y: z.number(),
-        z: z.number(),
-      }),
-      scale: z.object({
-        x: z.number(),
-        y: z.number(),
-        z: z.number(),
-      }),
-    })
-    return (value) => {
-      const { success } = Object_Simple.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Object_Strict, iterations, results, () => {
-    const Object_Strict = z
-      .object({
-        A: z.number(),
-        B: z.number(),
-        C: z.number(),
-        D: z.string(),
-        E: z.string(),
-        F: z.boolean(),
-        G: z
-          .object({
-            H: z.string(),
-            I: z.number(),
-            J: z.boolean(),
-          })
-          .strict(),
-      })
-      .strict()
-    return (value) => {
-      const { success } = Object_Strict.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Primitive_Boolean, iterations, results, () => {
-    const Primitive_Boolean = z.boolean()
-    return (value) => {
-      const { success } = Primitive_Boolean.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Primitive_Integer, iterations, results, () => {
-    const Primitive_Integer = z.number().int()
-    return (value) => {
-      const { success } = Primitive_Integer.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Primitive_Null, iterations, results, () => {
-    const Primitive_Null = z.null()
-    return (value) => {
-      const { success } = Primitive_Null.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Primitive_Number, iterations, results, () => {
-    const Primitive_Number = z.number()
-    return (value) => {
-      const { success } = Primitive_Number.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Primitive_String, iterations, results, () => {
-    const Primitive_String = z.string()
-    return (value) => {
-      const { success } = Primitive_String.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Primitive_Undefined, iterations, results, () => {
-    const Primitive_Undefined = z.undefined()
-    return (value) => {
-      const { success } = Primitive_Undefined.safeParse(value)
-      return success
-    }
-  })
-  Cases.Benchmark(Cases.Recursive_Object, iterations, results, () => {
-    const Recursive_Object: any = z.lazy(() =>
+  Cases.Benchmark(Cases.Recursive_Node, iterations, results, () => {
+    const Recursive_Node: any = z.lazy(() =>
       z.object({
         id: z.string(),
-        nodes: z.array(Recursive_Object),
+        nodes: z.array(Recursive_Node),
       }),
     )
     return (value) => {
-      const { success } = Recursive_Object.safeParse(value)
+      const { success } = Recursive_Node.safeParse(value)
       return success
     }
   })
-  Cases.Benchmark(Cases.Recursive_Union, iterations, results, () => {
-    const Recursive_Union: any = z.lazy(() =>
+  Cases.Benchmark(Cases.Recursive_Union_Node, iterations, results, () => {
+    const Recursive_Union_Node: any = z.lazy(() =>
       z.union([
         z.object({
           type: z.literal('Node'),
-          nodes: z.array(Recursive_Union),
+          nodes: z.array(Recursive_Union_Node),
         }),
         z.object({
           type: z.literal('Leaf'),
@@ -391,7 +368,7 @@ export function Execute(iterations: number) {
       ]),
     )
     return (value) => {
-      const { success } = Recursive_Union.safeParse(value)
+      const { success } = Recursive_Union_Node.safeParse(value)
       return success
     }
   })
@@ -406,6 +383,13 @@ export function Execute(iterations: number) {
     const String_MinLength = z.string().min(8)
     return (value) => {
       const { success } = String_MinLength.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.String_String, iterations, results, () => {
+    const String_String = z.string()
+    return (value) => {
+      const { success } = String_String.safeParse(value)
       return success
     }
   })
@@ -844,6 +828,13 @@ export function Execute(iterations: number) {
     )
     return (value) => {
       const { success } = Typia_Object_Union_Implicit.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Undefined_Undefined, iterations, results, () => {
+    const Undefined_Undefined = z.undefined()
+    return (value) => {
+      const { success } = Undefined_Undefined.safeParse(value)
       return success
     }
   })

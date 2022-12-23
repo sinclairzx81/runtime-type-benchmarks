@@ -8,20 +8,21 @@ import * as Path from 'node:path'
 export namespace TsisGenerator {
   function Include(dataset: string, schema: unknown): schema is TSchema {
     // prettier-ignore
-    const incorrect = dataset === 'incorrect' ? [] : []
-    // prettier-ignore
     return (
       TypeGuard.TSchema(schema) && ![
-        'Primitive_Integer', 
-        'Primitive_RegEx', 
+        'Number_Integer', 
+        'Number_NaN',
         'Number_Exclusive_Maximum', 
         'Number_Exclusive_Minimum', 
         'Number_Maximum', 
         'Number_Minimum', 
-        'Number_Multiple_Of', 
+        'Number_Multiple_Of',
+        'Object_Additional_Properties_Boolean',
+        'Object_Additional_Properties_False',
+        'String_Pattern',
         'String_MaxLength', 
         'String_MinLength', 
-        ...incorrect
+        'Undefined_Undefined'
       ].includes(schema.$id!)
     )
   }
