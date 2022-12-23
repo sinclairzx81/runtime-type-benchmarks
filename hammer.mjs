@@ -51,12 +51,12 @@ export async function measure(packageName = 'typebox_aot', compiler = 'tsc', dat
   await shell(`npx ${compiler} benchmark/validators/${packageName}/${dataset}.ts --outDir target/benchmark/${packageName}/${dataset} --downlevelIteration`)
   await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iterations} ${report_file}`)
 }
-export async function typebox_aot(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = true) {
+export async function typebox_aot(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = false) {
   TypeBoxAotGenerator.Build('benchmark/validators/typebox_aot', { allowArrayObjects, allowNaN })
   await measure('typebox_aot', 'tsc', 'correct', iterations)
   await measure('typebox_aot', 'tsc', 'incorrect', iterations)
 }
-export async function typebox_jit(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = true) {
+export async function typebox_jit(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = false) {
   TypeBoxJitGenerator.Build('benchmark/validators/typebox_jit', { allowArrayObjects, allowNaN })
   await measure('typebox_jit', 'tsc', 'correct', iterations)
   await measure('typebox_jit', 'tsc', 'incorrect', iterations)

@@ -1,16 +1,16 @@
 import { TypeGuard } from '@sinclair/typebox/guard'
 import { TSchema } from '@sinclair/typebox'
-export * from './array/index'
-export * from './composite/index'
-export * from './literal/index'
-export * from './math/index'
-export * from './number/index'
-export * from './object/index'
+export * from './Array/index'
+export * from './Composite/index'
+export * from './Literal/index'
+export * from './Math/index'
+export * from './Number/index'
+export * from './Object/index'
 export * from './primitive/index'
-export * from './recursive/index'
-export * from './string/index'
-export * from './tuple/index'
-export * from './typia/index'
+export * from './Recursive/index'
+export * from './String/index'
+export * from './Tuple/index'
+export * from './Typia/index'
 
 const dataset = new Map<string, unknown>()
 
@@ -45,16 +45,13 @@ export function Benchmark(schema: TSchema, iterations: number, results: Map<stri
 // ---------------------------------------------------------------------------------
 // Array
 // ---------------------------------------------------------------------------------
-dataset.set(
-  'Array_Number',
-  Array.from({ length: 8 }, (_, i) => {
+// prettier-ignore
+dataset.set('Array_Number', Array.from({ length: 8 }, (_, i) => {
     if (i === 7) return 'not-a-number'
     return 1
-  }),
-)
-dataset.set(
-  'Array_Object',
-  Array.from({ length: 8 }, (_, i) => {
+}))
+// prettier-ignore
+dataset.set('Array_Object', Array.from({ length: 8 }, (_, i) => {
     if (i === 7)
       return {
         x: 1,
@@ -66,7 +63,7 @@ dataset.set(
       y: 2,
       z: 3,
     }
-  }),
+  })
 )
 // prettier-ignore
 dataset.set('Array_Recursive', Array.from({ length: 2 }, (_, i) => {
@@ -106,9 +103,8 @@ dataset.set('Array_Recursive', Array.from({ length: 2 }, (_, i) => {
     }
   }),
 )
-dataset.set(
-  'Array_Union',
-  Array.from({ length: 8 }, (_, i) => {
+// prettier-ignore
+dataset.set('Array_Union', Array.from({ length: 8 }, (_, i) => {
     if (i === 7)
       return {
         id: 'Vector4',
@@ -205,6 +201,7 @@ dataset.set('Number_Exclusive_Minimum', 8)
 dataset.set('Number_Maximum', 9)
 dataset.set('Number_Minimum', 7)
 dataset.set('Number_Multiple_Of', 15)
+dataset.set('Number_NaN', NaN)
 
 // ---------------------------------------------------------------------------------
 // Primitive
