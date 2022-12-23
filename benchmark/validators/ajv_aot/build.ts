@@ -1,4 +1,4 @@
-import { Formatter } from '../../codegen/index'
+import { Formatter } from '../../../codegen/index'
 import { TSchema } from '@sinclair/typebox'
 import { TypeGuard } from '@sinclair/typebox/guard'
 import standaloneCode from 'ajv/dist/standalone'

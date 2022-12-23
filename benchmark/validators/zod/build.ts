@@ -1,6 +1,6 @@
-import { Formatter } from '../../codegen/index'
+import { Formatter } from '../../../codegen/index'
 import { TypeGuard } from '@sinclair/typebox/guard'
-import { ZodCodegen } from '../../codegen/index'
+import { ZodCodegen } from '../../../codegen/index'
 import { TSchema } from '@sinclair/typebox'
 import * as Cases from '../../schematics/correct'
 import * as Fs from 'node:fs'

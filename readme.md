@@ -4,7 +4,7 @@ High Performance Validation Benchmarks for JavaScript
 
 ### Overview
 
-This project measures a set of high performance JavaScript runtime type checking libraries to adequately compare their validation performance across a wide range of data structures. It also seeks to compare JIT to AOT performance by measuring static JavaScript validation routines against those dynamically evaluated at runtime.
+This project benchmarks a variety of JavaScript runtime type checking libraries to adequately assess their validation performance across a wide range of data structures. This project also seeks to compare JIT to AOT by measuring static JavaScript validation routines against those dynamically evaluated at runtime.
 
 [Latest Benchmark Results](https://sinclairzx81.github.io/runtime-type-benchmarks/)
 
@@ -42,9 +42,9 @@ $ npm run benchmark <iteration-count>             # Runs all benchmarks with an 
 
 
 $ npm run reporting                               # Builds and minifies the reporting website and serves
-                                                  # it on port 5000. This task will also capture the current 
-                                                  # websites benchmark results (see image below) which is 
-                                                  # written to the project root (see screenshot.png)
+                                                  # it on port 5000. This task will also capture the 
+                                                  # current websites benchmark results which is written 
+                                                  # to the project root (screenshot.png)
 
 $ npm run format                                  # Runs a prettier pass over the project.
 

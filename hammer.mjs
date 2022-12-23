@@ -41,69 +41,67 @@ export async function format() {
 // Benchmark
 // -----------------------------------------------------------------------------
 const measurement_iteration = 10_000_000
-export async function measure(packageName = 'typebox_aot', compiler = 'tsc', dataset = 'correct', iteration = measurement_iteration) {
-  console.log(`\x1b[32mpackage: ${packageName} dataset: ${dataset} iteration: ${iteration}\x1b[0m`)
+export async function installTypescript(version) {
+  console.log(`installing typescript@${version}`)
+  await shell(`npm install typescript@${version}`)
+}
+export async function measure(packageName = 'typebox_aot', compiler = 'tsc', dataset = 'correct', iterations = measurement_iteration) {
+  console.log(`\x1b[32mpackage: ${packageName} dataset: ${dataset} iterations: ${iterations}\x1b[0m`)
   const report_file = `reporting/results/${packageName}/${dataset}.json`
   await shell(`npx ${compiler} benchmark/validators/${packageName}/${dataset}.ts --outDir target/benchmark/${packageName}/${dataset} --downlevelIteration`)
-  await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iteration} ${report_file}`)
+  await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iterations} ${report_file}`)
 }
-export async function typebox_aot(iteration = measurement_iteration, allowArrayObjects = false, allowNaN = true) {
+export async function typebox_aot(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = true) {
   TypeBoxAotGenerator.Build('benchmark/validators/typebox_aot', { allowArrayObjects, allowNaN })
-  await shell('npm install typescript@latest')
-  await measure('typebox_aot', 'tsc', 'correct', iteration)
-  await measure('typebox_aot', 'tsc', 'incorrect', iteration)
+  await measure('typebox_aot', 'tsc', 'correct', iterations)
+  await measure('typebox_aot', 'tsc', 'incorrect', iterations)
 }
-export async function typebox_jit(iteration = measurement_iteration, allowArrayObjects = false, allowNaN = true) {
+export async function typebox_jit(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = true) {
   TypeBoxJitGenerator.Build('benchmark/validators/typebox_jit', { allowArrayObjects, allowNaN })
-  await shell('npm install typescript@latest')
-  await measure('typebox_jit', 'tsc', 'correct', iteration)
-  await measure('typebox_jit', 'tsc', 'incorrect', iteration)
+  await measure('typebox_jit', 'tsc', 'correct', iterations)
+  await measure('typebox_jit', 'tsc', 'incorrect', iterations)
 }
-export async function ajv_aot(iteration = measurement_iteration) {
-  await shell('npm install typescript@latest')
+export async function ajv_aot(iterations = measurement_iteration) {
   AjvAotGenerator.Build('benchmark/validators/ajv_aot')
-  await measure('ajv_aot', 'tsc', 'correct', iteration)
-  await measure('ajv_aot', 'tsc', 'incorrect', iteration)
+  await measure('ajv_aot', 'tsc', 'correct', iterations)
+  await measure('ajv_aot', 'tsc', 'incorrect', iterations)
 }
-export async function ajv_jit(iteration = measurement_iteration) {
+export async function ajv_jit(iterations = measurement_iteration) {
   AjvJitGenerator.Build('benchmark/validators/ajv_jit')
-  await shell('npm install typescript@latest')
-  await measure('ajv_jit', 'tsc', 'correct', iteration)
-  await measure('ajv_jit', 'tsc', 'incorrect', iteration)
+  await measure('ajv_jit', 'tsc', 'correct', iterations)
+  await measure('ajv_jit', 'tsc', 'incorrect', iterations)
 }
-export async function typia(iteration = measurement_iteration) {
+export async function typia(iterations = measurement_iteration) {
   TypiaGenerator.Build('benchmark/validators/typia')
-  await shell('npm install typescript@latest')
-  await measure('typia', 'ttsc', 'correct', iteration)
-  await measure('typia', 'ttsc', 'incorrect', iteration)
+  await measure('typia', 'ttsc', 'correct', iterations)
+  await measure('typia', 'ttsc', 'incorrect', iterations)
 }
-export async function tsrc(iteration = measurement_iteration) {
+export async function tsrc(iterations = measurement_iteration) {
   TsrcGenerator.Build('benchmark/validators/tsrc')
-  await shell('npm install typescript@latest')
-  await measure('tsrc', 'ttsc', 'correct', iteration)
-  await measure('tsrc', 'ttsc', 'incorrect', iteration)
+  await measure('tsrc', 'ttsc', 'correct', iterations)
+  await measure('tsrc', 'ttsc', 'incorrect', iterations)
 }
-export async function tsis(iteration = measurement_iteration) {
-  await shell('npm install typescript@4.6.4')
+export async function tsis(iterations = measurement_iteration) {
   TsisGenerator.Build('benchmark/validators/tsis')
-  await measure('tsis', 'ttsc', 'correct', iteration)
-  await measure('tsis', 'ttsc', 'incorrect', iteration)
+  await installTypescript('4.6.4')
+  await measure('tsis', 'ttsc', 'correct', iterations)
+  await measure('tsis', 'ttsc', 'incorrect', iterations)
+  await installTypescript('latest')
 }
-export async function zod(iteration = measurement_iteration) {
+export async function zod(iterations = measurement_iteration) {
   ZodGenerator.Build('benchmark/validators/zod')
-  // await shell('npm install typescript@latest')
-  await measure('zod', 'tsc', 'correct', iteration)
-  await measure('zod', 'tsc', 'incorrect', iteration)
+  await measure('zod', 'tsc', 'correct', iterations)
+  await measure('zod', 'tsc', 'incorrect', iterations)
 }
-export async function benchmark(iteration = measurement_iteration) {
-  await clean()
-  await typebox_aot(iteration)
-  await typebox_jit(iteration)
-  await ajv_aot(iteration)
-  await ajv_jit(iteration)
-  await typia(iteration)
-  await tsrc(iteration)
-  await tsis(iteration)
+export async function benchmark(iterations = measurement_iteration) {
+  await typebox_aot(iterations)
+  await typebox_jit(iterations)
+  await ajv_aot(iterations)
+  await ajv_jit(iterations)
+  await typia(iterations)
+  await tsrc(iterations)
+  await tsis(iterations)
+  await zod(iterations / 100)
 }
 
 // -----------------------------------------------------------------------------
@@ -111,6 +109,6 @@ export async function benchmark(iteration = measurement_iteration) {
 // -----------------------------------------------------------------------------
 export async function reporting() {
   const serve = shell('hammer serve reporting/index.html --dist docs --minify --sourcemap')
-  const drift = shell('drift url http://localhost:5000 size 1920 8000 wait 2000 save screenshot.png')
+  const drift = shell('drift url http://localhost:5000 size 1920 7800 wait 2000 save screenshot.png')
   await Promise.all([serve, drift])
 }

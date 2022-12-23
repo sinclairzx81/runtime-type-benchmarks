@@ -26,7 +26,7 @@ export function Benchmark(schema: TSchema, iterations: number, results: Map<stri
   if (types.has(schema.$id)) throw Error(`Duplicate schema $id ${schema.$id}`)
   if (!dataset.has(schema.$id)) throw Error(`Unable to locate dataset for ${schema.$id}`)
   types.add(schema.$id)
-  process.stdout.write(`\x1b[36m${schema.$id}\x1b[0m ... `)
+  process.stdout.write(`\x1b[90m${schema.$id}\x1b[0m ... `)
   const check = setup(schema)
   const value = dataset.get(schema.$id)!
   const start = Date.now()
