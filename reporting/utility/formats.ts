@@ -1,5 +1,11 @@
 export namespace Formats {
-  export function ranking(value: number) {
+  export function Millisecond(value: number | undefined) {
+    if (value === undefined) {
+      return ''
+    }
+    return `${value} ms`
+  }
+  export function Rank(value: number) {
     switch (value) {
       case 0:
         return '1st'
@@ -21,7 +27,7 @@ export namespace Formats {
         return '9th'
     }
   }
-  export function formatLargeNumber(value: number) {
+  export function LargeNumber(value: number) {
     if (value > 1000000000) {
       return Math.floor(value / 1000000000).toString() + 'B'
     } else if (value > 1000000) {

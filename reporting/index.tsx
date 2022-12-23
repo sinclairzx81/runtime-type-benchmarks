@@ -2,22 +2,23 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import ReactDOM from 'react-dom/client'
 import React from 'react'
 import * as Cases from '../benchmark/schematics/correct'
+import { TypeScriptCodegen } from '../codegen/index'
 import { Reports } from './utility/reports'
 import { Formats } from './utility/formats'
-import { Render } from './utility/render'
 
 // ---------------------------------------------------------------------------
 // Benchmarks (Add as nessasary)
 // ---------------------------------------------------------------------------
 export type Benchmarks = typeof Benchmarks
 export const Benchmarks = {
-  ajv_aot: '#C70',
-  ajv_jit: '#B50',
   typebox_aot: '#6A2',
   typebox_jit: '#580',
   typia: '#47A',
   tsrc: '#C33',
+  ajv_aot: '#ec9f0f',
+  ajv_jit: '#B50',
   tsis: '#33C',
+  zod: '#995',
 } as const
 
 // ---------------------------------------------------------------------------
@@ -27,43 +28,53 @@ export interface TypeResultToolTipProperties {
   result: Reports.ReportingResult
 }
 export function TypeResultToolTip(props: TypeResultToolTipProperties) {
-  const type = Render.Type((Cases as any)[props.result.typename] as any)
-  const results = Object.entries(props.result)
-    .filter((entry) => {
-      return !(entry[0] === 'typename' || entry[0] === 'persecond')
-    })
-    .sort((a, b) => (b[1] as number) - (a[1] as number))
-    .map((entry) => {
-      const [lib, value] = entry as [keyof Benchmarks, number]
-      const color = Benchmarks[lib]
-      const ops = `${Formats.formatLargeNumber(Math.floor(value as number))}`
-      return { lib, color, ops }
+  type Result = { ops: number; iterations: number; elapsed: number }
+  type TupleResult = [string, Result]
+  const html = TypeScriptCodegen.GenerateHTML((Cases as any)[props.result.typename] as any)
+  const entries = Object.entries(props.result).filter((entry) => {
+    return !(entry[0] === 'typename' || entry[0] === 'best_ops')
+  }) as any as TupleResult[]
+  const sorted = entries
+    .sort((a: TupleResult, b: TupleResult) => b[1].ops - a[1].ops)
+    .map((result) => {
+      const [lib, value] = result
+      const color = Benchmarks[lib as any as keyof Benchmarks]
+      const ops = Formats.LargeNumber(value.ops)
+      const elapsed = Formats.Millisecond(value.elapsed)
+      const iterations = Formats.LargeNumber(value.iterations)
+      return { lib, color, ops, elapsed, iterations }
     })
   return (
     <div className="type-tooltip">
       <div className="header">
-        <h3>{props.result.typename}</h3>
+        <h2>{props.result.typename}</h2>
       </div>
       <div className="body">
         <div className="type">
-          <pre dangerouslySetInnerHTML={{ __html: type }}></pre>
+          <pre dangerouslySetInnerHTML={{ __html: html }}></pre>
         </div>
         <div className="result">
           <table>
             <tr>
-              <th>rank</th>
-              <th>validator</th>
+              <th></th>
+              <th></th>
+              <th>iterations</th>
+              <th>elapsed</th>
               <th>ops</th>
             </tr>
-            {results.map((entry, index) => {
-              return (
-                <tr>
-                  <td>{Formats.ranking(index)}</td>
-                  <td style={{ color: entry.color }}>{entry.lib}</td>
-                  <td>{entry.ops}</td>
-                </tr>
-              )
-            })}
+            {sorted
+              .filter((entry) => entry.elapsed.length > 0)
+              .map((entry, index) => {
+                return (
+                  <tr>
+                    <td>{Formats.Rank(index)}</td>
+                    <td style={{ color: entry.color }}>{entry.lib}</td>
+                    <td>{entry.iterations}</td>
+                    <td>{entry.elapsed}</td>
+                    <td>{entry.ops}</td>
+                  </tr>
+                )
+              })}
           </table>
         </div>
       </div>
@@ -79,20 +90,27 @@ export interface TypeResultProperties {
 }
 export function TypeResult(props: TypeResultProperties) {
   const fontColor = '#BBB'
+  const result: any = Object.keys(props.result).reduce((acc, key) => {
+    const facade: any = props.result
+    return { ...acc, [key]: facade[key].ops }
+  }, {})
+  result.typename = props.result.typename
+  result.best_ops = props.result.best_ops
   // prettier-ignore
   return (
     <div className="type-result">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={[props.result]} barGap={20} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+        <BarChart data={[result]} barGap={20} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
           <XAxis dataKey="typename" tick={{ fill: fontColor }} />
           <YAxis
-            dataKey="persecond"
+            dataKey="best_ops"
             tick={{ fill: fontColor }}
-            tickFormatter={Formats.formatLargeNumber}
+            tickFormatter={Formats.LargeNumber}
           />
           <Legend verticalAlign="bottom" align="right" formatter={(value) => { return <span style={{ color: fontColor }}>{value}</span> }} />
           <Tooltip
             wrapperStyle={{ zIndex: 1000000 }}
+            contentStyle={{ border: 'none' }}
             cursor={{ fill: '#000' }}
             content={<TypeResultToolTip result={props.result} />}
           />
@@ -191,6 +209,7 @@ export function App() {
       <div className="results">
         {[...groups.entries()].filter(entry => {
           const [_, results] = entry
+          //if(!results.some(result => result.typename.toLowerCase().includes('composite'))) return
           return results.some(result => result.typename.toLowerCase().includes(filter.toLocaleLowerCase()))
         }).map((entry) => {
           const [group, results] = entry

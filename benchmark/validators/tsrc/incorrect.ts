@@ -26,7 +26,6 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Tuple_Object, iterations, results, () => (value) => Tsrc.is<Cases.Tuple_Object>(value))
   Cases.Benchmark(Cases.Typia_Array_Hierarchical, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Array_Hierarchical>(value))
   Cases.Benchmark(Cases.Typia_Object_Hierarchical, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Object_Hierarchical>(value))
-  Cases.Benchmark(Cases.Typia_Ultimate_Union, iterations, results, () => (value) => Tsrc.is<Cases.Typia_Ultimate_Union>(value))
   return results
 }
 

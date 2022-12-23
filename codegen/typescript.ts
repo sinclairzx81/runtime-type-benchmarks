@@ -1,7 +1,36 @@
+/*--------------------------------------------------------------------------
+
+@sinclair/typebox/codegen
+
+The MIT License (MIT)
+
+Copyright (c) 2022 Haydn Paterson (sinclair) <haydn.developer@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+---------------------------------------------------------------------------*/
+
+import { Formatter } from './formatter'
 import { TypeGuard } from '@sinclair/typebox/guard'
 import * as Types from '@sinclair/typebox'
 
-export namespace Render {
+export namespace TypeScriptCodegen {
   function Any(schema: Types.TAny) {
     return 'any'
   }
@@ -164,45 +193,29 @@ export namespace Render {
       throw Error('TypeScriptCodeGen: Unknown type')
     }
   }
-  function Format(input: string): string {
-    function count(line: string, opens: string[]) {
-      const codes = opens.map((open) => open.charCodeAt(0))
-      return line
-        .split('')
-        .map((char) => char.charCodeAt(0))
-        .reduce((acc, current) => {
-          return codes.includes(current) ? acc + 1 : acc
-        }, 0)
-    }
-    let indent = 0
-    const output: string[] = []
-    for (const line of input.split('\n').map((n) => n.trim())) {
-      indent -= count(line, ['}'])
-      output.push(`${''.padStart(indent * 2, ' ')}${line}`)
-      indent += count(line, ['{'])
-    }
-    return output.join('\n')
-  }
 
   /** Renders TypeScript type code from TypeBox types */
-  export function Type(schema: Types.TSchema, references: Types.TSchema[] = []) {
+  export function Generate(schema: Types.TSchema, references: Types.TSchema[] = []) {
     if (schema === undefined || schema.$id === undefined) return ''
     const result: string[] = []
     for (const reference of references) {
-      result.push(`type ${reference.$id} = ${Format([...Visit(reference)].join(''))}`)
+      result.push(`type ${reference.$id} = ${[...Visit(reference)].join('')}`)
     }
-    result.push(`type ${schema.$id || 'T'} = ${Format([...Visit(schema)].join(''))}`)
-    const color = '#0AF'
-    return result
-      .join('\n\n')
-      .replaceAll(new RegExp(schema.$id!.replace('Array_', ''), 'g'), 'T')
-      .replaceAll(new RegExp('Array_T', 'g'), 'T')
-      .replaceAll(new RegExp(schema.$id!, 'g'), 'T')
-      .replace(/>/g, `&gt;`)
-      .replace(/</g, `&lt;`)
-      .replace(/type/g, `<span style='font-weight: bold; color: ${color}'>type</span>`)
-      .replace(/boolean/g, `<span style='font-weight: bold; color:${color}'>boolean</span>`)
-      .replace(/number/g, `<span style='font-weight: bold; color: ${color}'>number</span>`)
-      .replace(/string/g, `<span style='font-weight: bold; color: ${color}'>string</span>`)
+    result.push(`type ${schema.$id || 'T'} = ${[...Visit(schema)].join('')}`)
+    return Formatter.Format(result.join('\n\n'))
+  }
+
+  export function GenerateHTML(schema: Types.TSchema, references: Types.TSchema[] = []) {
+    const color = '#6a2'
+    return Generate(schema, references)
+    .replaceAll(new RegExp(schema.$id!.replace('Array_', ''), 'g'), 'T')
+    .replaceAll(new RegExp('Array_T', 'g'), 'T')
+    .replaceAll(new RegExp(schema.$id!, 'g'), 'T')
+    .replace(/>/g, `&gt;`)
+    .replace(/</g, `&lt;`)
+    .replace(/type/g, `<span style='font-weight: bold; color: ${color}'>type</span>`)
+    .replace(/boolean/g, `<span style='font-weight: bold; color:${color}'>boolean</span>`)
+    .replace(/number/g, `<span style='font-weight: bold; color: ${color}'>number</span>`)
+    .replace(/string/g, `<span style='font-weight: bold; color: ${color}'>string</span>`)
   }
 }

@@ -7,9 +7,13 @@ export namespace Reports {
   }
   export type ReportingResult = {
     typename: string
-    persecond: number
+    best_ops: number
   } & {
-    -readonly [K in keyof Benchmarks]: number
+    -readonly [K in keyof Benchmarks]: {
+      ops: number
+      iterations: number
+      elapsed: number
+    }
   }
   export function operationsPerSecond(iterations: number, elapsed: number | undefined) {
     if (elapsed === undefined) return 0
@@ -30,26 +34,38 @@ export namespace Reports {
     // Remap to reporting reports
     const reporting_results: ReportingResult[] = []
     for (const typename of Object.keys(benchmark_results[typebox_index][1].results)) {
-      const reporting_result: Omit<ReportingResult, 'persecond' | 'typename'> = {} as any
+      const reporting_result: Omit<ReportingResult, 'best_ops' | 'typename'> = {} as any
       for (const [lib, result] of benchmark_results) {
-        reporting_result[lib as keyof Benchmarks] = operationsPerSecond(result.iterations, result.results[typename])
+        reporting_result[lib as keyof Benchmarks] = {
+          ops: operationsPerSecond(result.iterations, result.results[typename]),
+          iterations: result.iterations,
+          elapsed: result.results[typename],
+        }
       }
-      const persecond = Object.values(reporting_result).sort((a, b) => b - a)[0]
-      reporting_results.push({ typename, persecond, ...reporting_result })
+      const type_results = Object.values(reporting_result) as {
+        ops: number
+        iterations: number
+        elapsed: number
+      }[]
+      const best_ops = type_results.sort((a, b) => b.ops - a.ops)[0].ops
+      reporting_results.push({ typename, best_ops, ...reporting_result })
     }
     return reporting_results
   }
   export function GroupReportingResults(results: ReportingResult[]): Map<string, ReportingResult[]> {
     const map = new Map<string, ReportingResult[]>()
     // Can order result sets by ensuring groups are defined in order
-    map.set('Primitive', [])
     map.set('Literal', [])
+    map.set('Primitive', [])
+    map.set('Number', [])
+    map.set('String', [])
     map.set('Object', [])
-    map.set('Composite', [])
+    map.set('Array', [])
     map.set('Tuple', [])
+    map.set('Composite', [])
     map.set('Recursive', [])
     map.set('Math', [])
-    map.set('Array', [])
+    map.set('Typia', [])
     for (const result of results) {
       const group = result.typename.split('_')[0]
       if (!map.has(group)) map.set(group, [])

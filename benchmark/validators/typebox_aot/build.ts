@@ -1,4 +1,4 @@
-import { Formatter } from '../../formatter/index'
+import { Formatter } from '../../../codegen/index'
 import { TypeGuard } from '@sinclair/typebox/guard'
 import { TypeCompiler } from '@sinclair/typebox/compiler'
 import { TypeSystem } from '@sinclair/typebox/system'

@@ -4,7 +4,7 @@ High Performance Validation Benchmarks for JavaScript
 
 ### Overview
 
-This project measures a set of high performance JavaScript runtime type checking libraries to adequately compare their validation performance across a wide range of data structures. It also seeks to compare JIT to AOT performance by measuring static JavaScript validation routines against those dynamically evaluated at runtime.
+This project benchmarks a variety of JavaScript runtime type checking libraries to adequately assess their validation performance across a wide range of data structures. This project also seeks to compare JIT to AOT by measuring static JavaScript validation routines against those dynamically evaluated at runtime.
 
 [Latest Benchmark Results](https://sinclairzx81.github.io/runtime-type-benchmarks/)
 
@@ -16,13 +16,14 @@ These benchmarks measure validation throughput for a number of common JavaScript
 
 The following JavaScript validation packages are benchmarked.
 
-| Package                                                              | Identifier | Compilation               | Assertion        | Description                                                                                |
-|---                                                                   |---         |---                        |---               |---                                                                                         |
-| [ts-runtime-checks](https://github.com/GoogleFeud/ts-runtime-checks) | tsrc       | AOT                       | Structural       | A typescript transformer which automatically generates validation code from your types.    |
-| [typescript-is](https://github.com/woutervh-/typescript-is)          | tsis       | AOT                       | Structural       | TypeScript transformer that generates run-time type-checks.                                |
-| [typia](https://github.com/samchon/typia)                            | typia      | AOT                       | Structural       | Super-fast Runtime validator (type checker) with only one line.                            |
-| [typebox](https://github.com/sinclairzx81/typebox)                   | typebox    | JIT (with optional AOT)   | Json Schema      | JSON Schema Type Builder with Static Type Resolution for TypeScript.                       |
-| [ajv](https://github.com/ajv-validator/ajv)                          | ajv        | JIT (with optional AOT)   | Json Schema      | The fastest JSON Schema Validator.                                                         |
+| Package                                                              | Identifier | Compilation    | Assertion        | Description                                                                                |
+|---                                                                   |---         |---             |---               |---                                                                                         |
+| [ts-runtime-checks](https://github.com/GoogleFeud/ts-runtime-checks) | tsrc       | AOT            | Structural       | A typescript transformer which automatically generates validation code from your types.    |
+| [typescript-is](https://github.com/woutervh-/typescript-is)          | tsis       | AOT            | Structural       | TypeScript transformer that generates run-time type-checks.                                |
+| [typia](https://github.com/samchon/typia)                            | typia      | AOT            | Structural       | Super-fast Runtime validator (type checker) with only one line.                            |
+| [typebox](https://github.com/sinclairzx81/typebox)                   | typebox    | JIT + AOT      | Json Schema      | JSON Schema Type Builder with Static Type Resolution for TypeScript.                       |
+| [ajv](https://github.com/ajv-validator/ajv)                          | ajv        | JIT + AOT      | Json Schema      | The fastest JSON Schema Validator.                                                         |
+| [zod](https://github.com/colinhacks/zod)                             | zod        | Dynamic        | Structural       | TypeScript-first schema validation with static type inference                              |
 
 
 ### Commands
@@ -41,9 +42,9 @@ $ npm run benchmark <iteration-count>             # Runs all benchmarks with an 
 
 
 $ npm run reporting                               # Builds and minifies the reporting website and serves
-                                                  # it on port 5000. This task will also capture the current 
-                                                  # websites benchmark results (see image below) which is 
-                                                  # written to the project root (see screenshot.png)
+                                                  # it on port 5000. This task will also capture the 
+                                                  # current websites benchmark results which is written 
+                                                  # to the project root (screenshot.png)
 
 $ npm run format                                  # Runs a prettier pass over the project.
 
