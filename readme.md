@@ -1,6 +1,6 @@
-# Runtime Type Validation Benchmarks
+# Runtime Type Benchmarks
 
-High Performance Validation Benchmarks for JavaScript
+High Performance Benchmarks for JavaScript Validation Libraries
 
 ### Overview
 
