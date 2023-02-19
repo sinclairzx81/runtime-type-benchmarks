@@ -7,7 +7,7 @@ const Point3D = Type.Object({
 })
 
 export type Typia_Object_Simple = Static<typeof Typia_Object_Simple>
-const Typia_Object_Simple = Type.Object(
+export const Typia_Object_Simple = Type.Object(
   {
     scale: Point3D,
     position: Point3D,
