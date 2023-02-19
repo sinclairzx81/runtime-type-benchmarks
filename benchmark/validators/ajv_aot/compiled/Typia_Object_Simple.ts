@@ -1,9 +1,9 @@
 // @ts-nocheck
 'use strict'
-export const Math_Transform3D = validate10
+export const Typia_Object_Simple = validate10
 const schema11 = {
-  $id: 'Math_Transform3D',
-  description: 'Should validate a transform 3D object type',
+  $id: 'Typia_Object_Simple',
+  description: 'Should validate the Typia_Object_Simple structure',
   type: 'object',
   properties: {
     scale: { type: 'object', properties: { x: { type: 'number' }, y: { type: 'number' }, z: { type: 'number' } }, required: ['x', 'y', 'z'] },
@@ -14,7 +14,7 @@ const schema11 = {
   required: ['scale', 'position', 'rotate', 'pivot'],
 }
 function validate10(data, { instancePath = '', parentData, parentDataProperty, rootData = data } = {}) {
-  /*# sourceURL="Math_Transform3D" */ let vErrors = null
+  /*# sourceURL="Typia_Object_Simple" */ let vErrors = null
   let errors = 0
   if (errors === 0) {
     if (data && typeof data == 'object' && !Array.isArray(data)) {

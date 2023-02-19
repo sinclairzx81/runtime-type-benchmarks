@@ -51,6 +51,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Typia_Array_Simple, iterations, results, () => Validators.Typia_Array_Simple)
   Cases.Benchmark(Cases.Typia_Object_Hierarchical, iterations, results, () => Validators.Typia_Object_Hierarchical)
   Cases.Benchmark(Cases.Typia_Object_Recursive, iterations, results, () => Validators.Typia_Object_Recursive)
+  Cases.Benchmark(Cases.Typia_Object_Simple, iterations, results, () => Validators.Typia_Object_Simple)
   Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, () => Validators.Typia_Object_Union_Explicit)
   Cases.Benchmark(Cases.Typia_Object_Union_Implicit, iterations, results, () => Validators.Typia_Object_Union_Implicit)
   return results

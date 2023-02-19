@@ -44,5 +44,6 @@ export { Typia_Array_Recursive_Union_Implicit } from './Typia_Array_Recursive_Un
 export { Typia_Array_Simple } from './Typia_Array_Simple'
 export { Typia_Object_Hierarchical } from './Typia_Object_Hierarchical'
 export { Typia_Object_Recursive } from './Typia_Object_Recursive'
+export { Typia_Object_Simple } from './Typia_Object_Simple'
 export { Typia_Object_Union_Explicit } from './Typia_Object_Union_Explicit'
 export { Typia_Object_Union_Implicit } from './Typia_Object_Union_Implicit'

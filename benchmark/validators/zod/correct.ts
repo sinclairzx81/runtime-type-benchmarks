@@ -612,6 +612,34 @@ export function Execute(iterations: number) {
       return success
     }
   })
+  Cases.Benchmark(Cases.Typia_Object_Simple, iterations, results, () => {
+    const Typia_Object_Simple = z.object({
+      scale: z.object({
+        x: z.number(),
+        y: z.number(),
+        z: z.number(),
+      }),
+      position: z.object({
+        x: z.number(),
+        y: z.number(),
+        z: z.number(),
+      }),
+      rotate: z.object({
+        x: z.number(),
+        y: z.number(),
+        z: z.number(),
+      }),
+      pivot: z.object({
+        x: z.number(),
+        y: z.number(),
+        z: z.number(),
+      }),
+    })
+    return (value) => {
+      const { success } = Typia_Object_Simple.safeParse(value)
+      return success
+    }
+  })
   Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, () => {
     const Typia_Object_Union_Explicit = z.array(
       z.union([

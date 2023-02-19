@@ -38,6 +38,7 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Typia_Array_Simple, iterations, results, () => (value) => Tsis.is<Cases.Typia_Array_Simple>(value))
   Cases.Benchmark(Cases.Typia_Object_Hierarchical, iterations, results, () => (value) => Tsis.is<Cases.Typia_Object_Hierarchical>(value))
   Cases.Benchmark(Cases.Typia_Object_Recursive, iterations, results, () => (value) => Tsis.is<Cases.Typia_Object_Recursive>(value))
+  Cases.Benchmark(Cases.Typia_Object_Simple, iterations, results, () => (value) => Tsis.is<Cases.Typia_Object_Simple>(value))
   Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, () => (value) => Tsis.is<Cases.Typia_Object_Union_Explicit>(value))
   Cases.Benchmark(Cases.Typia_Object_Union_Implicit, iterations, results, () => (value) => Tsis.is<Cases.Typia_Object_Union_Implicit>(value))
   Cases.Benchmark(Cases.Typia_Ultimate_Union, iterations, results, () => (value) => Tsis.is<Cases.Typia_Ultimate_Union>(value))
