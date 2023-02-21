@@ -51,12 +51,12 @@ export async function measure(packageName = 'typebox_aot', compiler = 'tsc', dat
   await shell(`npx ${compiler} benchmark/validators/${packageName}/${dataset}.ts --outDir target/benchmark/${packageName}/${dataset} --downlevelIteration`)
   await shell(`node target/benchmark/${packageName}/${dataset}/validators/${packageName}/${dataset}.js ${iterations} ${report_file}`)
 }
-export async function typebox_aot(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = false) {
+export async function typebox_aot(iterations = measurement_iteration, allowArrayObjects = true, allowNaN = true) {
   TypeBoxAotGenerator.Build('benchmark/validators/typebox_aot', { allowArrayObjects, allowNaN })
   await measure('typebox_aot', 'tsc', 'correct', iterations)
   await measure('typebox_aot', 'tsc', 'incorrect', iterations)
 }
-export async function typebox_jit(iterations = measurement_iteration, allowArrayObjects = false, allowNaN = false) {
+export async function typebox_jit(iterations = measurement_iteration, allowArrayObjects = true, allowNaN = true) {
   TypeBoxJitGenerator.Build('benchmark/validators/typebox_jit', { allowArrayObjects, allowNaN })
   await measure('typebox_jit', 'tsc', 'correct', iterations)
   await measure('typebox_jit', 'tsc', 'incorrect', iterations)
@@ -109,6 +109,6 @@ export async function benchmark(iterations = measurement_iteration) {
 // -----------------------------------------------------------------------------
 export async function reporting() {
   const serve = shell('hammer serve reporting/index.html --dist docs --minify --sourcemap')
-  const drift = shell('drift url http://localhost:5000 size 1920 8500 wait 2000 save screenshot.png')
+  const drift = shell('drift url http://localhost:5000 size 1920 8800 wait 2000 save screenshot.png')
   await Promise.all([serve, drift])
 }

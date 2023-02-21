@@ -12,7 +12,15 @@ export interface TypeBoxAotGeneratorOptions {
 
 export namespace TypeBoxJitGenerator {
   function Include(schema: unknown): schema is TSchema {
-    return TypeGuard.TSchema(schema)
+    return (
+      TypeGuard.TSchema(schema) &&
+      ![
+        // Note: Disabled due as TS semantic validators may not check for NaN. TypeBox is configured
+        // inline with these semantics for these tests. To re-enable, update the `allowNaN` config
+        // setting in the `hammer.mjs` automation script in the project root.
+        'Number_NaN',
+      ].includes(schema.$id!)
+    )
   }
   function* GenerateBenchmark(dataset: string, options: TypeBoxAotGeneratorOptions) {
     yield `import { TypeCompiler } from '@sinclair/typebox/compiler'`

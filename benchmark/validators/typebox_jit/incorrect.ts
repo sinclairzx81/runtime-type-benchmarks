@@ -2,8 +2,8 @@ import { TypeCompiler } from '@sinclair/typebox/compiler'
 import { TypeSystem } from '@sinclair/typebox/system'
 import { Command } from '../../command/index'
 import * as Cases from '../../schematics/incorrect'
-TypeSystem.AllowArrayObjects = false
-TypeSystem.AllowNaN = false
+TypeSystem.AllowArrayObjects = true
+TypeSystem.AllowNaN = true
 
 export function Compile(schema: any) {
   const check = TypeCompiler.Compile(schema)
@@ -35,7 +35,6 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Number_Maximum, iterations, results, Compile)
   Cases.Benchmark(Cases.Number_Minimum, iterations, results, Compile)
   Cases.Benchmark(Cases.Number_Multiple_Of, iterations, results, Compile)
-  Cases.Benchmark(Cases.Number_NaN, iterations, results, Compile)
   Cases.Benchmark(Cases.Number_Number, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Additional_Properties_Boolean, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Additional_Properties_False, iterations, results, Compile)
