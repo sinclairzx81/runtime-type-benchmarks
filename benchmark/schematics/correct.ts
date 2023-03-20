@@ -245,7 +245,34 @@ dataset.set('Object_Object', {
     C: 'C',
   },
 })
-
+dataset.set('Object_RTTB_Loose', {
+  number: 1,
+  negNumber: -1,
+  maxNumber: 1,
+  string: 'A',
+  longString:
+    'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+  boolean: true,
+  deeplyNested: {
+    foo: 'B',
+    num: 1,
+    bool: false,
+  },
+})
+dataset.set('Object_RTTB_Strict', {
+  number: 1,
+  negNumber: -1,
+  maxNumber: 1,
+  string: 'A',
+  longString:
+    'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+  boolean: true,
+  deeplyNested: {
+    foo: 'B',
+    num: 1,
+    bool: false,
+  },
+})
 // ---------------------------------------------------------------------------------
 // Recursive
 // ---------------------------------------------------------------------------------

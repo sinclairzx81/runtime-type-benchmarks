@@ -40,6 +40,8 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Object_Additional_Properties_True, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Object, iterations, results, Compile)
   Cases.Benchmark(Cases.Object_Partial, iterations, results, Compile)
+  Cases.Benchmark(Cases.Object_RTTB_Loose, iterations, results, Compile)
+  Cases.Benchmark(Cases.Object_RTTB_Strict, iterations, results, Compile)
   Cases.Benchmark(Cases.Recursive_Node, iterations, results, Compile)
   Cases.Benchmark(Cases.Recursive_Union_Node, iterations, results, Compile)
   Cases.Benchmark(Cases.String_MaxLength, iterations, results, Compile)

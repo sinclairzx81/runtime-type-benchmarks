@@ -265,7 +265,34 @@ dataset.set('Object_Object', {
     C: false, // expect string
   },
 })
-
+dataset.set('Object_RTTB_Loose', {
+  number: 1,
+  negNumber: -1,
+  maxNumber: 1,
+  string: 'A',
+  longString:
+    'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+  boolean: true,
+  deeplyNested: {
+    foo: 'B',
+    num: 1,
+    bool: 'C', // expect boolean
+  },
+})
+dataset.set('Object_RTTB_Strict', {
+  number: 1,
+  negNumber: -1,
+  maxNumber: 1,
+  string: 'A',
+  longString:
+    'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+  boolean: true,
+  deeplyNested: {
+    foo: 'B',
+    num: 1,
+    bool: 'C', // expect boolean
+  },
+})
 // ---------------------------------------------------------------------------------
 // Recursive
 // ---------------------------------------------------------------------------------

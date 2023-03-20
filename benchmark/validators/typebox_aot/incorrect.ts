@@ -341,6 +341,51 @@ export function Execute(iterations: number) {
       return check_Object_95_Partial(value)
     }
   })
+  Cases.Benchmark(Cases.Object_RTTB_Loose, iterations, results, () => {
+    function check_Object_95_RTTB_95_Loose(value) {
+      return (
+        typeof value === 'object' &&
+        value !== null &&
+        typeof value.number === 'number' &&
+        typeof value.negNumber === 'number' &&
+        typeof value.maxNumber === 'number' &&
+        typeof value.string === 'string' &&
+        typeof value.longString === 'string' &&
+        typeof value.boolean === 'boolean' &&
+        typeof value.deeplyNested === 'object' &&
+        value.deeplyNested !== null &&
+        typeof value.deeplyNested.foo === 'string' &&
+        typeof value.deeplyNested.num === 'number' &&
+        typeof value.deeplyNested.bool === 'boolean'
+      )
+    }
+    return function check(value) {
+      return check_Object_95_RTTB_95_Loose(value)
+    }
+  })
+  Cases.Benchmark(Cases.Object_RTTB_Strict, iterations, results, () => {
+    function check_Object_95_RTTB_95_Strict(value) {
+      return (
+        typeof value === 'object' &&
+        value !== null &&
+        typeof value.number === 'number' &&
+        typeof value.negNumber === 'number' &&
+        typeof value.maxNumber === 'number' &&
+        typeof value.string === 'string' &&
+        typeof value.longString === 'string' &&
+        typeof value.boolean === 'boolean' &&
+        typeof value.deeplyNested === 'object' &&
+        value.deeplyNested !== null &&
+        typeof value.deeplyNested.foo === 'string' &&
+        typeof value.deeplyNested.num === 'number' &&
+        typeof value.deeplyNested.bool === 'boolean' &&
+        Object.getOwnPropertyNames(value).length === 7
+      )
+    }
+    return function check(value) {
+      return check_Object_95_RTTB_95_Strict(value)
+    }
+  })
   Cases.Benchmark(Cases.Recursive_Node, iterations, results, () => {
     function check_Recursive_95_Node(value) {
       return typeof value === 'object' && value !== null && typeof value.id === 'string' && Array.isArray(value.nodes) && value.nodes.every((value) => check_Recursive_95_Node(value))

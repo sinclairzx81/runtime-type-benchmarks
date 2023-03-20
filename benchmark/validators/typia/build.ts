@@ -41,7 +41,7 @@ export namespace TypiaGenerator {
     yield `const results = new Map<string, number>()`
     for (const schema of Object.values(Cases)) {
       if (Include(schema)) {
-        if (['Object_Additional_Properties_False'].includes(schema.$id!)) {
+        if (['Object_RTTB_Strict', 'Object_Additional_Properties_False'].includes(schema.$id!)) {
           yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Typia.equals<Cases.${schema.$id}>(value))`
         } else {
           yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => (value) => Typia.is<Cases.${schema.$id}>(value))`

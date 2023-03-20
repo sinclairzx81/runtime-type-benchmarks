@@ -354,6 +354,46 @@ export function Execute(iterations: number) {
       return success
     }
   })
+  Cases.Benchmark(Cases.Object_RTTB_Loose, iterations, results, () => {
+    const Object_RTTB_Loose = z.object({
+      number: z.number(),
+      negNumber: z.number(),
+      maxNumber: z.number(),
+      string: z.string(),
+      longString: z.string(),
+      boolean: z.boolean(),
+      deeplyNested: z.object({
+        foo: z.string(),
+        num: z.number(),
+        bool: z.boolean(),
+      }),
+    })
+    return (value) => {
+      const { success } = Object_RTTB_Loose.safeParse(value)
+      return success
+    }
+  })
+  Cases.Benchmark(Cases.Object_RTTB_Strict, iterations, results, () => {
+    const Object_RTTB_Strict = z
+      .object({
+        number: z.number(),
+        negNumber: z.number(),
+        maxNumber: z.number(),
+        string: z.string(),
+        longString: z.string(),
+        boolean: z.boolean(),
+        deeplyNested: z.object({
+          foo: z.string(),
+          num: z.number(),
+          bool: z.boolean(),
+        }),
+      })
+      .strict()
+    return (value) => {
+      const { success } = Object_RTTB_Strict.safeParse(value)
+      return success
+    }
+  })
   Cases.Benchmark(Cases.Recursive_Node, iterations, results, () => {
     const Recursive_Node: any = z.lazy(() =>
       z.object({

@@ -35,6 +35,8 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Object_Additional_Properties_True, iterations, results, () => Validators.Object_Additional_Properties_True)
   Cases.Benchmark(Cases.Object_Object, iterations, results, () => Validators.Object_Object)
   Cases.Benchmark(Cases.Object_Partial, iterations, results, () => Validators.Object_Partial)
+  Cases.Benchmark(Cases.Object_RTTB_Loose, iterations, results, () => Validators.Object_RTTB_Loose)
+  Cases.Benchmark(Cases.Object_RTTB_Strict, iterations, results, () => Validators.Object_RTTB_Strict)
   Cases.Benchmark(Cases.Recursive_Node, iterations, results, () => Validators.Recursive_Node)
   Cases.Benchmark(Cases.Recursive_Union_Node, iterations, results, () => Validators.Recursive_Union_Node)
   Cases.Benchmark(Cases.String_MaxLength, iterations, results, () => Validators.String_MaxLength)

@@ -26,6 +26,7 @@ export namespace TsrcGenerator {
         'Number_Multiple_Of',
         'Object_Additional_Properties_Boolean',
         'Object_Additional_Properties_False',
+        'Object_RTTB_Strict',
         'String_Pattern',
         'String_MaxLength',
         'String_MinLength',

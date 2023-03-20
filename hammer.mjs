@@ -79,6 +79,7 @@ export async function typia(iterations = measurement_iteration) {
 }
 export async function tsrc(iterations = measurement_iteration) {
   TsrcGenerator.Build('benchmark/validators/tsrc')
+  await installTypescript('4.9.5')
   await measure('tsrc', 'ttsc', 'correct', iterations)
   await measure('tsrc', 'ttsc', 'incorrect', iterations)
 }

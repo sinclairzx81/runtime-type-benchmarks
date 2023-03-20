@@ -26,6 +26,8 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Object_Additional_Properties_True, iterations, results, () => (value) => Typia.is<Cases.Object_Additional_Properties_True>(value))
   Cases.Benchmark(Cases.Object_Object, iterations, results, () => (value) => Typia.is<Cases.Object_Object>(value))
   Cases.Benchmark(Cases.Object_Partial, iterations, results, () => (value) => Typia.is<Cases.Object_Partial>(value))
+  Cases.Benchmark(Cases.Object_RTTB_Loose, iterations, results, () => (value) => Typia.is<Cases.Object_RTTB_Loose>(value))
+  Cases.Benchmark(Cases.Object_RTTB_Strict, iterations, results, () => (value) => Typia.equals<Cases.Object_RTTB_Strict>(value))
   Cases.Benchmark(Cases.Recursive_Node, iterations, results, () => (value) => Typia.is<Cases.Recursive_Node>(value))
   Cases.Benchmark(Cases.Recursive_Union_Node, iterations, results, () => (value) => Typia.is<Cases.Recursive_Union_Node>(value))
   Cases.Benchmark(Cases.String_String, iterations, results, () => (value) => Typia.is<Cases.String_String>(value))

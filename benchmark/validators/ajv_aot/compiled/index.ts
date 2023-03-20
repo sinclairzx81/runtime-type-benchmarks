@@ -28,6 +28,8 @@ export { Object_Additional_Properties_False } from './Object_Additional_Properti
 export { Object_Additional_Properties_True } from './Object_Additional_Properties_True'
 export { Object_Object } from './Object_Object'
 export { Object_Partial } from './Object_Partial'
+export { Object_RTTB_Loose } from './Object_RTTB_Loose'
+export { Object_RTTB_Strict } from './Object_RTTB_Strict'
 export { Recursive_Node } from './Recursive_Node'
 export { Recursive_Union_Node } from './Recursive_Union_Node'
 export { String_MaxLength } from './String_MaxLength'
