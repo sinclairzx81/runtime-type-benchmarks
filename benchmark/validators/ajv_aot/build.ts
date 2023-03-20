@@ -1,6 +1,5 @@
 import { Formatter } from '../../../codegen/index'
-import { TSchema } from '@sinclair/typebox'
-import { TypeGuard } from '@sinclair/typebox/guard'
+import { TypeGuard, TSchema } from '@sinclair/typebox'
 import standaloneCode from 'ajv/dist/standalone'
 import * as Cases from '../../schematics/correct'
 import * as Path from 'node:path'

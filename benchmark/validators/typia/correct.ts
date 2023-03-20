@@ -42,7 +42,6 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Typia_Object_Simple, iterations, results, () => (value) => Typia.is<Cases.Typia_Object_Simple>(value))
   Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, () => (value) => Typia.is<Cases.Typia_Object_Union_Explicit>(value))
   Cases.Benchmark(Cases.Typia_Object_Union_Implicit, iterations, results, () => (value) => Typia.is<Cases.Typia_Object_Union_Implicit>(value))
-  Cases.Benchmark(Cases.Typia_Ultimate_Union, iterations, results, () => (value) => Typia.is<Cases.Typia_Ultimate_Union>(value))
   Cases.Benchmark(Cases.Undefined_Undefined, iterations, results, () => (value) => Typia.is<Cases.Undefined_Undefined>(value))
   return results
 }

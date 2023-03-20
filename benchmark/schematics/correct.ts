@@ -1,5 +1,4 @@
-import { TypeGuard } from '@sinclair/typebox/guard'
-import { TSchema } from '@sinclair/typebox'
+import { TSchema, TypeGuard } from '@sinclair/typebox'
 export * from './array/index'
 export * from './boolean/index'
 export * from './composite/index'

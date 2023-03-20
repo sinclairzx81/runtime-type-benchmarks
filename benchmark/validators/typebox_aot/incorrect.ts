@@ -57,7 +57,24 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Composite_Intersect, iterations, results, () => {
     function check_Composite_95_Intersect(value) {
-      return typeof value === 'object' && value !== null && value.A === 'A' && value.B === 'B' && value.C === 'C' && value.D === 'D' && value.E === 'E' && value.F === 'F' && value.G === 'G' && value.H === 'H'
+      return (
+        typeof value === 'object' &&
+        value !== null &&
+        value.A === 'A' &&
+        value.B === 'B' &&
+        typeof value === 'object' &&
+        value !== null &&
+        value.C === 'C' &&
+        value.D === 'D' &&
+        typeof value === 'object' &&
+        value !== null &&
+        value.E === 'E' &&
+        value.F === 'F' &&
+        typeof value === 'object' &&
+        value !== null &&
+        value.G === 'G' &&
+        value.H === 'H'
+      )
     }
     return function check(value) {
       return check_Composite_95_Intersect(value)
@@ -251,11 +268,11 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
-        Object.getOwnPropertyNames(value).every((key) => ['A', 'B', 'C', 'D'].includes(key) || typeof value[key] === 'boolean') &&
         typeof value.A === 'string' &&
         typeof value.B === 'string' &&
         typeof value.C === 'string' &&
-        typeof value.D === 'string'
+        typeof value.D === 'string' &&
+        Object.getOwnPropertyNames(value).every((key) => ['A', 'B', 'C', 'D'].includes(key) || typeof value[key] === 'boolean')
       )
     }
     return function check(value) {
@@ -264,7 +281,7 @@ export function Execute(iterations: number) {
   })
   Cases.Benchmark(Cases.Object_Additional_Properties_False, iterations, results, () => {
     function check_Object_95_Additional_95_Properties_95_False(value) {
-      return typeof value === 'object' && value !== null && Object.getOwnPropertyNames(value).length === 4 && typeof value.A === 'string' && typeof value.B === 'string' && typeof value.C === 'string' && typeof value.D === 'string'
+      return typeof value === 'object' && value !== null && typeof value.A === 'string' && typeof value.B === 'string' && typeof value.C === 'string' && typeof value.D === 'string' && Object.getOwnPropertyNames(value).length === 4
     }
     return function check(value) {
       return check_Object_95_Additional_95_Properties_95_False(value)
@@ -309,27 +326,15 @@ export function Execute(iterations: number) {
       return (
         typeof value === 'object' &&
         value !== null &&
-        (value.A === undefined
-          ? true
-          : typeof value.A === 'object' &&
-            value.A !== null &&
-            (value.A.A === undefined ? true : typeof value.A.A === 'string') &&
-            (value.A.B === undefined ? true : typeof value.A.B === 'string') &&
-            (value.A.C === undefined ? true : typeof value.A.C === 'string')) &&
-        (value.B === undefined
-          ? true
-          : typeof value.B === 'object' &&
-            value.B !== null &&
-            (value.B.A === undefined ? true : typeof value.B.A === 'string') &&
-            (value.B.B === undefined ? true : typeof value.B.B === 'string') &&
-            (value.B.C === undefined ? true : typeof value.B.C === 'string')) &&
-        (value.C === undefined
-          ? true
-          : typeof value.C === 'object' &&
-            value.C !== null &&
-            (value.C.A === undefined ? true : typeof value.C.A === 'string') &&
-            (value.C.B === undefined ? true : typeof value.C.B === 'string') &&
-            (value.C.C === undefined ? true : typeof value.C.C === 'string'))
+        ('A' in value
+          ? typeof value.A === 'object' && value.A !== null && ('A' in value.A ? typeof value.A.A === 'string' : true) && ('B' in value.A ? typeof value.A.B === 'string' : true) && ('C' in value.A ? typeof value.A.C === 'string' : true)
+          : true) &&
+        ('B' in value
+          ? typeof value.B === 'object' && value.B !== null && ('A' in value.B ? typeof value.B.A === 'string' : true) && ('B' in value.B ? typeof value.B.B === 'string' : true) && ('C' in value.B ? typeof value.B.C === 'string' : true)
+          : true) &&
+        ('C' in value
+          ? typeof value.C === 'object' && value.C !== null && ('A' in value.C ? typeof value.C.A === 'string' : true) && ('B' in value.C ? typeof value.C.B === 'string' : true) && ('C' in value.C ? typeof value.C.C === 'string' : true)
+          : true)
       )
     }
     return function check(value) {
@@ -747,7 +752,7 @@ export function Execute(iterations: number) {
         Array.isArray(value) &&
         value.every(
           (value) =>
-            (typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && value.type === 'point') ||
+            (typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && typeof value === 'object' && value !== null && value.type === 'point') ||
             (typeof value === 'object' &&
               value !== null &&
               typeof value.p1 === 'object' &&
@@ -758,6 +763,8 @@ export function Execute(iterations: number) {
               value.p2 !== null &&
               typeof value.p2.x === 'number' &&
               typeof value.p2.y === 'number' &&
+              typeof value === 'object' &&
+              value !== null &&
               value.type === 'line') ||
             (typeof value === 'object' &&
               value !== null &&
@@ -773,6 +780,8 @@ export function Execute(iterations: number) {
               value.p3 !== null &&
               typeof value.p3.x === 'number' &&
               typeof value.p3.y === 'number' &&
+              typeof value === 'object' &&
+              value !== null &&
               value.type === 'triangle') ||
             (typeof value === 'object' &&
               value !== null &&
@@ -792,11 +801,15 @@ export function Execute(iterations: number) {
               value.p4 !== null &&
               typeof value.p4.x === 'number' &&
               typeof value.p4.y === 'number' &&
+              typeof value === 'object' &&
+              value !== null &&
               value.type === 'rectangle') ||
             (typeof value === 'object' &&
               value !== null &&
               Array.isArray(value.points) &&
               value.points.every((value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number') &&
+              typeof value === 'object' &&
+              value !== null &&
               value.type === 'polyline') ||
             (typeof value === 'object' &&
               value !== null &&
@@ -809,6 +822,8 @@ export function Execute(iterations: number) {
                 (value) =>
                   typeof value === 'object' && value !== null && Array.isArray(value.points) && value.points.every((value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number'),
               ) &&
+              typeof value === 'object' &&
+              value !== null &&
               value.type === 'polygon') ||
             (typeof value === 'object' &&
               value !== null &&
@@ -817,6 +832,8 @@ export function Execute(iterations: number) {
               typeof value.centroid.x === 'number' &&
               typeof value.centroid.y === 'number' &&
               typeof value.radius === 'number' &&
+              typeof value === 'object' &&
+              value !== null &&
               value.type === 'circle'),
         )
       )
@@ -831,106 +848,104 @@ export function Execute(iterations: number) {
         Array.isArray(value) &&
         value.every(
           (value) =>
-            (typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && (value.slope === undefined ? true : value.slope === null || typeof value.slope === 'number')) ||
+            (typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && ('slope' in value ? value.slope === null || typeof value.slope === 'number' : true)) ||
             (typeof value === 'object' &&
               value !== null &&
               typeof value.p1 === 'object' &&
               value.p1 !== null &&
               typeof value.p1.x === 'number' &&
               typeof value.p1.y === 'number' &&
-              (value.p1.slope === undefined ? true : value.p1.slope === null || typeof value.p1.slope === 'number') &&
+              ('slope' in value.p1 ? value.p1.slope === null || typeof value.p1.slope === 'number' : true) &&
               typeof value.p2 === 'object' &&
               value.p2 !== null &&
               typeof value.p2.x === 'number' &&
               typeof value.p2.y === 'number' &&
-              (value.p2.slope === undefined ? true : value.p2.slope === null || typeof value.p2.slope === 'number') &&
-              (value.distance === undefined ? true : value.distance === null || typeof value.distance === 'number')) ||
+              ('slope' in value.p2 ? value.p2.slope === null || typeof value.p2.slope === 'number' : true) &&
+              ('distance' in value ? value.distance === null || typeof value.distance === 'number' : true)) ||
             (typeof value === 'object' &&
               value !== null &&
               typeof value.p1 === 'object' &&
               value.p1 !== null &&
               typeof value.p1.x === 'number' &&
               typeof value.p1.y === 'number' &&
-              (value.p1.slope === undefined ? true : value.p1.slope === null || typeof value.p1.slope === 'number') &&
+              ('slope' in value.p1 ? value.p1.slope === null || typeof value.p1.slope === 'number' : true) &&
               typeof value.p2 === 'object' &&
               value.p2 !== null &&
               typeof value.p2.x === 'number' &&
               typeof value.p2.y === 'number' &&
-              (value.p2.slope === undefined ? true : value.p2.slope === null || typeof value.p2.slope === 'number') &&
+              ('slope' in value.p2 ? value.p2.slope === null || typeof value.p2.slope === 'number' : true) &&
               typeof value.p3 === 'object' &&
               value.p3 !== null &&
               typeof value.p3.x === 'number' &&
               typeof value.p3.y === 'number' &&
-              (value.p3.slope === undefined ? true : value.p3.slope === null || typeof value.p3.slope === 'number') &&
-              (value.width === undefined ? true : value.width === null || typeof value.width === 'number') &&
-              (value.height === undefined ? true : value.height === null || typeof value.height === 'number') &&
-              (value.area === undefined ? true : value.area === null || typeof value.area === 'number')) ||
+              ('slope' in value.p3 ? value.p3.slope === null || typeof value.p3.slope === 'number' : true) &&
+              ('width' in value ? value.width === null || typeof value.width === 'number' : true) &&
+              ('height' in value ? value.height === null || typeof value.height === 'number' : true) &&
+              ('area' in value ? value.area === null || typeof value.area === 'number' : true)) ||
             (typeof value === 'object' &&
               value !== null &&
               typeof value.p1 === 'object' &&
               value.p1 !== null &&
               typeof value.p1.x === 'number' &&
               typeof value.p1.y === 'number' &&
-              (value.p1.slope === undefined ? true : value.p1.slope === null || typeof value.p1.slope === 'number') &&
+              ('slope' in value.p1 ? value.p1.slope === null || typeof value.p1.slope === 'number' : true) &&
               typeof value.p2 === 'object' &&
               value.p2 !== null &&
               typeof value.p2.x === 'number' &&
               typeof value.p2.y === 'number' &&
-              (value.p2.slope === undefined ? true : value.p2.slope === null || typeof value.p2.slope === 'number') &&
+              ('slope' in value.p2 ? value.p2.slope === null || typeof value.p2.slope === 'number' : true) &&
               typeof value.p3 === 'object' &&
               value.p3 !== null &&
               typeof value.p3.x === 'number' &&
               typeof value.p3.y === 'number' &&
-              (value.p3.slope === undefined ? true : value.p3.slope === null || typeof value.p3.slope === 'number') &&
+              ('slope' in value.p3 ? value.p3.slope === null || typeof value.p3.slope === 'number' : true) &&
               typeof value.p4 === 'object' &&
               value.p4 !== null &&
               typeof value.p4.x === 'number' &&
               typeof value.p4.y === 'number' &&
-              (value.p4.slope === undefined ? true : value.p4.slope === null || typeof value.p4.slope === 'number') &&
-              (value.width === undefined ? true : value.width === null || typeof value.width === 'number') &&
-              (value.height === undefined ? true : value.height === null || typeof value.height === 'number') &&
-              (value.area === undefined ? true : value.area === null || typeof value.area === 'number')) ||
+              ('slope' in value.p4 ? value.p4.slope === null || typeof value.p4.slope === 'number' : true) &&
+              ('width' in value ? value.width === null || typeof value.width === 'number' : true) &&
+              ('height' in value ? value.height === null || typeof value.height === 'number' : true) &&
+              ('area' in value ? value.area === null || typeof value.area === 'number' : true)) ||
             (typeof value === 'object' &&
               value !== null &&
               Array.isArray(value.points) &&
-              value.points.every(
-                (value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && (value.slope === undefined ? true : value.slope === null || typeof value.slope === 'number'),
-              ) &&
-              (value.length === undefined ? true : value.length === null || typeof value.length === 'number')) ||
+              value.points.every((value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && ('slope' in value ? value.slope === null || typeof value.slope === 'number' : true)) &&
+              ('length' in value ? value.length === null || typeof value.length === 'number' : true)) ||
             (typeof value === 'object' &&
               value !== null &&
               typeof value.outer === 'object' &&
               value.outer !== null &&
               Array.isArray(value.outer.points) &&
               value.outer.points.every(
-                (value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && (value.slope === undefined ? true : value.slope === null || typeof value.slope === 'number'),
+                (value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && ('slope' in value ? value.slope === null || typeof value.slope === 'number' : true),
               ) &&
-              (value.outer.length === undefined ? true : value.outer.length === null || typeof value.outer.length === 'number') &&
-              (value.inner === undefined
-                ? true
-                : Array.isArray(value.inner) &&
+              ('length' in value.outer ? value.outer.length === null || typeof value.outer.length === 'number' : true) &&
+              ('inner' in value
+                ? Array.isArray(value.inner) &&
                   value.inner.every(
                     (value) =>
                       typeof value === 'object' &&
                       value !== null &&
                       Array.isArray(value.points) &&
                       value.points.every(
-                        (value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && (value.slope === undefined ? true : value.slope === null || typeof value.slope === 'number'),
+                        (value) => typeof value === 'object' && value !== null && typeof value.x === 'number' && typeof value.y === 'number' && ('slope' in value ? value.slope === null || typeof value.slope === 'number' : true),
                       ) &&
-                      (value.length === undefined ? true : value.length === null || typeof value.length === 'number'),
-                  )) &&
-              (value.area === undefined ? true : value.area === null || typeof value.area === 'number')) ||
+                      ('length' in value ? value.length === null || typeof value.length === 'number' : true),
+                  )
+                : true) &&
+              ('area' in value ? value.area === null || typeof value.area === 'number' : true)) ||
             (typeof value === 'object' &&
               value !== null &&
-              (value.centroid === undefined
-                ? true
-                : typeof value.centroid === 'object' &&
+              ('centroid' in value
+                ? typeof value.centroid === 'object' &&
                   value.centroid !== null &&
                   typeof value.centroid.x === 'number' &&
                   typeof value.centroid.y === 'number' &&
-                  (value.centroid.slope === undefined ? true : value.centroid.slope === null || typeof value.centroid.slope === 'number')) &&
+                  ('slope' in value.centroid ? value.centroid.slope === null || typeof value.centroid.slope === 'number' : true)
+                : true) &&
               typeof value.radius === 'number' &&
-              (value.area === undefined ? true : value.area === null || typeof value.area === 'number')),
+              ('area' in value ? value.area === null || typeof value.area === 'number' : true)),
         )
       )
     }
@@ -945,180 +960,190 @@ export function Execute(iterations: number) {
           value !== null &&
           value.type === 'boolean' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'boolean') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'boolean' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'integer' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'number') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'number' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'bigint' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'number') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'number' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'number' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'number') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'number' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'string' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'string') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'string' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'boolean' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'boolean') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'boolean' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              )) &&
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true) &&
+          typeof value === 'object' &&
+          value !== null &&
           Array.isArray(value.enum) &&
           value.enum.every((value) => typeof value === 'boolean')) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'integer' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'number') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'number' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              )) &&
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true) &&
+          typeof value === 'object' &&
+          value !== null &&
           Array.isArray(value.enum) &&
           value.enum.every((value) => typeof value === 'number')) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'bigint' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'number') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'number' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              )) &&
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true) &&
+          typeof value === 'object' &&
+          value !== null &&
           Array.isArray(value.enum) &&
           value.enum.every((value) => typeof value === 'number')) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'number' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'number') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'number' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              )) &&
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true) &&
+          typeof value === 'object' &&
+          value !== null &&
           Array.isArray(value.enum) &&
           value.enum.every((value) => typeof value === 'number')) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'string' &&
           typeof value.nullable === 'boolean' &&
-          (value.default === undefined ? true : typeof value.default === 'string') &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('default' in value ? typeof value.default === 'string' : true) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              )) &&
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true) &&
+          typeof value === 'object' &&
+          value !== null &&
           Array.isArray(value.enum) &&
           value.enum.every((value) => typeof value === 'string')) ||
         (typeof value === 'object' &&
@@ -1126,111 +1151,111 @@ export function Execute(iterations: number) {
           value.type === 'array' &&
           check_T3(value.items) &&
           typeof value.nullable === 'boolean' &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'array' &&
           Array.isArray(value.items) &&
           value.items.every((value) => check_T3(value)) &&
           typeof value.nullable === 'boolean' &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           typeof value.$ref === 'string' &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           typeof value.$recursiveRef === 'string' &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           Array.isArray(value.oneOf) &&
           value.oneOf.every((value) => check_T3(value)) &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              ))) ||
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true)) ||
         (typeof value === 'object' &&
           value !== null &&
           value.type === 'null' &&
-          (value.description === undefined ? true : typeof value.description === 'string') &&
-          (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-          (value['x-tson-jsDocTags'] === undefined
-            ? true
-            : Array.isArray(value['x-tson-jsDocTags']) &&
+          ('description' in value ? typeof value.description === 'string' : true) &&
+          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+          ('x-tson-jsDocTags' in value
+            ? Array.isArray(value['x-tson-jsDocTags']) &&
               value['x-tson-jsDocTags'].every(
                 (value) =>
                   typeof value === 'object' &&
                   value !== null &&
                   typeof value.name === 'string' &&
-                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-              )))
+                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+              )
+            : true))
       )
     }
     const local_1 = new RegExp(/^.*$/)
@@ -1250,17 +1275,19 @@ export function Execute(iterations: number) {
             typeof value.components.schemas === 'object' &&
             value.components.schemas !== null &&
             !(value.components.schemas instanceof Date) &&
+            !(value.components.schemas instanceof Uint8Array) &&
             Object.getOwnPropertyNames(value.components.schemas).every((key) => local_1.test(key)) &&
             Object.values(value.components.schemas).every(
               (value) =>
                 typeof value === 'object' &&
                 value !== null &&
-                (value.$id === undefined ? true : typeof value.$id === 'string') &&
+                ('$id' in value ? typeof value.$id === 'string' : true) &&
                 value.type === 'object' &&
                 typeof value.nullable === 'boolean' &&
                 typeof value.properties === 'object' &&
                 value.properties !== null &&
                 !(value.properties instanceof Date) &&
+                !(value.properties instanceof Uint8Array) &&
                 Object.getOwnPropertyNames(value.properties).every((key) => local_2.test(key)) &&
                 Object.values(value.properties).every(
                   (value) =>
@@ -1268,180 +1295,190 @@ export function Execute(iterations: number) {
                       value !== null &&
                       value.type === 'boolean' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'boolean') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'boolean' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'integer' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'number') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'number' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'bigint' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'number') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'number' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'number' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'number') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'number' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'string' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'string') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'string' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'boolean' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'boolean') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'boolean' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value === 'object' &&
+                      value !== null &&
                       Array.isArray(value.enum) &&
                       value.enum.every((value) => typeof value === 'boolean')) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'integer' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'number') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'number' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value === 'object' &&
+                      value !== null &&
                       Array.isArray(value.enum) &&
                       value.enum.every((value) => typeof value === 'number')) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'bigint' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'number') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'number' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value === 'object' &&
+                      value !== null &&
                       Array.isArray(value.enum) &&
                       value.enum.every((value) => typeof value === 'number')) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'number' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'number') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'number' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value === 'object' &&
+                      value !== null &&
                       Array.isArray(value.enum) &&
                       value.enum.every((value) => typeof value === 'number')) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'string' &&
                       typeof value.nullable === 'boolean' &&
-                      (value.default === undefined ? true : typeof value.default === 'string') &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('default' in value ? typeof value.default === 'string' : true) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value === 'object' &&
+                      value !== null &&
                       Array.isArray(value.enum) &&
                       value.enum.every((value) => typeof value === 'string')) ||
                     (typeof value === 'object' &&
@@ -1449,117 +1486,117 @@ export function Execute(iterations: number) {
                       value.type === 'array' &&
                       check_T3(value.items) &&
                       typeof value.nullable === 'boolean' &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'array' &&
                       Array.isArray(value.items) &&
                       value.items.every((value) => check_T3(value)) &&
                       typeof value.nullable === 'boolean' &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       typeof value.$ref === 'string' &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       typeof value.$recursiveRef === 'string' &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       Array.isArray(value.oneOf) &&
                       value.oneOf.every((value) => check_T3(value)) &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value === 'object' &&
                       value !== null &&
                       value.type === 'null' &&
-                      (value.description === undefined ? true : typeof value.description === 'string') &&
-                      (value['x-tson-metaTags'] === undefined ? true : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value['x-tson-jsDocTags']) &&
+                      ('description' in value ? typeof value.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                      ('x-tson-jsDocTags' in value
+                        ? Array.isArray(value['x-tson-jsDocTags']) &&
                           value['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))),
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)),
                 ) &&
-                (value.patternProperties === undefined
-                  ? true
-                  : typeof value.patternProperties === 'object' &&
+                ('patternProperties' in value
+                  ? typeof value.patternProperties === 'object' &&
                     value.patternProperties !== null &&
                     !(value.patternProperties instanceof Date) &&
+                    !(value.patternProperties instanceof Uint8Array) &&
                     Object.getOwnPropertyNames(value.patternProperties).every((key) => local_3.test(key)) &&
                     Object.values(value.patternProperties).every(
                       (value) =>
@@ -1567,200 +1604,190 @@ export function Execute(iterations: number) {
                           value !== null &&
                           value.type === 'boolean' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'boolean') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'boolean' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'integer' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'number') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'number' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'bigint' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'number') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'number' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'number' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'number') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'number' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'string' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'string') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'string' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'boolean' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'boolean') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'boolean' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              )) &&
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true) &&
+                          typeof value === 'object' &&
+                          value !== null &&
                           Array.isArray(value.enum) &&
                           value.enum.every((value) => typeof value === 'boolean')) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'integer' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'number') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'number' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              )) &&
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true) &&
+                          typeof value === 'object' &&
+                          value !== null &&
                           Array.isArray(value.enum) &&
                           value.enum.every((value) => typeof value === 'number')) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'bigint' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'number') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'number' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              )) &&
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true) &&
+                          typeof value === 'object' &&
+                          value !== null &&
                           Array.isArray(value.enum) &&
                           value.enum.every((value) => typeof value === 'number')) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'number' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'number') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'number' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              )) &&
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true) &&
+                          typeof value === 'object' &&
+                          value !== null &&
                           Array.isArray(value.enum) &&
                           value.enum.every((value) => typeof value === 'number')) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'string' &&
                           typeof value.nullable === 'boolean' &&
-                          (value.default === undefined ? true : typeof value.default === 'string') &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('default' in value ? typeof value.default === 'string' : true) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              )) &&
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true) &&
+                          typeof value === 'object' &&
+                          value !== null &&
                           Array.isArray(value.enum) &&
                           value.enum.every((value) => typeof value === 'string')) ||
                         (typeof value === 'object' &&
@@ -1768,326 +1795,322 @@ export function Execute(iterations: number) {
                           value.type === 'array' &&
                           check_T3(value.items) &&
                           typeof value.nullable === 'boolean' &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'array' &&
                           Array.isArray(value.items) &&
                           value.items.every((value) => check_T3(value)) &&
                           typeof value.nullable === 'boolean' &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           typeof value.$ref === 'string' &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           typeof value.$recursiveRef === 'string' &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           Array.isArray(value.oneOf) &&
                           value.oneOf.every((value) => check_T3(value)) &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))) ||
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)) ||
                         (typeof value === 'object' &&
                           value !== null &&
                           value.type === 'null' &&
-                          (value.description === undefined ? true : typeof value.description === 'string') &&
-                          (value['x-tson-metaTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                          (value['x-tson-jsDocTags'] === undefined
-                            ? true
-                            : Array.isArray(value['x-tson-jsDocTags']) &&
+                          ('description' in value ? typeof value.description === 'string' : true) &&
+                          ('x-tson-metaTags' in value ? Array.isArray(value['x-tson-metaTags']) && value['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string') : true) &&
+                          ('x-tson-jsDocTags' in value
+                            ? Array.isArray(value['x-tson-jsDocTags']) &&
                               value['x-tson-jsDocTags'].every(
                                 (value) =>
                                   typeof value === 'object' &&
                                   value !== null &&
                                   typeof value.name === 'string' &&
-                                  (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                              ))),
-                    )) &&
-                (value.additionalProperties === undefined
-                  ? true
-                  : (typeof value.additionalProperties === 'object' &&
+                                  ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                              )
+                            : true)),
+                    )
+                  : true) &&
+                ('additionalProperties' in value
+                  ? (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'boolean' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'boolean') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'boolean' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'integer' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'number') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'number' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'bigint' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'number') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'number' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'number' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'number') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'number' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'string' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'string') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'string' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'boolean' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'boolean') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'boolean' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value.additionalProperties === 'object' &&
+                      value.additionalProperties !== null &&
                       Array.isArray(value.additionalProperties.enum) &&
                       value.additionalProperties.enum.every((value) => typeof value === 'boolean')) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'integer' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'number') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'number' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value.additionalProperties === 'object' &&
+                      value.additionalProperties !== null &&
                       Array.isArray(value.additionalProperties.enum) &&
                       value.additionalProperties.enum.every((value) => typeof value === 'number')) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'bigint' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'number') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'number' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value.additionalProperties === 'object' &&
+                      value.additionalProperties !== null &&
                       Array.isArray(value.additionalProperties.enum) &&
                       value.additionalProperties.enum.every((value) => typeof value === 'number')) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'number' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'number') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'number' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value.additionalProperties === 'object' &&
+                      value.additionalProperties !== null &&
                       Array.isArray(value.additionalProperties.enum) &&
                       value.additionalProperties.enum.every((value) => typeof value === 'number')) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'string' &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.default === undefined ? true : typeof value.additionalProperties.default === 'string') &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('default' in value.additionalProperties ? typeof value.additionalProperties.default === 'string' : true) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )) &&
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true) &&
+                      typeof value.additionalProperties === 'object' &&
+                      value.additionalProperties !== null &&
                       Array.isArray(value.additionalProperties.enum) &&
                       value.additionalProperties.enum.every((value) => typeof value === 'string')) ||
                     (typeof value.additionalProperties === 'object' &&
@@ -2095,129 +2118,130 @@ export function Execute(iterations: number) {
                       value.additionalProperties.type === 'array' &&
                       check_T3(value.additionalProperties.items) &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'array' &&
                       Array.isArray(value.additionalProperties.items) &&
                       value.additionalProperties.items.every((value) => check_T3(value)) &&
                       typeof value.additionalProperties.nullable === 'boolean' &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       typeof value.additionalProperties.$ref === 'string' &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       typeof value.additionalProperties.$recursiveRef === 'string' &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       Array.isArray(value.additionalProperties.oneOf) &&
                       value.additionalProperties.oneOf.every((value) => check_T3(value)) &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          ))) ||
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true)) ||
                     (typeof value.additionalProperties === 'object' &&
                       value.additionalProperties !== null &&
                       value.additionalProperties.type === 'null' &&
-                      (value.additionalProperties.description === undefined ? true : typeof value.additionalProperties.description === 'string') &&
-                      (value.additionalProperties['x-tson-metaTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')) &&
-                      (value.additionalProperties['x-tson-jsDocTags'] === undefined
-                        ? true
-                        : Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
+                      ('description' in value.additionalProperties ? typeof value.additionalProperties.description === 'string' : true) &&
+                      ('x-tson-metaTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-metaTags']) && value.additionalProperties['x-tson-metaTags'].every((value) => typeof value === 'object' && value !== null && typeof value.kind === 'string')
+                        : true) &&
+                      ('x-tson-jsDocTags' in value.additionalProperties
+                        ? Array.isArray(value.additionalProperties['x-tson-jsDocTags']) &&
                           value.additionalProperties['x-tson-jsDocTags'].every(
                             (value) =>
                               typeof value === 'object' &&
                               value !== null &&
                               typeof value.name === 'string' &&
-                              (value.text === undefined ? true : Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string')),
-                          )))) &&
-                (value.required === undefined ? true : Array.isArray(value.required) && value.required.every((value) => typeof value === 'string')) &&
-                (value.description === undefined ? true : typeof value.description === 'string') &&
-                (value['x-tson_jsDocTags'] === undefined ? true : Array.isArray(value['x-tson_jsDocTags']) && value['x-tson_jsDocTags'].every((value) => true)) &&
-                (value.$recursiveAnchor === undefined ? true : typeof value.$recursiveAnchor === 'boolean'),
+                              ('text' in value ? Array.isArray(value.text) && value.text.every((value) => typeof value === 'object' && value !== null && typeof value.text === 'string' && typeof value.kind === 'string') : true),
+                          )
+                        : true))
+                  : true) &&
+                ('required' in value ? Array.isArray(value.required) && value.required.every((value) => typeof value === 'string') : true) &&
+                ('description' in value ? typeof value.description === 'string' : true) &&
+                ('x-tson_jsDocTags' in value ? Array.isArray(value['x-tson_jsDocTags']) && value['x-tson_jsDocTags'].every((value) => true) : true) &&
+                ('$recursiveAnchor' in value ? typeof value.$recursiveAnchor === 'boolean' : true),
             ) &&
             (value.purpose === 'swagger' || value.purpose === 'ajv') &&
             typeof value.prefix === 'string',

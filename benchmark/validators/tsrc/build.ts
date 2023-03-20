@@ -1,6 +1,5 @@
 import { Formatter } from '../../../codegen/index'
-import { TypeGuard } from '@sinclair/typebox/guard'
-import { TSchema } from '@sinclair/typebox'
+import { TypeGuard, TSchema } from '@sinclair/typebox'
 import * as Cases from '../../schematics/correct'
 import * as Fs from 'node:fs'
 import * as Path from 'node:path'

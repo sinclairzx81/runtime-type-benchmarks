@@ -27,7 +27,6 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 import { Formatter } from './formatter'
-import { TypeGuard } from '@sinclair/typebox/guard'
 import * as Types from '@sinclair/typebox'
 
 export class ZodNonReferentialType extends Error {
@@ -44,7 +43,7 @@ export interface ZodCodegenOptions {
   imports: boolean
   exports: boolean
 }
-export namespace ZodCodegen {
+export namespace TypeBoxToZod {
   function Any(schema: Types.TAny) {
     return `z.any()`
   }
@@ -72,6 +71,17 @@ export namespace ZodCodegen {
     if (schema.exclusiveMinimum !== undefined) buffer.push(`.max(${schema.exclusiveMinimum + 1})`)
     if (schema.multipleOf !== undefined) buffer.push(`.multipleOf(${schema.multipleOf})`)
     return buffer.join(``)
+  }
+  function Intersect(schema: Types.TIntersect) {
+    // note: Zod only supports binary intersection. While correct, this is partially at odds with TypeScript's
+    // ability to distribute across (A & B & C). This code reduces intersection to binary ops.
+    function reduce(rest: Types.TSchema[]): string {
+       if(rest.length === 0) throw Error('Expected at least one intersect type')
+       if(rest.length === 1) return Visit(rest[0])
+       const [left, right] = [rest[0], rest.slice(1)]
+       return `z.intersection(${Visit(left)}, ${reduce(right)})`
+    }
+    return reduce(schema.allOf)
   }
   function Literal(schema: Types.TLiteral) {
     if (typeof schema.const === `string`) {
@@ -129,7 +139,7 @@ export namespace ZodCodegen {
         return `z.record(${type})`
       }
     }
-    throw Error(`TypeScriptCodeGen: Unreachable`)
+    throw Error(`TypeBoxToZod: Unreachable`)
   }
   function Ref(schema: Types.TRef) {
     if (!reference_map.has(schema.$ref!)) throw new ZodNonReferentialType(schema.$ref!)
@@ -162,52 +172,54 @@ export namespace ZodCodegen {
   }
   function Visit(schema: Types.TSchema): string {
     if (schema.$id !== undefined) reference_map.set(schema.$id, schema)
-    if (TypeGuard.TAny(schema)) {
+    if (Types.TypeGuard.TAny(schema)) {
       return Any(schema)
-    } else if (TypeGuard.TArray(schema)) {
+    } else if (Types.TypeGuard.TArray(schema)) {
       return Array(schema)
-    } else if (TypeGuard.TBoolean(schema)) {
+    } else if (Types.TypeGuard.TBoolean(schema)) {
       return Boolean(schema)
-    } else if (TypeGuard.TConstructor(schema)) {
+    } else if (Types.TypeGuard.TConstructor(schema)) {
       return Constructor(schema)
-    } else if (TypeGuard.TFunction(schema)) {
+    } else if (Types.TypeGuard.TFunction(schema)) {
       return Function(schema)
-    } else if (TypeGuard.TInteger(schema)) {
+    } else if (Types.TypeGuard.TInteger(schema)) {
       return Integer(schema)
-    } else if (TypeGuard.TLiteral(schema)) {
+    } else if (Types.TypeGuard.TIntersect(schema)) {
+      return Intersect(schema)
+    } else if (Types.TypeGuard.TLiteral(schema)) {
       return Literal(schema)
-    } else if (TypeGuard.TNever(schema)) {
+    } else if (Types.TypeGuard.TNever(schema)) {
       return Never(schema)
-    } else if (TypeGuard.TNull(schema)) {
+    } else if (Types.TypeGuard.TNull(schema)) {
       return Null(schema)
-    } else if (TypeGuard.TNumber(schema)) {
+    } else if (Types.TypeGuard.TNumber(schema)) {
       return Number(schema)
-    } else if (TypeGuard.TObject(schema)) {
+    } else if (Types.TypeGuard.TObject(schema)) {
       return Object(schema)
-    } else if (TypeGuard.TPromise(schema)) {
+    } else if (Types.TypeGuard.TPromise(schema)) {
       return Promise(schema)
-    } else if (TypeGuard.TRecord(schema)) {
+    } else if (Types.TypeGuard.TRecord(schema)) {
       return Record(schema)
-    } else if (TypeGuard.TRef(schema)) {
+    } else if (Types.TypeGuard.TRef(schema)) {
       return Ref(schema)
-    } else if (TypeGuard.TSelf(schema)) {
+    } else if (Types.TypeGuard.TSelf(schema)) {
       return Self(schema)
-    } else if (TypeGuard.TString(schema)) {
+    } else if (Types.TypeGuard.TString(schema)) {
       return String(schema)
-    } else if (TypeGuard.TTuple(schema)) {
+    } else if (Types.TypeGuard.TTuple(schema)) {
       return Tuple(schema)
-    } else if (TypeGuard.TUint8Array(schema)) {
+    } else if (Types.TypeGuard.TUint8Array(schema)) {
       return UInt8Array(schema)
-    } else if (TypeGuard.TUndefined(schema)) {
+    } else if (Types.TypeGuard.TUndefined(schema)) {
       return Undefined(schema)
-    } else if (TypeGuard.TUnion(schema)) {
+    } else if (Types.TypeGuard.TUnion(schema)) {
       return Union(schema)
-    } else if (TypeGuard.TUnknown(schema)) {
+    } else if (Types.TypeGuard.TUnknown(schema)) {
       return Unknown(schema)
-    } else if (TypeGuard.TVoid(schema)) {
+    } else if (Types.TypeGuard.TVoid(schema)) {
       return Void(schema)
     } else {
-      throw Error(`TypeScriptCodeGen: Unknown type`)
+      throw Error(`TypeBoxToZod: Unknown type`)
     }
   }
   const reference_map = new Map<string, Types.TSchema>()

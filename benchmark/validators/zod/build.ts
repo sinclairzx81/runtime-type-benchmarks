@@ -1,7 +1,6 @@
 import { Formatter } from '../../../codegen/index'
-import { TypeGuard } from '@sinclair/typebox/guard'
-import { ZodCodegen } from '../../../codegen/index'
-import { TSchema } from '@sinclair/typebox'
+import { TypeBoxToZod } from '../../../codegen/index'
+import { TypeGuard, TSchema } from '@sinclair/typebox'
 import * as Cases from '../../schematics/correct'
 import * as Fs from 'node:fs'
 import * as Path from 'node:path'
@@ -29,7 +28,7 @@ export namespace ZodGenerator {
     for (const schema of Object.values(Cases)) {
       if (Include(schema)) {
         yield `Cases.Benchmark(Cases.${schema.$id}, iterations, results, () => {
-          ${ZodCodegen.Generate(schema, [], { exports: false, imports: false })}
+          ${TypeBoxToZod.Generate(schema, [], { exports: false, imports: false })}
           return value => {
             const { success } = ${schema.$id}.safeParse(value)
             return success

@@ -60,16 +60,28 @@ export function Execute(iterations: number) {
     }
   })
   Cases.Benchmark(Cases.Composite_Intersect, iterations, results, () => {
-    const Composite_Intersect = z.object({
-      A: z.literal('A'),
-      B: z.literal('B'),
-      C: z.literal('C'),
-      D: z.literal('D'),
-      E: z.literal('E'),
-      F: z.literal('F'),
-      G: z.literal('G'),
-      H: z.literal('H'),
-    })
+    const Composite_Intersect = z.intersection(
+      z.object({
+        A: z.literal('A'),
+        B: z.literal('B'),
+      }),
+      z.intersection(
+        z.object({
+          C: z.literal('C'),
+          D: z.literal('D'),
+        }),
+        z.intersection(
+          z.object({
+            E: z.literal('E'),
+            F: z.literal('F'),
+          }),
+          z.object({
+            G: z.literal('G'),
+            H: z.literal('H'),
+          }),
+        ),
+      ),
+    )
     return (value) => {
       const { success } = Composite_Intersect.safeParse(value)
       return success
@@ -643,67 +655,74 @@ export function Execute(iterations: number) {
   Cases.Benchmark(Cases.Typia_Object_Union_Explicit, iterations, results, () => {
     const Typia_Object_Union_Explicit = z.array(
       z.union([
-        z.object({
-          x: z.number(),
-          y: z.number(),
-          type: z.literal('point'),
-        }),
-        z.object({
-          p1: z.object({
+        z.intersection(
+          z.object({
             x: z.number(),
             y: z.number(),
           }),
-          p2: z.object({
-            x: z.number(),
-            y: z.number(),
+          z.object({
+            type: z.literal('point'),
           }),
-          type: z.literal('line'),
-        }),
-        z.object({
-          p1: z.object({
-            x: z.number(),
-            y: z.number(),
-          }),
-          p2: z.object({
-            x: z.number(),
-            y: z.number(),
-          }),
-          p3: z.object({
-            x: z.number(),
-            y: z.number(),
-          }),
-          type: z.literal('triangle'),
-        }),
-        z.object({
-          p1: z.object({
-            x: z.number(),
-            y: z.number(),
-          }),
-          p2: z.object({
-            x: z.number(),
-            y: z.number(),
-          }),
-          p3: z.object({
-            x: z.number(),
-            y: z.number(),
-          }),
-          p4: z.object({
-            x: z.number(),
-            y: z.number(),
-          }),
-          type: z.literal('rectangle'),
-        }),
-        z.object({
-          points: z.array(
-            z.object({
+        ),
+        z.intersection(
+          z.object({
+            p1: z.object({
               x: z.number(),
               y: z.number(),
             }),
-          ),
-          type: z.literal('polyline'),
-        }),
-        z.object({
-          outer: z.object({
+            p2: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+          }),
+          z.object({
+            type: z.literal('line'),
+          }),
+        ),
+        z.intersection(
+          z.object({
+            p1: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+            p2: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+            p3: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+          }),
+          z.object({
+            type: z.literal('triangle'),
+          }),
+        ),
+        z.intersection(
+          z.object({
+            p1: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+            p2: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+            p3: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+            p4: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+          }),
+          z.object({
+            type: z.literal('rectangle'),
+          }),
+        ),
+        z.intersection(
+          z.object({
             points: z.array(
               z.object({
                 x: z.number(),
@@ -711,8 +730,13 @@ export function Execute(iterations: number) {
               }),
             ),
           }),
-          inner: z.array(
-            z.object({
+          z.object({
+            type: z.literal('polyline'),
+          }),
+        ),
+        z.intersection(
+          z.object({
+            outer: z.object({
               points: z.array(
                 z.object({
                   x: z.number(),
@@ -720,17 +744,33 @@ export function Execute(iterations: number) {
                 }),
               ),
             }),
-          ),
-          type: z.literal('polygon'),
-        }),
-        z.object({
-          centroid: z.object({
-            x: z.number(),
-            y: z.number(),
+            inner: z.array(
+              z.object({
+                points: z.array(
+                  z.object({
+                    x: z.number(),
+                    y: z.number(),
+                  }),
+                ),
+              }),
+            ),
           }),
-          radius: z.number(),
-          type: z.literal('circle'),
-        }),
+          z.object({
+            type: z.literal('polygon'),
+          }),
+        ),
+        z.intersection(
+          z.object({
+            centroid: z.object({
+              x: z.number(),
+              y: z.number(),
+            }),
+            radius: z.number(),
+          }),
+          z.object({
+            type: z.literal('circle'),
+          }),
+        ),
       ]),
     )
     return (value) => {

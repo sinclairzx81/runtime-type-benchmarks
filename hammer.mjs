@@ -43,7 +43,7 @@ export async function format() {
 const measurement_iteration = 10_000_000
 export async function installTypescript(version) {
   console.log(`installing typescript@${version}`)
-  await shell(`npm install typescript@${version}`)
+  await shell(`npm install typescript@${version} --force`)
 }
 export async function measure(packageName = 'typebox_aot', compiler = 'tsc', dataset = 'correct', iterations = measurement_iteration) {
   console.log(`\x1b[32mpackage: ${packageName} dataset: ${dataset} iterations: ${iterations}\x1b[0m`)
@@ -73,6 +73,7 @@ export async function ajv_jit(iterations = measurement_iteration) {
 }
 export async function typia(iterations = measurement_iteration) {
   TypiaGenerator.Build('benchmark/validators/typia')
+  await installTypescript('4.9.5')
   await measure('typia', 'ttsc', 'correct', iterations)
   await measure('typia', 'ttsc', 'incorrect', iterations)
 }

@@ -27,5 +27,5 @@ THE SOFTWARE.
 ---------------------------------------------------------------------------*/
 
 export * from './formatter'
-export * from './typescript'
-export * from './zod'
+export * from './typebox-to-typescript'
+export * from './typebox-to-zod'

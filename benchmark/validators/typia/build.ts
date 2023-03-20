@@ -1,6 +1,5 @@
 import { Formatter } from '../../../codegen/index'
-import { TypeGuard } from '@sinclair/typebox/guard'
-import { TSchema } from '@sinclair/typebox'
+import { TypeGuard, TSchema } from '@sinclair/typebox'
 import * as Cases from '../../schematics/correct'
 import * as Fs from 'node:fs'
 import * as Path from 'node:path'
@@ -21,6 +20,7 @@ export namespace TypiaGenerator {
         'String_MaxLength',
         'String_MinLength',
         'Object_Additional_Properties_Boolean',
+        'Typia_Ultimate_Union', // fail: on inference
       ].includes(schema.$id!)
     )
   }

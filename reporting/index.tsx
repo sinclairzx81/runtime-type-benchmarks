@@ -2,7 +2,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import ReactDOM from 'react-dom/client'
 import React from 'react'
 import * as Cases from '../benchmark/schematics/correct'
-import { TypeScriptCodegen } from '../codegen/index'
+import { TypeBoxToTypeScript } from '../codegen/index'
 import { Reports } from './utility/reports'
 import { Formats } from './utility/formats'
 
@@ -31,7 +31,7 @@ export function TypeResultToolTip(props: TypeResultToolTipProperties) {
   type Result = { ops: number; iterations: number; elapsed: number }
   type TupleResult = [string, Result]
   const schema = (Cases as any)[props.result.typename] as any
-  const html = TypeScriptCodegen.GenerateHTML(schema)
+  const html = TypeBoxToTypeScript.GenerateHTML(schema)
   const entries = Object.entries(props.result).filter((entry) => {
     return !(entry[0] === 'typename' || entry[0] === 'best_ops')
   }) as any as TupleResult[]

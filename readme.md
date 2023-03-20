@@ -10,7 +10,7 @@ This project benchmarks a variety of JavaScript runtime type checking libraries 
 
 ### Benchmarks
 
-These benchmarks measure validation throughput for a number of common JavaScript data structures. The project provides two datasets, one `correct` the other `incorrect` (where-in the `incorrect` dataset is used to trip error handling paths within each validator and test early return performance). Data for each test is hardcoded as not to introduce unnessasary variance in the results as well as to provide high visibility to the actual data being benchmarked. Additionally, each benchmark is run in within an isolated Node process to avoid previous benchmarks breaking optimizations for subsequent benchmarks. All benchmarks can be inspected under the benchmark/validators directory.
+These benchmarks measure validation throughput for a number of common JavaScript data structures. The project provides two datasets, one `correct` the other `incorrect` (where-in the `incorrect` dataset is used to trip error handling paths within each validator and test early return performance). Data for each test is hardcoded as not to introduce unnecessary variance in the results as well as to provide high visibility to the actual data being benchmarked. Additionally, each benchmark is run in within an isolated Node process to avoid previous benchmarks breaking optimizations for subsequent benchmarks. All benchmarks can be inspected under the benchmark/validators directory.
 
 ### Packages
 
