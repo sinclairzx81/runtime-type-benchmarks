@@ -115,7 +115,7 @@ export namespace TypeBoxToTypeScript {
     return schema.$ref
   }
 
-  function Self(schema: Types.TSelf) {
+  function This(schema: Types.TThis) {
     return schema.$ref
   }
 
@@ -176,8 +176,8 @@ export namespace TypeBoxToTypeScript {
       return Record(schema)
     } else if (Types.TypeGuard.TRef(schema)) {
       return Ref(schema)
-    } else if (Types.TypeGuard.TSelf(schema)) {
-      return Self(schema)
+    } else if (Types.TypeGuard.TThis(schema)) {
+      return This(schema)
     } else if (Types.TypeGuard.TString(schema)) {
       return String(schema)
     } else if (Types.TypeGuard.TTuple(schema)) {
